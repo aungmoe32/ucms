@@ -1,13 +1,7 @@
 import axios from "axios";
 
-const url = "http://localhost:3000";
-
 export const posts = async () => {
-  const path = `${url}/api/events/list`;
-  // const url = baseUrl + path;
-
-  //   console.log("fettch posts");
-  return axios.get(path).then((res) => res.data);
+  return axios.get("/api/events/list").then((res) => res.data);
 };
 
 export const createEvent = async (e) => {

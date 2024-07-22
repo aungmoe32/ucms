@@ -49,12 +49,11 @@ function fixEvents(events) {
   });
 }
 
-function Table({ events }: { events: calendar_v3.Schema$Event[] }) {
+function Table() {
   const queryClient = useQueryClient();
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading } = useSuspenseQuery({
     queryKey: ["events"],
     queryFn: posts,
-    initialData: events,
   });
 
   const createEventMutation = useMutation({

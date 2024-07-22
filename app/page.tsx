@@ -3,7 +3,7 @@ import { formatDateTime, getEvents } from "@/lib/calendar";
 import { calendar_v3 } from "googleapis";
 
 export default async function Home() {
-  const items = await getEvents();
+  // const items = await getEvents();
   // console.log(items);
 
   // const filteredEvents = items.map((event): calendar_v3.Schema$Event => {
@@ -22,5 +22,5 @@ export default async function Home() {
   // });
 
   // console.log(formatDateTime(new Date("2024-07-16T10:15:00+06:30")));
-  return <Table events={items}></Table>;
+  return <Table></Table>;
 }
