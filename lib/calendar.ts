@@ -1,4 +1,5 @@
 import { calendar_v3, google } from "googleapis";
+const { v4: uuidv4 } = require("uuid");
 
 const auth = new google.auth.GoogleAuth({
   keyFile: "service-account.json",
@@ -67,4 +68,17 @@ export const formatDateTime = (date) => {
 
 function pad(i) {
   return i < 10 ? `0${i}` : `${i}`;
+}
+export async function wachEvent() {
+  const watchResponse = await calendar.events.watch({
+    resource: {
+      id: uuidv4(),
+      type: "web_hook",
+      address: `https://modern-opossum-singular.ngrok-free.app/api/noti`, // Expose localhost using a secure tunnel
+      token: "31ff9434e0209629561870e493ce27d4",
+    },
+    calendarId:
+      "73ed6d2c43f31ff9434e0209629561870e493ce27d4e42cf59ba924ced151197@group.calendar.google.com",
+  });
+  console.log(watchResponse);
 }

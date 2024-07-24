@@ -1,7 +1,13 @@
 import axios from "axios";
 
-export const posts = async () => {
-  return axios.get("/api/events/list").then((res) => res.data);
+export const events = async () => {
+  try {
+    const res = await axios.get("http://localhost:3000/api/events/list");
+    return res.data;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
 };
 
 export const createEvent = async (e) => {

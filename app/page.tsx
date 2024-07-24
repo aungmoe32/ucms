@@ -1,8 +1,9 @@
+import Notification from "@/components/Notification";
 import Table from "@/components/Table";
-import { formatDateTime, getEvents } from "@/lib/calendar";
+import { formatDateTime, getEvents, wachEvent } from "@/lib/calendar";
 import { calendar_v3 } from "googleapis";
-
 export default async function Home() {
+  // await wachEvent();
   // const items = await getEvents();
   // console.log(items);
 
@@ -22,5 +23,10 @@ export default async function Home() {
   // });
 
   // console.log(formatDateTime(new Date("2024-07-16T10:15:00+06:30")));
-  return <Table></Table>;
+  return (
+    <div>
+      <Notification></Notification>
+      <Table></Table>
+    </div>
+  );
 }
