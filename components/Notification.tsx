@@ -22,6 +22,7 @@ const Notification = () => {
 
   return (
     <div>
+      <label>Get notification : </label>
       <input type="checkbox" name="" id="" ref={checkBoxRef} />
     </div>
   );

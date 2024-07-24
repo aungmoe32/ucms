@@ -96,6 +96,7 @@ function Table() {
 
   return (
     <div className="App">
+      <RefreshBtn queryClient={queryClient}></RefreshBtn>
       <Scheduler
         id="scheduler"
         dataSource={fixEvents(data)}
@@ -147,4 +148,17 @@ function fixEvents(events) {
     fixRruleStr(event, true);
     return event;
   });
+}
+
+function RefreshBtn({ queryClient }) {
+  return (
+    <button
+      onClick={() => {
+        queryClient.invalidateQueries(["events"], { exact: true });
+        toast.success("Refreshed");
+      }}
+    >
+      Refresh
+    </button>
+  );
 }
