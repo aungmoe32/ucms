@@ -2,10 +2,10 @@ import axios from "axios";
 
 export const events = async () => {
   try {
-    const res = await axios.get("http://localhost:3000/api/events/list");
+    const res = await axios.get("/api/events/list");
     return res.data;
   } catch (e) {
-    console.log(e);
+    console.error(e, "hee");
     return [];
   }
 };

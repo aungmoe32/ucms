@@ -1,5 +1,4 @@
 "use client";
-// import "devextreme/dist/css/dx.common.css";
 import { createEvent, deleteEvent, events, updateEvent } from "@/lib/event";
 import {
   useMutation,
@@ -13,12 +12,16 @@ import {
   SchedulerTypes,
   View,
 } from "devextreme-react/scheduler";
-// import "devextreme/dist/css/dx.light.css";
-import "devextreme/dist/css/dx.fluent.blue.dark.compact.css";
+// import "devextreme/dist/css/dx.fluent.blue.light.css";
+import "../app/dx.generic.custom-scheme.css";
 import { calendar_v3 } from "googleapis";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 const TimeZone = "Asia/Yangon";
+
+type TimeCellProps = {
+  data: { date: Date; text: string };
+};
 
 function Table() {
   const queryClient = useQueryClient();
@@ -95,7 +98,7 @@ function Table() {
   if (isLoading) return <div>loading...</div>;
 
   return (
-    <div className="App">
+    <>
       <RefreshBtn queryClient={queryClient}></RefreshBtn>
       <Scheduler
         id="scheduler"
@@ -106,25 +109,56 @@ function Table() {
         recurrenceRuleExpr="recurrence[0]"
         recurrenceExceptionExpr="exDate"
         defaultCurrentDate={currentDate}
-        defaultCurrentView="week"
+        defaultCurrentView="workWeek"
         timeZone={TimeZone}
         // adaptivityEnabled={true}
         recurrenceEditMode="series"
         onAppointmentAdding={onAppointmentAdding}
         onAppointmentDeleting={onAppointmentDeleting}
         onAppointmentUpdating={onAppointmentUpdating}
+        // appointmentRender={AppointmentView}
+        cellDuration={60}
+        timeCellComponent={TimeCell}
+        // dataCellComponent={DataCell}
+        onAppointmentRendered={(e) => {
+          const width = e.element.querySelector(
+            ".dx-scheduler-date-table-cell"
+          ).clientWidth; // get a cell's width
+          e.appointmentElement.style.width = `${width}px`;
+          // console.log(e.appointmentElement);
+        }}
+        startDayHour={6}
+        endDayHour={22}
+        height={500}
+        allDayPanelMode="hidden"
+        maxAppointmentsPerCell={1}
       >
-        <View type="day" startDayHour={10} endDayHour={22} />
-        <View type="week" startDayHour={6} endDayHour={22} />
+        <View type="day" startDayHour={6} endDayHour={22} cellDuration={60} />
+        <View
+          type="workWeek"
+          startDayHour={6}
+          endDayHour={22}
+          cellDuration={60}
+          // offset={0}
+        />
         <View type="month" />
         <Editing allowDragging={true} />
       </Scheduler>
-    </div>
+    </>
   );
 }
 
 export default Table;
 
+function AppointmentView(e) {
+  // console.log(e.appointmentData);
+  const appointment = e.appointmentData;
+  return (
+    <div>
+      <div>{appointment.summary}</div>
+    </div>
+  );
+}
 function fixRruleStr(event: any, remove: boolean) {
   let recurr = event.recurrence;
   //   console.log(recurr);
@@ -162,3 +196,48 @@ function RefreshBtn({ queryClient }) {
     </button>
   );
 }
+
+// type DataCellProps = {
+//   className: string;
+//   data: {
+//     startDate: Date;
+//   };
+// };
+
+// const DataCell = (props: React.PropsWithChildren<DataCellProps>) => {
+//   const { startDate } = props.data;
+//   const container = useRef(null);
+
+//   useEffect(() => {
+//     const width = container.current.offsetWidth;
+//     // container.current.style.height = width + "px";
+//     // console.log(container.current.offsetWidth);
+//     if (width < 100) return;
+//     const sheet = new CSSStyleSheet();
+//     sheet.replaceSync(
+//       `.timecell-box { height : ${width}px } .datacell-box { height : ${width}px }`
+//     );
+//     document.adoptedStyleSheets = [sheet];
+//   }, []);
+
+//   return (
+//     <div className="datacell-box h-full" ref={container}>
+//       {startDate.getDate()}
+//       {props.children}
+//     </div>
+//   );
+// };
+
+const TimeCell = (props: TimeCellProps) => {
+  const { date, text } = props.data;
+
+  return (
+    <div className="timecell-box">
+      {date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      })}
+    </div>
+  );
+};

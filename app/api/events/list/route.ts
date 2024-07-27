@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
     const events = await getEvents();
     return NextResponse.json(events);
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return NextResponse.json([], { status: 400 });
   }
 }

@@ -1,5 +1,6 @@
 import { QueryProvider } from "@/components/QueryProvider";
 import "./globals.css";
+// import "./dx.generic.custom-scheme.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import toast, { Toaster } from "react-hot-toast";
