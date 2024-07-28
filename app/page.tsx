@@ -1,11 +1,14 @@
 import Notification from "@/components/Notification";
 import Table from "@/components/Table";
 import { formatDateTime, getEvents, wachEvent } from "@/lib/calendar";
+import axios from "axios";
 import { calendar_v3 } from "googleapis";
 export default async function Home() {
   // await wachEvent();
   // const items = await getEvents();
-  // console.log(items);
+
+  // const res = await axios.get("/api/events/list");
+  // console.log(res.data);
 
   // const filteredEvents = items.map((event): calendar_v3.Schema$Event => {
   //   const recurrId = event.recurringEventId;

@@ -32,6 +32,8 @@ function Table() {
     queryFn: events,
   });
 
+  // console.log(data, error, isLoading);
+
   const [currentDate, setCurrentDate] = useState(Date.now());
   const [isRecurrenceEdit, setIsRecurrenceEdit] = useState(false);
   const schedulerRef = useRef(null);
@@ -93,41 +95,49 @@ function Table() {
   function onAppointmentAdding(e: SchedulerTypes.AppointmentAddingEvent) {
     fixRruleStr(e.appointmentData, false);
 
-    console.log("add ", e.appointmentData);
-
-    e.appointmentData.start.timeZone = TimeZone;
-    e.appointmentData.end.timeZone = TimeZone;
-    createEventMutation.mutate(e.appointmentData);
-    data.push(e.appointmentData);
+    // console.log("add ", e.appointmentData);
 
     const excep = e.appointmentData.excep;
-    const event = e.appointmentData;
     if (excep) {
       const parent = excep.parent;
-      // const target = excep.target;
+      const target = excep.target;
+      const event = e.appointmentData;
+      event.recurrence = [];
+      event.recurringEventId = parent.id;
+      event.originalStartTime = {
+        dateTime: target.start.dateTime,
+        timeZone: TimeZone,
+      };
+      createEventMutation.mutate(event);
+      data.push(event);
+      return;
       // const scheduler = schedulerRef.current?.instance();
       // excep.exDate = formatDateTime(
       //   new Date(e.appointmentData.start.dateTime)
       // );
-      const exDate = parent.extendedProperties?.private?.exDate;
+      // const exDate = parent.extendedProperties?.private?.exDate;
 
-      let newExDate = exDate
-        ? exDate + "," + formatDateTime(new Date(event.start.dateTime))
-        : formatDateTime(new Date(event.start.dateTime));
+      // let newExDate = exDate
+      //   ? exDate + "," + formatDateTime(new Date(event.start.dateTime))
+      //   : formatDateTime(new Date(event.start.dateTime));
       // const found = data.find((e) => e.id == parent.id);
       // found.exDate = newExDate;
 
-      fixRruleStr(parent, false);
-      parent.extendedProperties = {
-        private: {
-          exDate: newExDate,
-        },
-      };
-      updateEventMutation.mutate(parent);
+      // fixRruleStr(parent, false);
+      // parent.extendedProperties = {
+      //   private: {
+      //     exDate: newExDate,
+      //   },
+      // };
+      // updateEventMutation.mutate(parent);
 
       // console.log(found);
       // scheduler.updateAppointment(excep, { ...excep });
     }
+
+    e.appointmentData.start.timeZone = TimeZone;
+    e.appointmentData.end.timeZone = TimeZone;
+    data.push(e.appointmentData);
     // e.cancel = false;
   }
   function onAppointmentDeleting(e: SchedulerTypes.AppointmentAddingEvent) {
@@ -142,7 +152,7 @@ function Table() {
   }
   function onAppointmentUpdating(e: SchedulerTypes.AppointmentUpdatingEvent) {
     fixRruleStr(e.newData, false);
-    // console.log("update", e.newData);
+    // console.log("update ", e.newData);
     updateEventMutation.mutate(e.newData);
   }
 
@@ -164,7 +174,8 @@ function Table() {
         endDateExpr="end.dateTime"
         textExpr="summary"
         recurrenceRuleExpr="recurrence[0]"
-        recurrenceExceptionExpr="extendedProperties.private.exDate"
+        // recurrenceExceptionExpr="extendedProperties.private.exDate"
+        recurrenceExceptionExpr="exDate"
         defaultCurrentDate={currentDate}
         defaultCurrentView="workWeek"
         timeZone={TimeZone}
@@ -307,8 +318,24 @@ function fixRruleStr(event: any, remove: boolean) {
 }
 
 function fixEvents(events) {
-  // console.log(events);
-  return events.map((event: calendar_v3.Schema$Event) => {
+  // console.log(events[0]?.exDate);
+
+  const fixExDateEvents = events.map((event): calendar_v3.Schema$Event => {
+    const recurrId = event.recurringEventId;
+    // if exception instance
+    if (recurrId) {
+      // parent event
+      const parent = events.find((e) => e.id == recurrId);
+      const exDate = parent.exDate;
+      const orgDate = formatDateTime(
+        new Date(event.originalStartTime!.dateTime!)
+      );
+      if (exDate && exDate.includes(orgDate)) return event;
+      parent.exDate = exDate ? exDate + "," + orgDate : orgDate;
+    }
+    return event;
+  });
+  return fixExDateEvents.map((event: calendar_v3.Schema$Event) => {
     fixRruleStr(event, true);
     return event;
   });

@@ -8,6 +8,8 @@ export const events = async () => {
     console.error(e, "hee");
     return [];
   }
+  // const res = await axios.get("/api/events/list");
+  // return res;
 };
 
 export const createEvent = async (e) => {
