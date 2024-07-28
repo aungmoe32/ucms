@@ -23,3 +23,17 @@ export const updateEvent = async (e) => {
   const event = await axios.post(`/api/events/patch/${e.id}`, e);
   return event;
 };
+
+export const formatDateTime = (date) => {
+  const year = date.getUTCFullYear();
+  const month = pad(date.getUTCMonth() + 1);
+  const day = pad(date.getUTCDate());
+  const hour = pad(date.getUTCHours());
+  const minute = pad(date.getUTCMinutes());
+  const second = pad(date.getUTCSeconds());
+  return `${year}${month}${day}T${hour}${minute}${second}Z`;
+};
+
+function pad(i) {
+  return i < 10 ? `0${i}` : `${i}`;
+}

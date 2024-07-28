@@ -56,19 +56,6 @@ export const insertEvent = async (requestBody: calendar_v3.Schema$Event) => {
   return resp.data;
 };
 
-export const formatDateTime = (date) => {
-  const year = date.getUTCFullYear();
-  const month = pad(date.getUTCMonth() + 1);
-  const day = pad(date.getUTCDate());
-  const hour = pad(date.getUTCHours());
-  const minute = pad(date.getUTCMinutes());
-  const second = pad(date.getUTCSeconds());
-  return `${year}${month}${day}T${hour}${minute}${second}Z`;
-};
-
-function pad(i) {
-  return i < 10 ? `0${i}` : `${i}`;
-}
 export async function wachEvent() {
   const watchResponse = await calendar.events.watch({
     resource: {
