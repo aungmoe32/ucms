@@ -1,35 +1,27 @@
 import Notification from "@/components/Notification";
 import Table from "@/components/Table";
 import { formatDateTime, getEvents, wachEvent } from "@/lib/calendar";
+import { events } from "@/lib/event";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import axios from "axios";
 import { calendar_v3 } from "googleapis";
 export default async function Home() {
-  // await wachEvent();
-  // const items = await getEvents();
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["events"],
+    queryFn: events,
+  });
 
-  // const res = await axios.get("/api/events/list");
-  // console.log(res.data);
-
-  // const filteredEvents = items.map((event): calendar_v3.Schema$Event => {
-  //   const recurrId = event.recurringEventId;
-  //   // if exception instance
-  //   if (recurrId) {
-  //     const recurrEvent = items.find((e) => e.id == recurrId);
-  //     const exDate = recurrEvent!.exDate;
-  //     recurrEvent!.exDate = exDate
-  //       ? exDate +
-  //         "," +
-  //         formatDateTime(new Date(event.originalStartTime!.dateTime!))
-  //       : formatDateTime(new Date(event.originalStartTime!.dateTime!));
-  //   }
-  //   return event;
-  // });
-
-  // console.log(formatDateTime(new Date("2024-07-16T10:15:00+06:30")));
   return (
     <div>
       <Notification></Notification>
-      <Table></Table>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Table></Table>
+      </HydrationBoundary>
     </div>
   );
 }

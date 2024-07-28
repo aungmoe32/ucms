@@ -27,9 +27,10 @@ type TimeCellProps = {
 
 function Table() {
   const queryClient = useQueryClient();
-  const { data, error, isLoading } = useSuspenseQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["events"],
     queryFn: events,
+    placeholderData: [],
   });
 
   // console.log(data, error, isLoading);
@@ -160,8 +161,12 @@ function Table() {
     // console.log(e.name);
   };
 
-  if (error) return <div>{error.message}</div>;
-  if (isLoading) return <div>loading...</div>;
+  useEffect(() => {
+    if (isLoading) toast("loading...");
+  }, []);
+
+  // if (error) return <div>{error.message}</div>;
+  // if (isLoading) return <div>loading...</div>;
 
   return (
     <>

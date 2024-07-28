@@ -35,9 +35,9 @@ export function QueryProvider(props: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryStreamedHydration>
-        {props.children}
-      </ReactQueryStreamedHydration>
+      {/* <ReactQueryStreamedHydration> */}
+      {props.children}
+      {/* </ReactQueryStreamedHydration> */}
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );

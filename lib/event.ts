@@ -1,15 +1,17 @@
 import axios from "axios";
+import delay from "delay";
 
 export const events = async () => {
-  try {
-    const res = await axios.get("/api/events/list");
-    return res.data;
-  } catch (e) {
-    console.error(e, "hee");
-    return [];
-  }
-  // const res = await axios.get("/api/events/list");
-  // return res;
+  // try {
+  //   const res = await axios.get("/api/events/list");
+  //   return res.data;
+  // } catch (e) {
+  //   console.error(e, "hee");
+  //   return [];
+  // }
+  // await delay(5000);
+  const res = await axios.get("http://localhost:3000/api/events/list");
+  return res.data;
 };
 
 export const createEvent = async (e) => {
