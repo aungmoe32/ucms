@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-const dns = require("dns");
+const nextConfig = {
+  reactStrictMode: false,
+};
+// const dns = require("dns");
 
-dns.setDefaultResultOrder("ipv4first");
+// dns.setDefaultResultOrder("ipv4first");
 module.exports = nextConfig;
