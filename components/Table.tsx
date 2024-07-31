@@ -19,11 +19,10 @@ import { calendar_v3 } from "googleapis";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { formatDateTime } from "@/lib/event";
+import { AppointmentView } from "./AppointmentView";
+import { TimeCell } from "./TimeCell";
+import { classes } from "@/lib/classes";
 const TimeZone = "Asia/Yangon";
-
-type TimeCellProps = {
-  data: { date: Date; text: string };
-};
 
 function Table() {
   const queryClient = useQueryClient();
@@ -139,6 +138,7 @@ function Table() {
     e.appointmentData.start.timeZone = TimeZone;
     e.appointmentData.end.timeZone = TimeZone;
     data.push(e.appointmentData);
+    createEventMutation.mutate(e.appointmentData);
     // e.cancel = false;
   }
   function onAppointmentDeleting(e: SchedulerTypes.AppointmentAddingEvent) {
@@ -157,12 +157,9 @@ function Table() {
     updateEventMutation.mutate(e.newData);
   }
 
-  const handlePropertyChange = (e) => {
-    // console.log(e.name);
-  };
-
   useEffect(() => {
     if (isLoading) toast("loading...");
+    if (error) toast.error("An error occured");
   }, []);
 
   // if (error) return <div>{error.message}</div>;
@@ -189,65 +186,13 @@ function Table() {
         onAppointmentAdding={onAppointmentAdding}
         onAppointmentDeleting={onAppointmentDeleting}
         onAppointmentUpdating={onAppointmentUpdating}
-        onAppointmentDblClick={(e) => {
-          // console.log(e.targetedAppointmentData);
-          if (!e.targetedAppointmentData.recurrence) {
-            return;
-          }
-          e.cancel = true;
-          toast((t) => (
-            <span>
-              <button
-                className="bg-green-300"
-                onClick={() => {
-                  toast.dismiss(t.id);
-                  const scheduler = schedulerRef.current?.instance();
-                  window.scheduler = scheduler;
-                  const { start, end, summary, extendedProperties } =
-                    e.targetedAppointmentData;
-                  const appointment = {
-                    start,
-                    end,
-                    summary,
-                    extendedProperties,
-                    excep: {
-                      parent: e.appointmentData,
-                      target: e.targetedAppointmentData,
-                    },
-                  };
-                  // appointment.recurrence = undefined;
-                  // console.log(appointment);
-                  scheduler?.showAppointmentPopup(appointment, true);
-                }}
-              >
-                Take this event
-              </button>
-
-              <button
-                className="ml-4 bg-red-400"
-                onClick={() => {
-                  toast.dismiss(t.id);
-                  const scheduler = schedulerRef.current?.instance();
-                  scheduler?.showAppointmentPopup(e.appointmentData, false);
-                }}
-              >
-                Edit series
-              </button>
-            </span>
-          ));
-        }}
+        onAppointmentDblClick={(e) => onAppointmentDblClick(e, schedulerRef)}
         appointmentRender={AppointmentView}
         cellDuration={60}
         timeCellComponent={TimeCell}
         // onOptionChanged={handlePropertyChange}
         // dataCellComponent={DataCell}
-        onAppointmentRendered={(e) => {
-          const width = e.element.querySelector(
-            ".dx-scheduler-date-table-cell"
-          ).clientWidth; // get a cell's width
-          e.appointmentElement.style.width = `${width}px`;
-          // console.log(e.appointmentElement);
-        }}
+        onAppointmentRendered={(e) => onAppointmentRendered(e)}
         startDayHour={6}
         endDayHour={22}
         height={500}
@@ -268,42 +213,15 @@ function Table() {
           cellDuration={60}
           // offset={0}
         />
-        <View type="month" />
+        {/* <View type="month" /> */}
         <Editing allowDragging={true} />
       </Scheduler>
     </>
   );
 }
 
-export const classes = [
-  {
-    text: "Math",
-    id: "1",
-    color: "#00af2c",
-  },
-  {
-    text: "Eng",
-    id: "2",
-    color: "#56ca85",
-  },
-  {
-    text: "DLD",
-    id: "3",
-    color: "#8ecd3c",
-  },
-];
-
 export default Table;
 
-function AppointmentView(e) {
-  // console.log(e.appointmentData);
-  const appointment = e.appointmentData;
-  return (
-    <div>
-      <div>{appointment.summary}</div>
-    </div>
-  );
-}
 function fixRruleStr(event: any, remove: boolean) {
   let recurr = event.recurrence;
   //   console.log(recurr);
@@ -331,6 +249,8 @@ function fixEvents(events) {
     if (recurrId) {
       // parent event
       const parent = events.find((e) => e.id == recurrId);
+      // console.log(events.length);
+      if (!parent) return event;
       const exDate = parent.exDate;
       const orgDate = formatDateTime(
         new Date(event.originalStartTime!.dateTime!)
@@ -359,47 +279,58 @@ function RefreshBtn({ queryClient }) {
   );
 }
 
-// type DataCellProps = {
-//   className: string;
-//   data: {
-//     startDate: Date;
-//   };
-// };
+function onAppointmentRendered(e) {
+  const width = e.element.querySelector(
+    ".dx-scheduler-date-table-cell"
+  ).clientWidth; // get a cell's width
+  e.appointmentElement.style.width = `${width}px`;
+  // console.log(e.appointmentElement);
+}
 
-// const DataCell = (props: React.PropsWithChildren<DataCellProps>) => {
-//   const { startDate } = props.data;
-//   const container = useRef(null);
+function onAppointmentDblClick(e, schedulerRef) {
+  // console.log(e.targetedAppointmentData);
+  if (!e.targetedAppointmentData.recurrence) {
+    return;
+  }
+  e.cancel = true;
+  toast((t) => (
+    <span>
+      <button
+        className="bg-green-300"
+        onClick={() => {
+          toast.dismiss(t.id);
+          const scheduler = schedulerRef.current?.instance();
+          // window.scheduler = scheduler;
+          const { start, end, summary, extendedProperties } =
+            e.targetedAppointmentData;
+          const appointment = {
+            start,
+            end,
+            summary,
+            extendedProperties,
+            excep: {
+              parent: e.appointmentData,
+              target: e.targetedAppointmentData,
+            },
+          };
+          // appointment.recurrence = undefined;
+          // console.log(appointment);
+          scheduler?.showAppointmentPopup(appointment, true);
+        }}
+      >
+        Take this event
+      </button>
 
-//   useEffect(() => {
-//     const width = container.current.offsetWidth;
-//     // container.current.style.height = width + "px";
-//     // console.log(container.current.offsetWidth);
-//     if (width < 100) return;
-//     const sheet = new CSSStyleSheet();
-//     sheet.replaceSync(
-//       `.timecell-box { height : ${width}px } .datacell-box { height : ${width}px }`
-//     );
-//     document.adoptedStyleSheets = [sheet];
-//   }, []);
-
-//   return (
-//     <div className="datacell-box h-full" ref={container}>
-//       {startDate.getDate()}
-//       {props.children}
-//     </div>
-//   );
-// };
-
-const TimeCell = (props: TimeCellProps) => {
-  const { date, text } = props.data;
-
-  return (
-    <div className="timecell-box">
-      {date.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      })}
-    </div>
-  );
-};
+      <button
+        className="ml-4 bg-red-400"
+        onClick={() => {
+          toast.dismiss(t.id);
+          const scheduler = schedulerRef.current?.instance();
+          scheduler?.showAppointmentPopup(e.appointmentData, false);
+        }}
+      >
+        Edit series
+      </button>
+    </span>
+  ));
+}
