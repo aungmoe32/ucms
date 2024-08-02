@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:gen": "npx drizzle-kit generate",
+    "db:drop": "npx drizzle-kit drop",
+    "db:migrate": "tsx lib/drizzle/migrate.ts"
   },
   "dependencies": {
     "@types/node": "20.6.2",
