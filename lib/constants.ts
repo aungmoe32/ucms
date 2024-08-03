@@ -1,7 +1,5 @@
-export const Majors: readonly [string, ...string[]] = ["IT", "CIVIL"];
+export const Majors = ["IT", "CIVIL"] as const;
+export const Role = ["student", "teacher"] as const;
 
-export const Years: readonly [string, ...string[]] = ["1", "2", "3"];
-export const SemesterTerms: readonly [string, ...string[]] = [
-  "First",
-  "Second",
-];
+export const Years = ["1", "2", "3"] as const;
+export const SemesterTerms = ["First", "Second"] as const;

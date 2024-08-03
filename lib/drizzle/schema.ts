@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { Many, relations, sql } from "drizzle-orm";
 import {
   boolean,
   timestamp,
@@ -10,9 +10,9 @@ import {
   uuid,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { Majors, SemesterTerms, Years } from "../constants";
+import { Majors, Role, SemesterTerms, Years } from "../constants";
 
-export const userRole = pgEnum("user_role", ["student", "teacher"]);
+export const userRole = pgEnum("user_role", Role);
 export const major = pgEnum("major", Majors);
 export const year = pgEnum("year", Years);
 export const term = pgEnum("semester_term", SemesterTerms);
@@ -82,6 +82,70 @@ export const teacher_semester = pgTable(
   (table) => {
     return {
       pk: primaryKey({ columns: [table.teacher_id, table.semester_id] }),
+    };
+  }
+);
+
+// Relationships
+
+export const usersRelations = relations(users, ({ one, many }) => {
+  return {
+    student: one(students),
+    teacher: one(teachers),
+  };
+});
+
+export const semestersRelations = relations(semesters, ({ one, many }) => {
+  return {
+    students: many(students),
+    subjects: many(subjects),
+    teacher_semester: many(teacher_semester),
+  };
+});
+
+export const studentsRelations = relations(students, ({ one }) => {
+  return {
+    user: one(users, {
+      fields: [students.userId],
+      references: [users.id],
+    }),
+    semester: one(semesters, {
+      fields: [students.semesterId],
+      references: [semesters.id],
+    }),
+  };
+});
+export const teachersRelations = relations(teachers, ({ one, many }) => {
+  return {
+    user: one(users, {
+      fields: [teachers.userId],
+      references: [users.id],
+    }),
+    teacher_semester: many(teacher_semester),
+  };
+});
+
+export const subjectsRelations = relations(subjects, ({ one }) => {
+  return {
+    semester: one(semesters, {
+      fields: [subjects.semesterId],
+      references: [semesters.id],
+    }),
+  };
+});
+
+export const TeacherSemesterRelations = relations(
+  teacher_semester,
+  ({ one }) => {
+    return {
+      teacher: one(teachers, {
+        fields: [teacher_semester.teacher_id],
+        references: [teachers.id],
+      }),
+      semester: one(semesters, {
+        fields: [teacher_semester.semester_id],
+        references: [semesters.id],
+      }),
     };
   }
 );
