@@ -2,9 +2,17 @@ import { calendar_v3, google } from "googleapis";
 const { v4: uuidv4 } = require("uuid");
 
 import { unstable_noStore as noStore } from "next/cache";
-
+const credential = JSON.parse(
+  Buffer.from(process.env.GOOGLE_SERVICE_KEY, "base64").toString()
+);
 const auth = new google.auth.GoogleAuth({
-  keyFile: "service-account.json",
+  // keyFile: "service-account.json",
+  credentials: {
+    project_id: credential.project_id,
+    client_id: credential.client_id,
+    client_email: credential.client_email,
+    private_key: credential.private_key,
+  },
   scopes: [
     "https://www.googleapis.com/auth/userinfo#email",
     "https://www.googleapis.com/auth/userinfo.profile",
