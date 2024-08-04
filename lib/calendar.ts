@@ -19,15 +19,16 @@ google.options({
 const calendar = google.calendar("v3");
 
 const CalenderID =
-  "73ed6d2c43f31ff9434e0209629561870e493ce27d4e42cf59ba924ced151197@group.calendar.google.com";
+  "3d93cb1ef9e3fbbd6e0a9a685c474695ee7ac02c6efccb7a4400b716872a55d5@group.calendar.google.com";
 
 export const getEvents = async (): Promise<calendar_v3.Schema$Event[]> => {
   noStore();
   const resp = await calendar.events.list({
     calendarId: CalenderID,
+    maxResults: 100,
   });
 
-  console.log(resp.data.items);
+  // console.log("items ", resp.data);
   return resp.data.items || [];
 };
 
