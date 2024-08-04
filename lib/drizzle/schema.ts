@@ -9,10 +9,12 @@ import {
   pgEnum,
   uuid,
   uniqueIndex,
+  date,
 } from "drizzle-orm/pg-core";
-import { Majors, Role, SemesterTerms, Years } from "../constants";
+import { Majors, Marks, Role, SemesterTerms, Years } from "../constants";
 
 export const userRole = pgEnum("user_role", Role);
+export const mark = pgEnum("user_role", Marks);
 export const major = pgEnum("major", Majors);
 export const year = pgEnum("year", Years);
 export const term = pgEnum("semester_term", SemesterTerms);
@@ -86,6 +88,35 @@ export const teacher_semester = pgTable(
   }
 );
 
+export const exams = pgTable("exams", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  date: date("date"),
+  semesterId: uuid("semester_id")
+    .references(() => semesters.id)
+    .notNull(),
+});
+export const timetables = pgTable("timetables", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  calendarId: text("calendar_id").notNull(),
+  semesterId: uuid("semester_id")
+    .references(() => semesters.id)
+    .notNull(),
+});
+
+export const results = pgTable("results", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  mark: mark("mark").notNull(),
+  studentId: uuid("student_id")
+    .references(() => students.id)
+    .notNull(),
+  subjectId: uuid("subject_id")
+    .references(() => subjects.id)
+    .notNull(),
+  examId: uuid("exam_id")
+    .references(() => exams.id)
+    .notNull(),
+});
+
 // Relationships
 
 export const usersRelations = relations(users, ({ one, many }) => {
@@ -99,11 +130,13 @@ export const semestersRelations = relations(semesters, ({ one, many }) => {
   return {
     students: many(students),
     subjects: many(subjects),
+    exams: many(exams),
     teacher_semester: many(teacher_semester),
+    timetables: many(timetables),
   };
 });
 
-export const studentsRelations = relations(students, ({ one }) => {
+export const studentsRelations = relations(students, ({ one, many }) => {
   return {
     user: one(users, {
       fields: [students.userId],
@@ -113,6 +146,8 @@ export const studentsRelations = relations(students, ({ one }) => {
       fields: [students.semesterId],
       references: [semesters.id],
     }),
+
+    results: many(results),
   };
 });
 export const teachersRelations = relations(teachers, ({ one, many }) => {
@@ -125,10 +160,28 @@ export const teachersRelations = relations(teachers, ({ one, many }) => {
   };
 });
 
-export const subjectsRelations = relations(subjects, ({ one }) => {
+export const subjectsRelations = relations(subjects, ({ one, many }) => {
   return {
     semester: one(semesters, {
       fields: [subjects.semesterId],
+      references: [semesters.id],
+    }),
+    results: many(results),
+  };
+});
+export const examsRelations = relations(exams, ({ one, many }) => {
+  return {
+    semester: one(semesters, {
+      fields: [exams.semesterId],
+      references: [semesters.id],
+    }),
+    results: many(results),
+  };
+});
+export const timetablesRelations = relations(timetables, ({ one, many }) => {
+  return {
+    semester: one(semesters, {
+      fields: [timetables.semesterId],
       references: [semesters.id],
     }),
   };
@@ -149,3 +202,20 @@ export const TeacherSemesterRelations = relations(
     };
   }
 );
+
+export const resultsRelations = relations(results, ({ one }) => {
+  return {
+    subject: one(subjects, {
+      fields: [results.subjectId],
+      references: [subjects.id],
+    }),
+    student: one(students, {
+      fields: [results.studentId],
+      references: [students.id],
+    }),
+    exam: one(exams, {
+      fields: [results.examId],
+      references: [exams.id],
+    }),
+  };
+});

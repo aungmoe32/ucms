@@ -3,3 +3,4 @@ export const Role = ["student", "teacher"] as const;
 
 export const Years = ["1", "2", "3"] as const;
 export const SemesterTerms = ["First", "Second"] as const;
+export const Marks = ["A", "B", "C", "D", "E"] as const;
