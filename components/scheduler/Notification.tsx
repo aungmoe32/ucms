@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import { sendPush, setUpPush } from "../lib/notification";
+import { sendPush, setUpPush } from "../../lib/notification";
 
 const Notification = () => {
   const checkBoxRef = useRef(null);

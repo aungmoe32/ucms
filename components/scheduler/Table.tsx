@@ -14,7 +14,7 @@ import {
   View,
 } from "devextreme-react/scheduler";
 // import "devextreme/dist/css/dx.fluent.blue.light.css";
-import "../app/dx.generic.custom-scheme.css";
+import "../scheduler/css/dx.generic.custom-scheme.css";
 import { calendar_v3 } from "googleapis";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -32,7 +32,7 @@ function Table() {
     placeholderData: [],
   });
 
-  // console.log(data, error, isLoading);
+  console.log(data, error, isLoading);
 
   const [currentDate, setCurrentDate] = useState(Date.now());
   const [isRecurrenceEdit, setIsRecurrenceEdit] = useState(false);
@@ -159,8 +159,8 @@ function Table() {
 
   useEffect(() => {
     if (isLoading) toast("loading...");
-    if (error) toast.error("An error occured");
-  }, []);
+    if (error) toast.error("An error occurred while fetching");
+  }, [isLoading, error]);
 
   // if (error) return <div>{error.message}</div>;
   // if (isLoading) return <div>loading...</div>;
@@ -242,7 +242,7 @@ function fixRruleStr(event: any, remove: boolean) {
 
 function fixEvents(events) {
   // console.log(events[0]?.exDate);
-
+  if (!events) return [];
   const fixExDateEvents = events.map((event): calendar_v3.Schema$Event => {
     const recurrId = event.recurringEventId;
     // if exception instance

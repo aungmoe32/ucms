@@ -1,8 +1,9 @@
 import EventCalander from "@/components/shared/EventCalander";
-import React from "react";
+import React, { Suspense } from "react";
 import EventCard from "@/components/shared/EventCard";
 import StudentCard from "@/components/shared/StudentCard";
 import StudentTimetable from "@/components/shared/StudentTimetable";
+import Timetable from "@/components/scheduler/Timetable";
 
 const Student = () => {
   return (
@@ -23,7 +24,10 @@ const Student = () => {
           {/* Timeline Table */}
           <article className="mt-6 p-6 bg-white shadow-gray-500 shadow-sm rounded-lg">
             <p className=" text-2xl font-semibold">Timetable</p>
-            <StudentTimetable />
+            {/* <StudentTimetable /> */}
+            <Suspense fallback={<div>loading time table...</div>}>
+              <Timetable></Timetable>
+            </Suspense>
           </article>
 
           {/* Event Remainder Card */}

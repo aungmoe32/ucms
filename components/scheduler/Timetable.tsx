@@ -1,15 +1,12 @@
-import Notification from "@/components/Notification";
-import Table from "@/components/Table";
-import { formatDateTime, getEvents, wachEvent } from "@/lib/calendar";
+import Notification from "@/components/scheduler/Notification";
+import Table from "@/components/scheduler/Table";
 import { events } from "@/lib/event";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import axios from "axios";
-import { calendar_v3 } from "googleapis";
-export default async function Home() {
+export default async function Timetable() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["events"],

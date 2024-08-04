@@ -8,6 +8,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(events);
   } catch (e) {
     // console.log(e);
-    return NextResponse.json([], { status: 400 });
+    return NextResponse.json({ error: 1 }, { status: 400 });
   }
 }
+
+// export const dynamic = "force-dynamic";

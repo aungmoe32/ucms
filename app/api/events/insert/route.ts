@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(event);
   } catch (e) {
-    console.error(e.message);
+    // console.error(e.message);
     return NextResponse.json([], {
       status: 400,
     });
