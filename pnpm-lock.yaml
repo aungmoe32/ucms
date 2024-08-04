@@ -17,6 +17,9 @@ dependencies:
   autoprefixer:
     specifier: 10.4.15
     version: 10.4.15(postcss@8.4.29)
+  bcrypt-ts:
+    specifier: ^5.0.2
+    version: 5.0.2
   dotenv:
     specifier: ^16.4.5
     version: 16.4.5
@@ -53,6 +56,9 @@ dependencies:
   typescript:
     specifier: 5.2.2
     version: 5.2.2
+  zod:
+    specifier: ^3.23.8
+    version: 3.23.8
 
 packages:
 
@@ -1028,6 +1034,11 @@ packages:
 
   /balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+    dev: false
+
+  /bcrypt-ts@5.0.2:
+    resolution: {integrity: sha512-gDwQ5784AkkfhHACh3jGcg1hUubyZyeq9AtVd5gXkcyHGVOC+mORjRIHSj+fHfqwY5vxwyBLXQpcfk8MpK0ROg==}
+    engines: {node: '>=18'}
     dev: false
 
   /binary-extensions@2.3.0:
@@ -3524,4 +3535,8 @@ packages:
   /yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+    dev: false
+
+  /zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
     dev: false

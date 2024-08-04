@@ -26,18 +26,18 @@ const page = async () => {
   //   userId: "42a1855b-b9a9-4443-b2cc-550845af325d",
   // });
 
-  const users = await db.query.teachers.findMany({
-    with: {
-      user: true,
-      teacher_semester: {
-        columns: {},
-        with: {
-          semester: true,
-        },
-      },
-    },
-  });
-  console.log(users[0].teacher_semester);
+  // const users = await db.query.teachers.findMany({
+  //   with: {
+  //     user: true,
+  //     teacher_semester: {
+  //       columns: {},
+  //       with: {
+  //         semester: true,
+  //       },
+  //     },
+  //   },
+  // });
+  // console.log(users[0].teacher_semester);
   return <div></div>;
 };
 
