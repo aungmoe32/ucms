@@ -77,3 +77,5 @@ const Student = () => {
 };
 
 export default Student;
+
+export const dynamic = "force-dynamic";

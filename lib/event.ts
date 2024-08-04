@@ -10,7 +10,7 @@ export const events = async () => {
   //   return [];
   // }
   // await delay(5000);
-  const res = await axios.get("http://localhost:3000/api/events/list");
+  const res = await axios.get("/api/events/list");
   // const res = await axios.get("/api/events/list");
   return res.data;
 };
