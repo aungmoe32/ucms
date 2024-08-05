@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     const id = await saveSubscriptionToDatabase(subscription);
     // console.log(id);
 
-    return NextResponse.json({ id });
+    return NextResponse.json(id);
   } catch (e) {
     // console.log(e);
     return NextResponse.json(

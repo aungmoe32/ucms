@@ -17,7 +17,7 @@ export const events = async () => {
   //   console.error(e, "hee");
   //   return [];
   // }
-  const res = await axios.get(`${process.env.URL}/api/events/list`);
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/events/list`);
   return res.data;
 };
 
