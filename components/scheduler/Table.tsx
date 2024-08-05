@@ -32,7 +32,7 @@ function Table() {
     placeholderData: [],
   });
 
-  // console.log(data, error, isLoading);
+  console.log(data, error, isLoading);
 
   const [currentDate, setCurrentDate] = useState(Date.now());
   const [isRecurrenceEdit, setIsRecurrenceEdit] = useState(false);

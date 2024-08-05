@@ -1,17 +1,23 @@
 import axios from "axios";
-import delay from "delay";
 
 export const events = async () => {
   // try {
-  //   const res = await axios.get("/api/events/list");
-  //   return res.data;
+  //   const res = await fetch(`${process.env.URL}/api/events/list`, {
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //     cache: "no-cache",
+  //   });
+
+  //   const events = await res.json();
+
+  //   return events;
   // } catch (e) {
   //   console.error(e, "hee");
   //   return [];
   // }
-  // await delay(5000);
-  const res = await axios.get("/api/events/list");
-  // const res = await axios.get("/api/events/list");
+  const res = await axios.get(`${process.env.URL}/api/events/list`);
   return res.data;
 };
 
