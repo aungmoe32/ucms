@@ -1,24 +1,26 @@
 import axios from "axios";
-
+import { unstable_noStore as noStore } from "next/cache";
 export const events = async () => {
-  // try {
-  //   const res = await fetch(`${process.env.URL}/api/events/list`, {
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     cache: "no-cache",
-  //   });
+  noStore();
+  try {
+    // const res = await fetch(`${process.env.URL}/api/events/list`, {
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   cache: "no-cache",
+    // });
+    // const events = await res.json();
+    // return events;
 
-  //   const events = await res.json();
-
-  //   return events;
-  // } catch (e) {
-  //   console.error(e, "hee");
-  //   return [];
-  // }
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/events/list`);
-  return res.data;
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_URL}/api/events/list`
+    );
+    return res.data;
+  } catch (e) {
+    console.error(e, "erroz", process.env.NODE_ENV);
+    return [];
+  }
 };
 
 export const createEvent = async (e) => {
