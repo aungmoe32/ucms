@@ -3,6 +3,7 @@ import { db } from "@/lib/drizzle/db";
 import { semesters, students, users } from "@/lib/drizzle/schema";
 import { genSaltSync, hashSync } from "bcrypt-ts";
 import { NextRequest, NextResponse } from "next/server";
+import { createSemesterIfNotExist } from "./[id]/route";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -26,30 +27,7 @@ export async function POST(request: NextRequest) {
         id: users.id,
       });
 
-    let semesterId;
-
-    const semester = await db.query.semesters.findFirst({
-      where: (table, { and, eq }) =>
-        and(
-          eq(table.term, body.term),
-          eq(table.year, body.year),
-          eq(table.major, body.major)
-        ),
-    });
-
-    if (!semester) {
-      const semester = await db
-        .insert(semesters)
-        .values({
-          year: body.year,
-          major: body.major,
-          term: body.term,
-        })
-        .returning({
-          id: semesters.id,
-        });
-      semesterId = semester[0].id;
-    } else semesterId = semester.id;
+    const semesterId = await createSemesterIfNotExist(body);
 
     const student = await db
       .insert(students)

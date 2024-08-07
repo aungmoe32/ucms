@@ -61,7 +61,7 @@ export async function PATCH(
   }
 }
 
-async function createSemesterIfNotExist(body: any) {
+export const createSemesterIfNotExist = async (body: any) => {
   let semesterId: string;
 
   const semester = await db.query.semesters.findFirst({
@@ -88,4 +88,25 @@ async function createSemesterIfNotExist(body: any) {
   } else semesterId = semester.id;
 
   return semesterId;
+};
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const student = await db.query.students.findFirst({
+      where: (table, { and, eq }) => eq(table.id, params.id),
+    });
+
+    if (!student)
+      return NextResponse.json({ error: "Invalid student" }, { status: 404 });
+
+    await db.delete(students).where(eq(students.id, params.id));
+    await db.delete(users).where(eq(users.id, student.userId));
+
+    return NextResponse.json({});
+  } catch (e) {
+    return NextResponse.json({ error: "server error" }, { status: 404 });
+  }
 }
