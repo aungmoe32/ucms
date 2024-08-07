@@ -6,12 +6,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSemesterIfNotExist } from "./[id]/route";
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const validation = createStudentFormSchema.safeParse(body);
-  if (!validation.success)
-    return NextResponse.json(validation.error.format(), { status: 400 });
-
   try {
+    const body = await request.json();
+    const validation = createStudentFormSchema.safeParse(body);
+    if (!validation.success)
+      return NextResponse.json(validation.error.format(), { status: 400 });
     let salt = genSaltSync(10);
     let hash = hashSync(body.password, salt);
     const user = await db

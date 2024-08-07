@@ -12,12 +12,12 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const body = await request.json();
-  const validation = updateStudentFormSchema.safeParse(body);
-  if (!validation.success)
-    return NextResponse.json(validation.error.format(), { status: 400 });
-
   try {
+    const body = await request.json();
+    const validation = updateStudentFormSchema.safeParse(body);
+    if (!validation.success)
+      return NextResponse.json(validation.error.format(), { status: 400 });
+
     const student = await db.query.students.findFirst({
       where: (table, { and, eq }) => eq(table.id, params.id),
       with: {

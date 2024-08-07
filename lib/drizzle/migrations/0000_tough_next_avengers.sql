@@ -17,7 +17,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- CREATE TYPE "public"."year" AS ENUM('1', '2', '3');
+ CREATE TYPE "public"."year" AS ENUM('1', '2', '3', '4', '5', '6');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
