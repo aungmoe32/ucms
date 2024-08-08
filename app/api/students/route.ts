@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
         password: hash,
         role: "student",
         major: body.major,
+        gender: body.gender,
       })
       .returning({
         id: users.id,

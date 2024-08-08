@@ -49,6 +49,7 @@ export async function PATCH(
       .set({
         name: body.name,
         major: body.major,
+        gender: body.gender,
       })
       .where(eq(users.id, student.user.id))
       .returning({

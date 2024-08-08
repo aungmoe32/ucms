@@ -1,4 +1,4 @@
-import { Majors, Role, SemesterTerms, Years } from "@/lib/constants";
+import { Gender, Majors, Role, SemesterTerms, Years } from "@/lib/constants";
 import { z } from "zod";
 
 export const createStudentFormSchema = z.object({
@@ -14,7 +14,7 @@ export const createStudentFormSchema = z.object({
   year: z.enum(Years),
   term: z.enum(SemesterTerms),
   major: z.enum(Majors),
-  // gender: z.enum(["Male", "Female"]),
+  gender: z.enum(Gender),
 });
 
 export const updateStudentFormSchema = z.object({
@@ -22,5 +22,5 @@ export const updateStudentFormSchema = z.object({
   year: z.enum(Years),
   term: z.enum(SemesterTerms),
   major: z.enum(Majors),
-  // gender: z.enum(["Male", "Female"]),
+  gender: z.enum(Gender),
 });

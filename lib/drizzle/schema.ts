@@ -11,13 +11,21 @@ import {
   uniqueIndex,
   date,
 } from "drizzle-orm/pg-core";
-import { Majors, Marks, Role, SemesterTerms, Years } from "../constants";
+import {
+  Gender,
+  Majors,
+  Marks,
+  Role,
+  SemesterTerms,
+  Years,
+} from "../constants";
 
 export const userRole = pgEnum("user_role", Role);
 export const mark = pgEnum("user_role", Marks);
 export const major = pgEnum("major", Majors);
 export const year = pgEnum("year", Years);
 export const term = pgEnum("semester_term", SemesterTerms);
+export const gender = pgEnum("gender", Gender);
 export const users = pgTable(
   "users",
   {
@@ -27,6 +35,7 @@ export const users = pgTable(
     password: text("password").notNull(),
     role: userRole("user_role").default("student"),
     major: major("major").notNull(),
+    gender: gender("gender").notNull(),
     image: text("image").$default(() => ""),
   },
   (table) => {

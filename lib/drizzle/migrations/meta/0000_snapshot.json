@@ -1,5 +1,5 @@
 {
-  "id": "61166bdd-f763-4bde-9b1e-854b84b28b66",
+  "id": "16501a4e-4e67-49f0-80a3-44c4be054bc0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -466,6 +466,13 @@
           "primaryKey": false,
           "notNull": true
         },
+        "gender": {
+          "name": "gender",
+          "type": "gender",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
         "image": {
           "name": "image",
           "type": "text",
@@ -496,6 +503,14 @@
     }
   },
   "enums": {
+    "public.gender": {
+      "name": "gender",
+      "schema": "public",
+      "values": [
+        "Male",
+        "Female"
+      ]
+    },
     "public.major": {
       "name": "major",
       "schema": "public",

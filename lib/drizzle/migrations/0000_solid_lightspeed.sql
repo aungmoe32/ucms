@@ -1,4 +1,10 @@
 DO $$ BEGIN
+ CREATE TYPE "public"."gender" AS ENUM('Male', 'Female');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "public"."major" AS ENUM('IT', 'CIVIL');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -82,6 +88,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"password" text NOT NULL,
 	"user_role" "user_role" DEFAULT 'student',
 	"major" "major" NOT NULL,
+	"gender" "gender" NOT NULL,
 	"image" text
 );
 --> statement-breakpoint
