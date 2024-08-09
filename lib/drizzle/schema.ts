@@ -10,6 +10,7 @@ import {
   uuid,
   uniqueIndex,
   date,
+  foreignKey,
 } from "drizzle-orm/pg-core";
 import {
   Gender,

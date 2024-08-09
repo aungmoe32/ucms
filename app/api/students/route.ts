@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
         semesterId: semesterId,
       })
       .returning({
-        id: users.id,
+        id: students.id,
       });
     return NextResponse.json(student, { status: 201 });
   } catch (e) {
