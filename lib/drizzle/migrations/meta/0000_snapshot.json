@@ -1,5 +1,5 @@
 {
-  "id": "81fcb4b5-5046-4b80-a283-7b6d8d414aa3",
+  "id": "5d34ae4d-81ca-4deb-a8e9-f4644fcb38bb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -279,8 +279,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.teacher_semester": {
-      "name": "teacher_semester",
+    "public.teacher_subject": {
+      "name": "teacher_subject",
       "schema": "",
       "columns": {
         "teacher_id": {
@@ -289,8 +289,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "semester_id": {
-          "name": "semester_id",
+        "subject_id": {
+          "name": "subject_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -298,9 +298,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "teacher_semester_teacher_id_teachers_id_fk": {
-          "name": "teacher_semester_teacher_id_teachers_id_fk",
-          "tableFrom": "teacher_semester",
+        "teacher_subject_teacher_id_teachers_id_fk": {
+          "name": "teacher_subject_teacher_id_teachers_id_fk",
+          "tableFrom": "teacher_subject",
           "tableTo": "teachers",
           "columnsFrom": [
             "teacher_id"
@@ -311,12 +311,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "teacher_semester_semester_id_semesters_id_fk": {
-          "name": "teacher_semester_semester_id_semesters_id_fk",
-          "tableFrom": "teacher_semester",
-          "tableTo": "semesters",
+        "teacher_subject_subject_id_subjects_id_fk": {
+          "name": "teacher_subject_subject_id_subjects_id_fk",
+          "tableFrom": "teacher_subject",
+          "tableTo": "subjects",
           "columnsFrom": [
-            "semester_id"
+            "subject_id"
           ],
           "columnsTo": [
             "id"
@@ -326,11 +326,11 @@
         }
       },
       "compositePrimaryKeys": {
-        "teacher_semester_teacher_id_semester_id_pk": {
-          "name": "teacher_semester_teacher_id_semester_id_pk",
+        "teacher_subject_teacher_id_subject_id_pk": {
+          "name": "teacher_subject_teacher_id_subject_id_pk",
           "columns": [
             "teacher_id",
-            "semester_id"
+            "subject_id"
           ]
         }
       },

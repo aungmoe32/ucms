@@ -81,19 +81,19 @@ export const subjects = pgTable("subjects", {
     .notNull(),
 });
 
-export const teacher_semester = pgTable(
-  "teacher_semester",
+export const teacher_subject = pgTable(
+  "teacher_subject",
   {
     teacher_id: uuid("teacher_id")
       .references(() => teachers.id)
       .notNull(),
-    semester_id: uuid("semester_id")
-      .references(() => semesters.id)
+    subject_id: uuid("subject_id")
+      .references(() => subjects.id)
       .notNull(),
   },
   (table) => {
     return {
-      pk: primaryKey({ columns: [table.teacher_id, table.semester_id] }),
+      pk: primaryKey({ columns: [table.teacher_id, table.subject_id] }),
     };
   }
 );
@@ -141,8 +141,7 @@ export const semestersRelations = relations(semesters, ({ one, many }) => {
     students: many(students),
     subjects: many(subjects),
     exams: many(exams),
-    teacher_semester: many(teacher_semester),
-    timetables: many(timetables),
+    timetable: one(timetables),
   };
 });
 
@@ -166,7 +165,7 @@ export const teachersRelations = relations(teachers, ({ one, many }) => {
       fields: [teachers.userId],
       references: [users.id],
     }),
-    teacher_semester: many(teacher_semester),
+    teacher_subject: many(teacher_subject),
   };
 });
 
@@ -177,6 +176,7 @@ export const subjectsRelations = relations(subjects, ({ one, many }) => {
       references: [semesters.id],
     }),
     results: many(results),
+    teacher_subject: many(teacher_subject),
   };
 });
 export const examsRelations = relations(exams, ({ one, many }) => {
@@ -197,21 +197,18 @@ export const timetablesRelations = relations(timetables, ({ one, many }) => {
   };
 });
 
-export const TeacherSemesterRelations = relations(
-  teacher_semester,
-  ({ one }) => {
-    return {
-      teacher: one(teachers, {
-        fields: [teacher_semester.teacher_id],
-        references: [teachers.id],
-      }),
-      semester: one(semesters, {
-        fields: [teacher_semester.semester_id],
-        references: [semesters.id],
-      }),
-    };
-  }
-);
+export const TeacherSubjectRelations = relations(teacher_subject, ({ one }) => {
+  return {
+    teacher: one(teachers, {
+      fields: [teacher_subject.teacher_id],
+      references: [teachers.id],
+    }),
+    subject: one(subjects, {
+      fields: [teacher_subject.subject_id],
+      references: [subjects.id],
+    }),
+  };
+});
 
 export const resultsRelations = relations(results, ({ one }) => {
   return {

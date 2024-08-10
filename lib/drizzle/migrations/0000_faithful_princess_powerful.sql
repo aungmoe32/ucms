@@ -63,10 +63,10 @@ CREATE TABLE IF NOT EXISTS "subjects" (
 	"semester_id" uuid NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "teacher_semester" (
+CREATE TABLE IF NOT EXISTS "teacher_subject" (
 	"teacher_id" uuid NOT NULL,
-	"semester_id" uuid NOT NULL,
-	CONSTRAINT "teacher_semester_teacher_id_semester_id_pk" PRIMARY KEY("teacher_id","semester_id")
+	"subject_id" uuid NOT NULL,
+	CONSTRAINT "teacher_subject_teacher_id_subject_id_pk" PRIMARY KEY("teacher_id","subject_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "teachers" (
@@ -135,13 +135,13 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "teacher_semester" ADD CONSTRAINT "teacher_semester_teacher_id_teachers_id_fk" FOREIGN KEY ("teacher_id") REFERENCES "public"."teachers"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "teacher_subject" ADD CONSTRAINT "teacher_subject_teacher_id_teachers_id_fk" FOREIGN KEY ("teacher_id") REFERENCES "public"."teachers"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "teacher_semester" ADD CONSTRAINT "teacher_semester_semester_id_semesters_id_fk" FOREIGN KEY ("semester_id") REFERENCES "public"."semesters"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "teacher_subject" ADD CONSTRAINT "teacher_subject_subject_id_subjects_id_fk" FOREIGN KEY ("subject_id") REFERENCES "public"."subjects"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
