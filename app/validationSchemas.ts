@@ -1,6 +1,6 @@
 import { Gender, Majors, Role, SemesterTerms, Years } from "@/lib/constants";
 import { db } from "@/lib/drizzle/db";
-import { semesters } from "@/lib/drizzle/schema";
+import { semesters, subjects } from "@/lib/drizzle/schema";
 import { inArray } from "drizzle-orm";
 import { z } from "zod";
 
@@ -31,7 +31,8 @@ export const createTeacherFormSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters" }),
   major: z.enum(Majors),
   gender: z.enum(Gender),
-  semesters: z
+  experience: z.number(),
+  subjects: z
     .string()
     .array()
     .optional()
@@ -40,13 +41,13 @@ export const createTeacherFormSchema = z.object({
         if (!arr) return true;
         if (arr.length == 0) return true;
 
-        const sems = await db.query.semesters.findMany({
-          where: inArray(semesters.id, arr),
+        const sems = await db.query.subjects.findMany({
+          where: inArray(subjects.id, arr),
         });
         return sems.length == arr.length;
       },
       {
-        message: "Invalid semesters!",
+        message: "Invalid subjects!",
       }
     ),
 });
