@@ -1,4 +1,4 @@
-export const Majors = ["IT", "CIVIL"] as const;
+export const Majors = ["IT", "CIVIL", "ME", "MC", "ARCH", "EC", "EP"] as const;
 export const Role = ["student", "teacher"] as const;
 
 export const Years = ["1", "2", "3", "4", "5", "6"] as const;

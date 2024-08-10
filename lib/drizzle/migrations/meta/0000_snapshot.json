@@ -1,5 +1,5 @@
 {
-  "id": "16501a4e-4e67-49f0-80a3-44c4be054bc0",
+  "id": "81fcb4b5-5046-4b80-a283-7b6d8d414aa3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -516,7 +516,12 @@
       "schema": "public",
       "values": [
         "IT",
-        "CIVIL"
+        "CIVIL",
+        "ME",
+        "MC",
+        "ARCH",
+        "EC",
+        "EP"
       ]
     },
     "public.user_role": {

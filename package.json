@@ -9,7 +9,8 @@
     "lint": "next lint",
     "db:gen": "npx drizzle-kit generate",
     "db:drop": "npx drizzle-kit drop",
-    "db:migrate": "tsx lib/drizzle/migrate.ts"
+    "db:migrate": "tsx lib/drizzle/migrate.ts",
+    "db:seed-sems": "tsx lib/drizzle/seed/semesters.ts"
   },
   "dependencies": {
     "@types/node": "20.6.2",
