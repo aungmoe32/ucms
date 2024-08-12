@@ -58,7 +58,7 @@ export function SubjectSelectForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
         <FormField
           control={form.control}
           name="major"
@@ -140,7 +140,9 @@ export function SubjectSelectForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <div className="flex justify-end">
+          <Button type="submit">Add</Button>
+        </div>
       </form>
     </Form>
   );

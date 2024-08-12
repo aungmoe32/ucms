@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <>
       <Menu role="teacher" />
-      <div className="h-full ml-[300px]">
+      <div className="h-full w-full ml-[300px]">
         <Navbar />
         {children}
       </div>
