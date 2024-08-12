@@ -22,6 +22,7 @@ import {
 import { FaCheck } from "react-icons/fa";
 import { WithContext as ReactTags } from "react-tag-input";
 import { Subjects } from "@/lib/constant";
+import SubjectTable from "./SubjectTable";
 
 // Specifies which characters should terminate tags input. An array of character codes.
 const KeyCodes = {
@@ -50,7 +51,7 @@ interface Field {
   onChange: (value: Tag[]) => void;
 }
 
-const page = () => {
+const TeacherCreatePage = () => {
   const handleDelete = (field: Field, i: number): void => {
     const newTags = field.value.filter((_, index) => index !== i);
     field.onChange(newTags);
@@ -169,20 +170,9 @@ const page = () => {
                     </FormLabel>
                     <FormControl>
                       <div id="tags">
-<<<<<<< HEAD
                         <ReactTags
                           tags={field.value}
                           suggestions={suggestions}
-=======
-                        {/* <ReactTags
-                          tags={field.value.map(
-                            (tag, index): Tag => ({
-                              id: index,
-                              text: tag,
-                              className: "", // or provide a default className if needed
-                            }),
-                          )}
->>>>>>> 96a2e1e1a8fd0fc3c3e3ce687f41e1732d89a6a0
                           delimiters={delimiters}
                           handleDelete={(i: number) => handleDelete(field, i)}
                           handleAddition={(tag: any) =>
@@ -222,7 +212,7 @@ const page = () => {
                           placeholder="Enter your subjects"
                           autocomplete
                           allowDragDrop={false}
-                        /> */}
+                        />
                       </div>
                     </FormControl>
                   </FormItem>
@@ -280,6 +270,11 @@ const page = () => {
                   )}
                 />
               </div>
+
+              <div>
+                <SubjectTable></SubjectTable>
+              </div>
+
               <div className="flex justify-end">
                 <Button
                   type="submit"
@@ -302,4 +297,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default TeacherCreatePage;
