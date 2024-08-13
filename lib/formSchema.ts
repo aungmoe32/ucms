@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Majors, SemesterTerms, Years } from "./constants";
 
 export const createStudentFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -16,6 +17,13 @@ export const createStudentFormSchema = z.object({
   gender: z.enum(["Male", "Female"]),
 });
 
+const subjectSchema = z.object({
+  subject_id: z.string().min(1, { message: "Required" }),
+  year: z.enum(Years),
+  major: z.enum(Majors),
+  term: z.enum(SemesterTerms),
+});
+
 export const createTeacherFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   email: z
@@ -27,8 +35,9 @@ export const createTeacherFormSchema = z.object({
     .min(1, { message: "Password is required" })
     .min(6, { message: "Password must be at least 6 characters" }),
   major: z.enum(["It", "Civil", "Archi", "Ep", "Ec", "Mc"]),
-  subjects: z.array(z.any()).nonempty(),
-  teachYear: z.array(z.any()).nonempty(),
+  // subjects: z.array(z.any()).nonempty(),
+  subjects: z.array(subjectSchema),
+  // teachYear: z.array(z.any()).nonempty(),
   gender: z.enum(["Male", "Female"]),
   role: z.enum(["teacher", "admin"]).default("teacher"),
 });

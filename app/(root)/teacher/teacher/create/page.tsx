@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -7,6 +7,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -23,6 +24,7 @@ import { FaCheck } from "react-icons/fa";
 import { WithContext as ReactTags } from "react-tag-input";
 import { Subjects } from "@/lib/constant";
 import SubjectTable from "./SubjectTable";
+import { Majors } from "@/lib/constants";
 
 // Specifies which characters should terminate tags input. An array of character codes.
 const KeyCodes = {
@@ -52,34 +54,17 @@ interface Field {
 }
 
 const TeacherCreatePage = () => {
-  const handleDelete = (field: Field, i: number): void => {
-    const newTags = field.value.filter((_, index) => index !== i);
-    field.onChange(newTags);
-  };
-
-  const handleAddition = (field: Field, tag: Tag): void => {
-    if (tag && tag.text && typeof tag.text === "string") {
-      const newTag: Tag = {
-        id: `${new Date().getTime()}`,
-        text: tag.text.trim(),
-      };
-      const newTags = [...field.value, newTag];
-      field.onChange(newTags);
-    }
-  };
-
   // 1. Define create teacher form.
   const form = useForm<z.infer<typeof createTeacherFormSchema>>({
     resolver: zodResolver(createTeacherFormSchema),
     defaultValues: {
       subjects: [],
-      teachYear: [],
     },
   });
 
-  // 2. Handle form submission.
+  // console.log(form.formState.errors);
+
   function onSubmit(values: z.infer<typeof createTeacherFormSchema>) {
-    // Do something with the form values.
     console.log("Values", values);
   }
 
@@ -115,6 +100,7 @@ const TeacherCreatePage = () => {
                         className="w-full placeholder-gray-500 p-3 border-[2px] border-gray-200 rounded-md   focus:outline-none"
                       />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -135,6 +121,7 @@ const TeacherCreatePage = () => {
                         className="w-full placeholder-gray-500 p-3 border-[2px] border-gray-200 rounded-md   focus:outline-none"
                       />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -155,69 +142,11 @@ const TeacherCreatePage = () => {
                         className="w-full placeholder-gray-500 p-3 border-[2px] border-gray-200 rounded-md   focus:outline-none"
                       />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
 
-              {/* Subject */}
-              <FormField
-                control={form.control}
-                name="subjects"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-semibold">
-                      Subjects
-                    </FormLabel>
-                    <FormControl>
-                      <div id="tags">
-                        <ReactTags
-                          tags={field.value}
-                          suggestions={suggestions}
-                          delimiters={delimiters}
-                          handleDelete={(i: number) => handleDelete(field, i)}
-                          handleAddition={(tag: any) =>
-                            handleAddition(field, tag)
-                          }
-                          inputFieldPosition="bottom"
-                          placeholder="Enter your subjects"
-                          autocomplete
-                          allowDragDrop={false}
-                        />
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              {/* Teach Year */}
-              <FormField
-                control={form.control}
-                name="teachYear"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-semibold">
-                      Teach Year
-                    </FormLabel>
-                    <FormControl>
-                      <div id="tags">
-                        <ReactTags
-                          tags={field.value}
-                          suggestions={suggestions}
-                          delimiters={delimiters}
-                          handleDelete={(i: number) => handleDelete(field, i)}
-                          handleAddition={(tag: any) =>
-                            handleAddition(field, tag)
-                          }
-                          inputFieldPosition="bottom"
-                          placeholder="Enter your subjects"
-                          autocomplete
-                          allowDragDrop={false}
-                        />
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                 {/* Major */}
                 <FormField
@@ -228,21 +157,21 @@ const TeacherCreatePage = () => {
                       <FormLabel className="text-lg font-semibold">
                         Major
                       </FormLabel>
-                      <FormControl>
-                        <Select onValueChange={field.onChange} {...field}>
+                      <Select onValueChange={field.onChange}>
+                        <FormControl>
                           <SelectTrigger className=" h-[45px] focus:ring-0 ring-0 border-[2px] border-gray-200">
                             <SelectValue placeholder="Choose Major" />
                           </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="It">It</SelectItem>
-                            <SelectItem value="Civil">Civil</SelectItem>
-                            <SelectItem value="Archi">Archi</SelectItem>
-                            <SelectItem value="Ep">Ep</SelectItem>
-                            <SelectItem value="Ec">Ec</SelectItem>
-                            <SelectItem value="Mc">Mc</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
+                        </FormControl>
+                        <SelectContent>
+                          {Majors.map((major, index) => (
+                            <SelectItem key={index} value={major}>
+                              {major}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -256,7 +185,7 @@ const TeacherCreatePage = () => {
                         Gender
                       </FormLabel>
                       <FormControl>
-                        <Select onValueChange={field.onChange} {...field}>
+                        <Select onValueChange={field.onChange}>
                           <SelectTrigger className=" h-[45px] focus:ring-0 ring-0 border-[2px] border-gray-200">
                             <SelectValue placeholder="Choose Gender" />
                           </SelectTrigger>
@@ -266,13 +195,14 @@ const TeacherCreatePage = () => {
                           </SelectContent>
                         </Select>
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
 
               <div>
-                <SubjectTable></SubjectTable>
+                <SubjectTable control={form.control} form={form}></SubjectTable>
               </div>
 
               <div className="flex justify-end">

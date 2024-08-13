@@ -34,7 +34,7 @@ const Menu = ({ role }: { role: "teacher" | "student" }) => {
           <p className="text-white font-thin text-sm">MENU</p>
           {menu_items.map((menu_item: any, index) => {
             return (
-              <>
+              <div key={index}>
                 {menu_item[role] && (
                   <Link
                     href={menu_item[role].link}
@@ -53,7 +53,7 @@ const Menu = ({ role }: { role: "teacher" | "student" }) => {
                     </div>
                   </Link>
                 )}
-              </>
+              </div>
             );
           })}
         </div>
