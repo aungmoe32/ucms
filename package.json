@@ -1,12 +1,16 @@
 {
-  "name": "school-management-system",
+  "name": "issue-tracker",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:gen": "npx drizzle-kit generate",
+    "db:drop": "npx drizzle-kit drop",
+    "db:migrate": "tsx lib/drizzle/migrate.ts",
+    "db:seed-sems": "tsx lib/drizzle/seed/semesters.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -31,7 +35,11 @@
     "recharts": "^2.12.7",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "bcrypt-ts": "^5.0.2",
+    "dotenv": "^16.4.5",
+    "drizzle-kit": "^0.23.0",
+    "drizzle-orm": "^0.32.1"
   },
   "devDependencies": {
     "@types/node": "^20",
