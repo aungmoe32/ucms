@@ -13,7 +13,7 @@ function makeQueryClient() {
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
-        // refetchOnWindowFocus: false,
+        refetchOnWindowFocus: false,
       },
     },
   });
@@ -38,7 +38,7 @@ export function QueryProvider(props: { children: React.ReactNode }) {
       {/* <ReactQueryStreamedHydration> */}
       {props.children}
       {/* </ReactQueryStreamedHydration> */}
-      {/* <ReactQueryDevtools initialIsOpen={true} /> */}
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
 }

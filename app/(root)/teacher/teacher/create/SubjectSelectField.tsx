@@ -29,28 +29,29 @@ import {
 } from "react-hook-form";
 import { createTeacherFormSchema } from "@/lib/formSchema";
 import { z } from "zod";
+import { getSubjects } from "@/lib/subject";
 // import { subjects } from "@/lib/subject";
 
-const subjects = [
-  {
-    name: "DLD",
-    id: "3433f",
-    semester: {
-      year: "1",
-      major: "IT",
-      term: "First",
-    },
-  },
-  {
-    name: "BEE",
-    id: "34311",
-    semester: {
-      year: "1",
-      major: "IT",
-      term: "First",
-    },
-  },
-];
+// const subjects = [
+//   {
+//     name: "DLD",
+//     id: "3433f",
+//     semester: {
+//       year: "1",
+//       major: "IT",
+//       term: "First",
+//     },
+//   },
+//   {
+//     name: "BEE",
+//     id: "34311",
+//     semester: {
+//       year: "1",
+//       major: "IT",
+//       term: "First",
+//     },
+//   },
+// ];
 
 type formSchema = z.infer<typeof createTeacherFormSchema>;
 
@@ -71,11 +72,22 @@ const SubjectSelectField = ({
   //     { name: string; id: string }[]
   //   >([]);
 
+  const {
+    data: subjects,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["subjects"],
+    queryFn: getSubjects,
+    placeholderData: [],
+  });
+  // console.log(data, isLoading);
+
   const subjectValues = useWatch({
     control,
     name: `subjects.${index}`,
   });
-  //   console.log("render ", index);
+  // console.log("render ", subjectValues);
 
   useEffect(() => {
     // console.log("effe");
@@ -89,10 +101,10 @@ const SubjectSelectField = ({
       subjectValues?.term == sub.semester.term
     );
   });
-  // console.log("filtered ", filterd);
   const subjectList = filterd.map((sub) => {
     return { name: sub.name, id: sub.id };
   });
+  // console.log("filtered ", filterd);
   // setSubjectList(subs);
 
   //   useEffect(() => {
@@ -129,8 +141,8 @@ const SubjectSelectField = ({
       name={`subjects.${index}.subject_id`}
       render={({ field }) => (
         <FormItem>
-          {/* <FormLabel>Major</FormLabel> */}
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <FormLabel>{field.value}</FormLabel>
+          <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder="Select a subject" />

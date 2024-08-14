@@ -14,7 +14,6 @@ export default async function TeacherCreatePage() {
     queryKey: ["subjects"],
     queryFn: getSubjects,
   });
-  // console.log("pagej", queryClient.getQueriesData());
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <TeacherCreateForm></TeacherCreateForm>

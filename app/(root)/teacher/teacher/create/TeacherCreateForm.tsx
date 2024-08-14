@@ -31,14 +31,6 @@ import SubjectTable from "./SubjectTable";
 import { getSubjects } from "@/lib/subject";
 
 const TeacherCreateForm = () => {
-  // const queryClient = useQueryClient();
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["subjects"],
-    queryFn: getSubjects,
-    placeholderData: [],
-  });
-  console.log(data, isLoading);
-
   const form = useForm<z.infer<typeof createTeacherFormSchema>>({
     resolver: zodResolver(createTeacherFormSchema),
     defaultValues: {
