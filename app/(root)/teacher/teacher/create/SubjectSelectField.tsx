@@ -141,7 +141,7 @@ const SubjectSelectField = ({
       name={`subjects.${index}.subject_id`}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{field.value}</FormLabel>
+          {/* <FormLabel>{field.value}</FormLabel> */}
           <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
               <SelectTrigger>
