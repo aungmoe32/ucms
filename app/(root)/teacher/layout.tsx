@@ -1,3 +1,4 @@
+import { QueryProvider } from "@/components/QueryProvider";
 import Menu from "@/components/shared/Menu";
 import Navbar from "@/components/shared/Navbar";
 
@@ -11,6 +12,7 @@ export default function RootLayout({
       <Menu role="teacher" />
       <div className="h-full w-full ml-[300px]">
         <Navbar />
+
         {children}
       </div>
     </>

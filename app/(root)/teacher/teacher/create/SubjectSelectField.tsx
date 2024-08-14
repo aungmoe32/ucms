@@ -9,6 +9,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -23,6 +29,7 @@ import {
 } from "react-hook-form";
 import { createTeacherFormSchema } from "@/lib/formSchema";
 import { z } from "zod";
+// import { subjects } from "@/lib/subject";
 
 const subjects = [
   {
@@ -52,11 +59,13 @@ const SubjectSelectField = ({
   form: { watch, setValue },
   field,
   index,
-}: {
+}: // subjects,
+{
   control: Control<formSchema>;
   form: UseFormReturn<formSchema>;
   index: number;
   field: FieldArrayWithId<formSchema>;
+  // subjects: any;
 }) => {
   //   const [subjectList, setSubjectList] = useState<
   //     { name: string; id: string }[]
@@ -66,7 +75,7 @@ const SubjectSelectField = ({
     control,
     name: `subjects.${index}`,
   });
-  console.log("render ", index);
+  //   console.log("render ", index);
 
   useEffect(() => {
     // console.log("effe");

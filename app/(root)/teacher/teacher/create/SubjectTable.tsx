@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -29,6 +30,13 @@ import { createTeacherFormSchema } from "@/lib/formSchema";
 import { z } from "zod";
 import { Majors, SemesterTerms, Years } from "@/lib/constants";
 import SubjectSelectField from "./SubjectSelectField";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { getSubjects } from "@/lib/subject";
 
 const SubjectTable = ({
   control,

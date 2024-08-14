@@ -6,9 +6,10 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { getSubjects } from "@/lib/subject";
-import TeacherCreateForm from "./TeacherCreateForm";
+import Sample from "./Sample";
+import { QueryProvider } from "@/components/QueryProvider";
 
-export default async function TeacherCreatePage() {
+const page = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["subjects"],
@@ -16,8 +17,12 @@ export default async function TeacherCreatePage() {
   });
   // console.log("pagej", queryClient.getQueriesData());
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <TeacherCreateForm></TeacherCreateForm>
-    </HydrationBoundary>
+    <QueryProvider>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Sample></Sample>
+      </HydrationBoundary>
+    </QueryProvider>
   );
-}
+};
+
+export default page;
