@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const validation = await createTeacherFormSchema.safeParseAsync(body);
-    // console.log(validation.success);
+    console.log(validation.success);
     if (!validation.success)
       return NextResponse.json(validation.error.format(), { status: 400 });
 
@@ -38,25 +38,24 @@ export async function POST(request: NextRequest) {
           id: teachers.id,
         });
 
+      let datas: {
+        teacher_id: string;
+        subject_id: string;
+      }[] = [];
+      body.subjects.forEach((subject) => {
+        datas.push({
+          teacher_id: teacher[0].id,
+          subject_id: subject.subject_id,
+        });
+      });
+      //   console.log(datas);
+      await tx.insert(teacher_subject).values(datas);
       return teacher;
     });
 
-    let datas: {
-      teacher_id: string;
-      subject_id: string;
-    }[] = [];
-    body.subjects.forEach((subjectId) => {
-      datas.push({
-        teacher_id: teacher[0].id,
-        subject_id: subjectId,
-      });
-    });
-    //   console.log(datas);
-    await db.insert(teacher_subject).values(datas);
-
     return NextResponse.json(teacher, { status: 201 });
   } catch (e) {
-    // console.log(e);
+    console.log(e);
     return NextResponse.json(e, { status: 400 });
   }
 }

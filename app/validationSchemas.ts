@@ -19,6 +19,10 @@ export const createStudentFormSchema = z.object({
   major: z.enum(Majors),
   gender: z.enum(Gender),
 });
+
+const subjectSchema = z.object({
+  subject_id: z.string().min(1, { message: "Required" }),
+});
 export const createTeacherFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   email: z
@@ -33,18 +37,20 @@ export const createTeacherFormSchema = z.object({
   gender: z.enum(Gender),
   experience: z.number(),
   subjects: z
-    .string()
-    .array()
+    // .string()
+    .array(subjectSchema)
     .optional()
     .refine(
       async (arr) => {
         if (!arr) return true;
         if (arr.length == 0) return true;
 
+        const subs = arr.map((sub) => sub.subject_id);
+
         const sems = await db.query.subjects.findMany({
-          where: inArray(subjects.id, arr),
+          where: inArray(subjects.id, subs),
         });
-        return sems.length == arr.length;
+        return sems.length == subs.length;
       },
       {
         message: "Invalid subjects!",

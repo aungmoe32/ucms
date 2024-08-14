@@ -83,6 +83,8 @@ const SubjectSelectField = ({
   });
   // console.log(data, isLoading);
 
+  if (error) return null;
+
   const subjectValues = useWatch({
     control,
     name: `subjects.${index}`,

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Majors, SemesterTerms, Years } from "./constants";
+import { Gender, Majors, Role, SemesterTerms, Years } from "./constants";
 
 export const createStudentFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -34,12 +34,13 @@ export const createTeacherFormSchema = z.object({
     .string()
     .min(1, { message: "Password is required" })
     .min(6, { message: "Password must be at least 6 characters" }),
-  major: z.enum(["It", "Civil", "Archi", "Ep", "Ec", "Mc"]),
+  major: z.enum(Majors),
   // subjects: z.array(z.any()).nonempty(),
   subjects: z.array(subjectSchema),
+  experience: z.number().gte(0),
   // teachYear: z.array(z.any()).nonempty(),
-  gender: z.enum(["Male", "Female"]),
-  role: z.enum(["teacher", "admin"]).default("teacher"),
+  gender: z.enum(Gender),
+  role: z.enum(Role).default("teacher"),
 });
 
 export const editTimetableFormSchema = z.object({

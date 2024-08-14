@@ -18,7 +18,13 @@ import {
 import { Majors } from "@/lib/constants";
 import { createTeacherFormSchema } from "@/lib/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import {
+  useForm,
+  Control,
+  useController,
+  UseFormProps,
+  UseFormReturn,
+} from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
 import { z } from "zod";
 import {
@@ -29,6 +35,11 @@ import {
 } from "@tanstack/react-query";
 import SubjectTable from "./SubjectTable";
 import { getSubjects } from "@/lib/subject";
+import axios from "axios";
+import { createTeacher } from "@/lib/resources/teacher";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Label } from "@/components/ui/label";
 
 const TeacherCreateForm = () => {
   const form = useForm<z.infer<typeof createTeacherFormSchema>>({
@@ -38,10 +49,31 @@ const TeacherCreateForm = () => {
     },
   });
 
+  const queryClient = useQueryClient();
+
+  const {
+    setError,
+    formState: { errors },
+    control,
+  } = form;
+
+  const router = useRouter();
+
   // console.log(form.formState.errors);
 
-  function onSubmit(values: z.infer<typeof createTeacherFormSchema>) {
+  async function onSubmit(values: z.infer<typeof createTeacherFormSchema>) {
     console.log("Values", values);
+    try {
+      await createTeacher(values);
+      router.push("/teacher/teacher");
+      // queryClient.invalidateQueries(["teachers"], { exact: true });
+      // router.refresh();
+    } catch (error) {
+      setError("root", {
+        message: "Error creation",
+      });
+      // console.log(error);
+    }
   }
 
   return (
@@ -122,7 +154,8 @@ const TeacherCreateForm = () => {
                   </FormItem>
                 )}
               />
-
+              {/* Experience */}
+              <ExperienceInput control={control} form={form}></ExperienceInput>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                 {/* Major */}
                 <FormField
@@ -185,6 +218,7 @@ const TeacherCreateForm = () => {
                 <Button
                   type="submit"
                   className="mt-1 flex text-[16px] flex-row gap-3 text-white px-8 h-[48px] "
+                  disabled={form.formState.isSubmitting}
                 >
                   <FaCheck size={18} />
                   Submit
@@ -192,6 +226,9 @@ const TeacherCreateForm = () => {
               </div>
             </form>
           </Form>
+          {errors.root && (
+            <div className=" text-red-500">{errors.root.message}</div>
+          )}
           {/* Blue Background */}
           <div
             className="absolute top-0 left-0 right-[0px] bg-primary h-44"
@@ -200,6 +237,56 @@ const TeacherCreateForm = () => {
         </article>
       </div>
     </main>
+  );
+};
+
+const ExperienceInput = ({
+  form,
+  control,
+}: {
+  form: UseFormReturn<z.infer<typeof createTeacherFormSchema>>;
+  control: Control<z.infer<typeof createTeacherFormSchema>>;
+}) => {
+  const { field } = useController({
+    control,
+    name: "experience",
+  });
+  const [value, setValue] = useState(String(field.value));
+  const {
+    formState: { errors },
+  } = form;
+
+  useEffect(() => {
+    setValue(String(field.value));
+  }, [field.value, setValue]);
+
+  return (
+    <div className="space-y-2">
+      <Label htmlFor="experienceInput" className="text-lg font-semibold">
+        Experience
+      </Label>
+
+      <input
+        placeholder="Add your experience"
+        defaultValue={0}
+        ref={field.ref}
+        value={value}
+        type="number"
+        id="experienceInput"
+        onChange={(e) => {
+          console.log(e.target.value);
+          field.onChange(parseInt(e.target.value, 10) || 0); // send data to hook form
+          // if (e.target.value === "") setValue("0");
+          // else
+          setValue(e.target.value);
+        }}
+        onBlur={field.onBlur}
+        className="w-full mt-0 placeholder-gray-500 p-3 border-[2px] border-gray-200 rounded-md   focus:outline-none"
+      />
+      <p className="text-sm font-medium text-destructive">
+        {errors.experience?.message}
+      </p>
+    </div>
   );
 };
 

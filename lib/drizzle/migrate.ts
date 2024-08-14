@@ -9,7 +9,7 @@ dotenv.config({
   path: [".env.local", ".env"],
 });
 
-const isNeon = false; // neon or postgres js
+const isNeon = true; // neon or postgres js
 
 async function main() {
   if (isNeon) {
