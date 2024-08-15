@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import TeacherTable from "@/components/shared/TeacherTable";
+import TeacherTablePrefetch from "@/components/queries/TeacherTablePrefetch";
 
 const page = () => {
   return (
@@ -95,8 +96,7 @@ const page = () => {
 
       {/* Student Table */}
       <section className="shadow-gray-500 shadow-sm p-6 rounded-lg mt-6">
-        <p className="font-semibold text-lg ml-1 pb-4">Total: 4</p>
-        <TeacherTable />
+        <TeacherTablePrefetch></TeacherTablePrefetch>
       </section>
     </main>
   );

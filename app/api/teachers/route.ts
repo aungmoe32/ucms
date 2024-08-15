@@ -2,6 +2,7 @@ import { createTeacherFormSchema } from "@/app/validationSchemas";
 import { db } from "@/lib/drizzle/db";
 import { teacher_subject, teachers, users } from "@/lib/drizzle/schema";
 import { genSaltSync, hashSync } from "bcrypt-ts";
+import { unstable_noStore } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -60,22 +61,29 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function createUser(body, role) {
-  let salt = genSaltSync(10);
-  let hash = hashSync(body.password, salt);
-  const user = await db
-    .insert(users)
-    .values({
-      name: body.name,
-      email: body.email,
-      password: hash,
-      role: role,
-      major: body.major,
-      gender: body.gender,
-    })
-    .returning({
-      id: users.id,
-    });
-
-  return user[0];
+export async function GET(request: NextRequest) {
+  unstable_noStore();
+  const students = await db.query.teachers.findMany({
+    columns: {
+      id: true,
+    },
+    with: {
+      user: {
+        columns: {
+          email: false,
+          password: false,
+        },
+      },
+      teacher_subject: {
+        with: {
+          subject: {
+            with: {
+              semester: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  return NextResponse.json(students);
 }

@@ -35,7 +35,7 @@ export const createTeacherFormSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters" }),
   major: z.enum(Majors),
   gender: z.enum(Gender),
-  experience: z.number(),
+  experience: z.number().gte(0),
   subjects: z
     // .string()
     .array(subjectSchema)
