@@ -1,9 +1,17 @@
 "use client";
 import React from "react";
-import { Table, TableBody, TableHead, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import TeacherTableRow from "./TeacherTableRow";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { teacherList } from "@/lib/resources/teacher";
+import { Button } from "../ui/button";
 
 const data = [
   {
@@ -43,26 +51,32 @@ const tableHeadStyle = "table-head text-base text-black font-semibold";
 
 const TeacherTable = () => {
   const {
-    data: teachers,
     isLoading,
     error,
-  } = useQuery({
-    queryKey: ["teachers"],
+    data,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["posts", "infinite"],
+    getNextPageParam: (prevData) => prevData.nextPage,
+    initialPageParam: 1,
     queryFn: teacherList,
-    placeholderData: [],
   });
 
   if (isLoading) return <h1>Loading...</h1>;
-  if (error) {
-    return <h1>Error fetching</h1>;
-  }
+  if (error) return <h1>{JSON.stringify(error)}</h1>;
   return (
     <div>
       <p className="font-semibold text-lg ml-1 pb-4">
-        Total: {teachers?.length}
+        Total: {data?.pages[0].total}
       </p>
       <Table className="w-full">
-        <TableBody>
+        {/* <TableFooter>
+          <Button type="button">Load More</Button>
+        </TableFooter> */}
+
+        <TableHeader>
           <TableRow className="bg-blue-100 hover:bg-blue-100">
             <TableHead className={tableHeadStyle}>S/N</TableHead>
             <TableHead className={tableHeadStyle}>Image</TableHead>
@@ -70,26 +84,39 @@ const TeacherTable = () => {
             <TableHead className={tableHeadStyle}>Major</TableHead>
             <TableHead className={tableHeadStyle}>Subjects</TableHead>
             <TableHead className={tableHeadStyle}>Teach Year</TableHead>
+            <TableHead className={tableHeadStyle}>Experience</TableHead>
             <TableHead className={tableHeadStyle}>Gender</TableHead>
           </TableRow>
-          {teachers?.map((item, index) => (
-            <TeacherTableRow
-              key={index}
-              num={index + 1}
-              image={item.user.image}
-              name={item.user.name}
-              major={item.user.major}
-              teachYear={item.teacher_subject.map((ts) => {
-                return parseInt(ts.subject.semester.year, 10);
-              })}
-              subjects={item.teacher_subject.map((ts) => {
-                return ts.subject.name;
-              })}
-              gender={item.user.gender}
-            />
-          ))}
+        </TableHeader>
+        <TableBody>
+          {data?.pages
+            .flatMap((data) => data.teachers)
+            .map((item, index) => (
+              <TeacherTableRow
+                key={index}
+                num={index + 1}
+                image={item.user.image}
+                name={item.user.name}
+                major={item.user.major}
+                teachYear={item.teacher_subject.map((ts) => {
+                  return parseInt(ts.subject.semester.year, 10);
+                })}
+                subjects={item.teacher_subject.map((ts) => {
+                  return ts.subject.name;
+                })}
+                experience={item.experience}
+                gender={item.user.gender}
+              />
+            ))}
         </TableBody>
       </Table>
+      <div className="flex justify-end my-5">
+        {hasNextPage && (
+          <Button type="button" onClick={() => fetchNextPage()}>
+            {isFetchingNextPage ? "Loading..." : "Load More"}
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

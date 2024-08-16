@@ -2,6 +2,7 @@ import { createTeacherFormSchema } from "@/app/validationSchemas";
 import { db } from "@/lib/drizzle/db";
 import { teacher_subject, teachers, users } from "@/lib/drizzle/schema";
 import { genSaltSync, hashSync } from "bcrypt-ts";
+import { count } from "drizzle-orm";
 import { unstable_noStore } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -63,9 +64,25 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   unstable_noStore();
-  const students = await db.query.teachers.findMany({
+  const searchParams = request.nextUrl.searchParams;
+  const page =
+    parseInt(searchParams.get("page")!, 10) < 1
+      ? 1
+      : parseInt(searchParams.get("page")!, 10);
+  // console.log(page - 1);
+  // console.log(page);
+  const pageSize = 3;
+
+  const promises = [];
+
+  const total = db.select({ count: count() }).from(teachers);
+
+  const teacherList = db.query.teachers.findMany({
+    limit: pageSize,
+    offset: (page - 1) * pageSize,
     columns: {
       id: true,
+      experience: true,
     },
     with: {
       user: {
@@ -85,5 +102,8 @@ export async function GET(request: NextRequest) {
       },
     },
   });
-  return NextResponse.json(students);
+  promises.push(total, teacherList);
+  const [tt, trl] = await Promise.all(promises);
+
+  return NextResponse.json({ total: tt[0].count, teachers: trl });
 }

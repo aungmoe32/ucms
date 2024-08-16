@@ -97,6 +97,7 @@ const page = () => {
       {/* Student Table */}
       <section className="shadow-gray-500 shadow-sm p-6 rounded-lg mt-6">
         <TeacherTablePrefetch></TeacherTablePrefetch>
+        {/* <TeacherTable></TeacherTable> */}
       </section>
     </main>
   );

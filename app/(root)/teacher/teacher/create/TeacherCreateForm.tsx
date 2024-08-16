@@ -263,7 +263,7 @@ const ExperienceInput = ({
   return (
     <div className="space-y-2">
       <Label htmlFor="experienceInput" className="text-lg font-semibold">
-        Experience
+        Experience (year)
       </Label>
 
       <input

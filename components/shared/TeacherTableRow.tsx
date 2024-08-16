@@ -9,6 +9,7 @@ type Props = {
   major: string;
   teachYear: number[];
   subjects: string[];
+  experience: number;
   gender: string;
 };
 
@@ -19,6 +20,7 @@ const TeacherTableRow = ({
   major,
   teachYear,
   subjects,
+  experience,
   gender,
 }: Props) => {
   return (
@@ -43,6 +45,7 @@ const TeacherTableRow = ({
       <TableCell className="table-des min-w-[150px]">
         {teachYear.join(" , ")}
       </TableCell>
+      <TableCell className="table-des">{experience} year(s)</TableCell>
       <TableCell className="table-des">{gender}</TableCell>
     </TableRow>
   );
