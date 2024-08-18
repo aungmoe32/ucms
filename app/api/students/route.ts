@@ -1,9 +1,11 @@
 import { createStudentFormSchema } from "@/app/validationSchemas";
 import { db } from "@/lib/drizzle/db";
-import { semesters, students, users } from "@/lib/drizzle/schema";
+import { semesters, students, teachers, users } from "@/lib/drizzle/schema";
 import { genSaltSync, hashSync } from "bcrypt-ts";
 import { NextRequest, NextResponse } from "next/server";
 import { createSemesterIfNotExist } from "./[id]/route";
+import { unstable_noStore } from "next/cache";
+import { count } from "drizzle-orm";
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,4 +45,42 @@ export async function POST(request: NextRequest) {
   } catch (e) {
     return NextResponse.json(e, { status: 400 });
   }
+}
+
+export async function GET(request: NextRequest) {
+  unstable_noStore();
+  const searchParams = request.nextUrl.searchParams;
+  const page =
+    parseInt(searchParams.get("page")!, 10) < 1
+      ? 1
+      : parseInt(searchParams.get("page")!, 10);
+  const pageSize = 3;
+
+  const total = db.select({ count: count() }).from(students);
+
+  const usersList = db.query.users.findMany({
+    limit: pageSize,
+    offset: (page - 1) * pageSize,
+    where: (table, { and, eq }) => eq(table.role, "student"),
+    orderBy: (users, { asc, desc }) => [desc(users.createdAt)],
+    columns: {
+      email: false,
+      password: false,
+    },
+
+    with: {
+      student: {
+        columns: {
+          id: true,
+          year: true,
+        },
+        with: {
+          semester: true,
+        },
+      },
+    },
+  });
+  const [tt, trl] = await Promise.all([total, usersList]);
+
+  return NextResponse.json({ total: tt[0].count, users: trl });
 }
