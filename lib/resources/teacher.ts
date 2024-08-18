@@ -4,33 +4,34 @@ import { unstable_noStore as noStore } from "next/cache";
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_URL;
 export type ResponseType = {
   total: number;
-  teachers: Array<{
+  users: Array<{
     id: string;
-    experience: number;
-    user: {
+    name: string;
+    role: string;
+    major: string;
+    gender: string;
+    image: string;
+    createdAt: string;
+    teacher: {
       id: string;
-      name: string;
-      role: string;
-      major: string;
-      gender: string;
-      image: string;
-    };
-    teacher_subject: Array<{
-      teacher_id: string;
-      subject_id: string;
-      subject: {
-        id: string;
-        name: string;
-        code: string;
-        semesterId: string;
-        semester: {
+      experience: number;
+      teacher_subject: Array<{
+        teacher_id: string;
+        subject_id: string;
+        subject: {
           id: string;
-          term: string;
-          major: string;
-          year: string;
+          name: string;
+          code: string;
+          semesterId: string;
+          semester: {
+            id: string;
+            term: string;
+            major: string;
+            year: string;
+          };
         };
-      };
-    }>;
+      }>;
+    };
   }>;
 };
 
@@ -46,7 +47,7 @@ export const teacherList = async ({ pageParam }) => {
   return {
     nextPage: hasNext ? pageParam + 1 : undefined,
     previousPage: pageParam > 1 ? pageParam - 1 : undefined,
-    teachers: res.data.teachers,
+    teachers: res.data.users,
     total: res.data.total,
   };
 };

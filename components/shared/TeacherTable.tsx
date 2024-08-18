@@ -95,17 +95,17 @@ const TeacherTable = () => {
               <TeacherTableRow
                 key={index}
                 num={index + 1}
-                image={item.user.image}
-                name={item.user.name}
-                major={item.user.major}
-                teachYear={item.teacher_subject.map((ts) => {
+                image={item.image}
+                name={item.name}
+                major={item.major}
+                teachYear={item.teacher.teacher_subject.map((ts) => {
                   return parseInt(ts.subject.semester.year, 10);
                 })}
-                subjects={item.teacher_subject.map((ts) => {
+                subjects={item.teacher.teacher_subject.map((ts) => {
                   return ts.subject.name;
                 })}
-                experience={item.experience}
-                gender={item.user.gender}
+                experience={item.teacher.experience}
+                gender={item.gender}
               />
             ))}
         </TableBody>
