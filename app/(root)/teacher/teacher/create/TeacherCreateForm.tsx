@@ -62,11 +62,11 @@ const TeacherCreateForm = () => {
   // console.log(form.formState.errors);
 
   async function onSubmit(values: z.infer<typeof createTeacherFormSchema>) {
-    console.log("Values", values);
+    // console.log("Values", values);
     try {
       await createTeacher(values);
       router.push("/teacher/teacher");
-      // queryClient.invalidateQueries(["teachers"], { exact: true });
+      queryClient.invalidateQueries(["teachers"], { exact: true });
       // router.refresh();
     } catch (error) {
       setError("root", {

@@ -58,7 +58,7 @@ const TeacherTable = () => {
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery({
-    queryKey: ["posts", "infinite"],
+    queryKey: ["teachers", "infinite"],
     getNextPageParam: (prevData) => prevData.nextPage,
     initialPageParam: 1,
     queryFn: teacherList,
