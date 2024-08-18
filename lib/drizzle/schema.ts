@@ -38,6 +38,7 @@ export const users = pgTable(
     major: major("major").notNull(),
     gender: gender("gender").notNull(),
     image: text("image").$default(() => ""),
+    createdAt: timestamp("createdAt").notNull().defaultNow(),
   },
   (table) => {
     return {

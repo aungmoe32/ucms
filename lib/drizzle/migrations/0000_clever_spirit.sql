@@ -89,7 +89,8 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"user_role" "user_role" DEFAULT 'student',
 	"major" "major" NOT NULL,
 	"gender" "gender" NOT NULL,
-	"image" text
+	"image" text,
+	"createdAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

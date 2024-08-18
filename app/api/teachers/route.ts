@@ -69,41 +69,41 @@ export async function GET(request: NextRequest) {
     parseInt(searchParams.get("page")!, 10) < 1
       ? 1
       : parseInt(searchParams.get("page")!, 10);
-  // console.log(page - 1);
-  // console.log(page);
   const pageSize = 3;
-
-  const promises = [];
 
   const total = db.select({ count: count() }).from(teachers);
 
-  const teacherList = db.query.teachers.findMany({
+  const usersList = db.query.users.findMany({
     limit: pageSize,
     offset: (page - 1) * pageSize,
+    where: (table, { and, eq }) => eq(table.role, "teacher"),
+    orderBy: (users, { asc, desc }) => [desc(users.createdAt)],
     columns: {
-      id: true,
-      experience: true,
+      email: false,
+      password: false,
     },
+
     with: {
-      user: {
+      teacher: {
         columns: {
-          email: false,
-          password: false,
+          id: true,
+          experience: true,
         },
-      },
-      teacher_subject: {
         with: {
-          subject: {
+          teacher_subject: {
             with: {
-              semester: true,
+              subject: {
+                with: {
+                  semester: true,
+                },
+              },
             },
           },
         },
       },
     },
   });
-  promises.push(total, teacherList);
-  const [tt, trl] = await Promise.all(promises);
+  const [tt, trl] = await Promise.all([total, usersList]);
 
-  return NextResponse.json({ total: tt[0].count, teachers: trl });
+  return NextResponse.json({ total: tt[0].count, users: trl });
 }
