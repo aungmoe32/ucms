@@ -15,7 +15,7 @@ const Navbar = () => {
     }
   };
 
-  console.log(pathname);
+  // console.log(pathname);
 
   return (
     <nav className=" px-4  bg-white shadow-gray-300 shadow-sm  w-full h-24 flex items-center justify-between">

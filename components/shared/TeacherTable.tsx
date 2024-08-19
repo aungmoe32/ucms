@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import {
   Table,
   TableBody,
@@ -12,6 +12,7 @@ import TeacherTableRow from "./TeacherTableRow";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { teacherList } from "@/lib/resources/teacher";
 import { Button } from "../ui/button";
+import { SearchContext } from "../context/SearchContext";
 
 const data = [
   {
@@ -50,6 +51,7 @@ const data = [
 const tableHeadStyle = "table-head text-base text-black font-semibold";
 
 const TeacherTable = () => {
+  const { search, setSearch } = useContext(SearchContext);
   const {
     isLoading,
     error,
@@ -58,10 +60,10 @@ const TeacherTable = () => {
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery({
-    queryKey: ["teachers", "infinite"],
-    getNextPageParam: (prevData) => prevData.nextPage,
+    getNextPageParam: (prevData: any) => prevData.nextPage,
     initialPageParam: 1,
-    queryFn: teacherList,
+    queryKey: ["teachers", search],
+    queryFn: (param) => teacherList(param, search),
   });
 
   if (isLoading) return <h1>Loading...</h1>;

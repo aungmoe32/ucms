@@ -40,9 +40,11 @@ export const createTeacher = async (data) => {
   return res;
 };
 
-export const teacherList = async ({ pageParam }) => {
+export const teacherList = async ({ pageParam }, search) => {
   const pageSize = 3;
-  const res = await axios.get<ResponseType>("/api/teachers?page=" + pageParam);
+  const res = await axios.get<ResponseType>(
+    "/api/teachers?page=" + pageParam + "&search=" + search
+  );
   const hasNext = pageParam * pageSize < res.data.total;
   return {
     nextPage: hasNext ? pageParam + 1 : undefined,
