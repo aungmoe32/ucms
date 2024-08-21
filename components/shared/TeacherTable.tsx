@@ -51,7 +51,7 @@ const data = [
 const tableHeadStyle = "table-head text-base text-black font-semibold";
 
 const TeacherTable = () => {
-  const { search, setSearch } = useContext(SearchContext);
+  const { search, major } = useContext(SearchContext);
   const {
     isLoading,
     error,
@@ -62,8 +62,8 @@ const TeacherTable = () => {
   } = useInfiniteQuery({
     getNextPageParam: (prevData: any) => prevData.nextPage,
     initialPageParam: 1,
-    queryKey: ["teachers", search],
-    queryFn: (param) => teacherList(param, search),
+    queryKey: ["teachers", search, major],
+    queryFn: (param) => teacherList(param, search, major),
   });
 
   if (isLoading) return <h1>Loading...</h1>;
@@ -97,14 +97,14 @@ const TeacherTable = () => {
               <TeacherTableRow
                 key={index}
                 num={index + 1}
-                image={item.image}
+                image={""}
                 name={item.name}
                 major={item.major}
-                teachYear={item.teacher.teacher_subject.map((ts) => {
-                  return parseInt(ts.subject.semester.year, 10);
+                teachYear={item.subjects.map((ts) => {
+                  return parseInt(ts.semester.year, 10);
                 })}
-                subjects={item.teacher.teacher_subject.map((ts) => {
-                  return ts.subject.name;
+                subjects={item.subjects.map((ts) => {
+                  return ts.name;
                 })}
                 experience={item.teacher.experience}
                 gender={item.gender}

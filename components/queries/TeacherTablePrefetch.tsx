@@ -12,8 +12,8 @@ import TeacherTable from "../shared/TeacherTable";
 const TeacherTablePrefetch = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["teachers", ""],
-    queryFn: (param) => teacherList(param, ""),
+    queryKey: ["teachers", "", ""],
+    queryFn: (param) => teacherList(param, "", ""),
     initialPageParam: 1,
   });
 

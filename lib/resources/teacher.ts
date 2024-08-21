@@ -10,28 +10,23 @@ export type ResponseType = {
     role: string;
     major: string;
     gender: string;
-    image: string;
-    createdAt: string;
     teacher: {
       id: string;
       experience: number;
-      teacher_subject: Array<{
-        teacher_id: string;
-        subject_id: string;
-        subject: {
-          id: string;
-          name: string;
-          code: string;
-          semesterId: string;
-          semester: {
-            id: string;
-            term: string;
-            major: string;
-            year: string;
-          };
-        };
-      }>;
+      userId: string;
     };
+    subjects: Array<{
+      id: string;
+      name: string;
+      code: string;
+      semesterId: string;
+      semester: {
+        id: string;
+        term: string;
+        major: string;
+        year: string;
+      };
+    }>;
   }>;
 };
 
@@ -40,10 +35,14 @@ export const createTeacher = async (data) => {
   return res;
 };
 
-export const teacherList = async ({ pageParam }, search) => {
+export const teacherList = async (
+  { pageParam },
+  search: string,
+  major: string
+) => {
   const pageSize = 3;
   const res = await axios.get<ResponseType>(
-    "/api/teachers?page=" + pageParam + "&search=" + search
+    "/api/teachers?page=" + pageParam + "&search=" + search + "&major=" + major
   );
   const hasNext = pageParam * pageSize < res.data.total;
   return {
