@@ -15,6 +15,7 @@ import TeacherTablePrefetch from "@/components/queries/TeacherTablePrefetch";
 import Server from "@/components/Server";
 import SearchBox from "@/components/shared/SearchBox";
 import SearchProvider from "@/components/context/SearchProvider";
+import MajorSelect from "./MajorSelect";
 
 const TeacherList = () => {
   return (
@@ -23,7 +24,7 @@ const TeacherList = () => {
         <h2 className="font-semibold text-2xl">Teachers</h2>
         {/* Filter Students Card */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 items-center mt-6">
-          <Select>
+          {/* <Select>
             <SelectTrigger className="h-[50px] focus:ring-0 ring-0 shadow-sm shadow-gray-400 ">
               <SelectValue placeholder="Year" />
             </SelectTrigger>
@@ -35,22 +36,9 @@ const TeacherList = () => {
               <SelectItem value="5">5 Year</SelectItem>
               <SelectItem value="6">6 Year</SelectItem>
             </SelectContent>
-          </Select>
-          <Select>
-            <SelectTrigger className=" h-[50px] focus:ring-0 ring-0 shadow-sm shadow-gray-400 ">
-              <SelectValue placeholder="Subject" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="English">English</SelectItem>
-              <SelectItem value="Math">Math</SelectItem>
-              <SelectItem value="Be">Be</SelectItem>
-              <SelectItem value="Dc">Dc</SelectItem>
-              <SelectItem value="Dld">Dld</SelectItem>
-              <SelectItem value="Web">Web</SelectItem>
-              <SelectItem value="C++">C++</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select>
+          </Select> */}
+          <MajorSelect></MajorSelect>
+          {/* <Select>
             <SelectTrigger className=" h-[50px] focus:ring-0 ring-0 shadow-sm shadow-gray-400 ">
               <SelectValue placeholder="Major" />
             </SelectTrigger>
@@ -62,8 +50,8 @@ const TeacherList = () => {
               <SelectItem value="ec">Ec</SelectItem>
               <SelectItem value="mc">Mc</SelectItem>
             </SelectContent>
-          </Select>
-          <Select>
+          </Select> */}
+          {/* <Select>
             <SelectTrigger className=" h-[50px] focus:ring-0 ring-0 shadow-sm shadow-gray-400 ">
               <SelectValue placeholder="Gender" />
             </SelectTrigger>
@@ -71,7 +59,7 @@ const TeacherList = () => {
               <SelectItem value="Male">Male</SelectItem>
               <SelectItem value="Female">Female</SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
         </div>
         {/* Search Student */}
         <div className="mt-8 flex flex-row justify-between items-center">

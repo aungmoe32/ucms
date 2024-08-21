@@ -79,34 +79,58 @@ export async function GET(request: NextRequest) {
   const major = searchParams.get("major");
   // console.log(search);
 
-  const page =
-    parseInt(searchParams.get("page")!, 10) < 1
-      ? 1
-      : parseInt(searchParams.get("page")!, 10);
-  const pageSize = 3;
-  const whereSql: SQL = sql`users.id IN (SELECT users.id FROM users INNER JOIN "teachers" ON "users"."id" = "teachers"."user_id" WHERE "users"."name" LIKE ${
-    "%" + search + "%"
-  } `;
+  const parsedPage = parseInt(searchParams.get("page")!, 10) || 0;
 
-  // const whereSql: SQL = sql`users.id IN (SELECT users.id FROM users
+  const page = parsedPage < 1 ? 1 : parsedPage;
+  const pageSize = 3;
+  const mainInSql: SQL = sql` users.id IN `;
+  const countSql = sql<number>` SELECT COUNT(*) FROM users INNER JOIN "teachers" ON "users"."id" = "teachers"."user_id" `;
+  const filterUserSql: SQL = sql` (SELECT users.id FROM users INNER JOIN "teachers" ON "users"."id" = "teachers"."user_id"`;
+
+  // const whereInSql: SQL = sql`users.id IN (SELECT users.id FROM users
   // LEFT JOIN "teachers" ON "users"."id" = "teachers"."user_id"
   // LEFT JOIN "teacher_subject" ON "teacher_subject"."teacher_id" = "teachers"."id"
   // LEFT JOIN "subjects" ON "subjects"."id" = "teacher_subject"."subject_id"
   // LEFT JOIN "semesters" ON "semesters"."id" = "subjects"."semester_id"
   // where "users"."user_role" = 'teacher' `;
-  if (search)
-    whereSql.append(sql` AND "users"."name" LIKE ${"%" + search + "%"} `);
-  // if (major) whereSql.append(sql`AND "semesters"."major" = ${major}`);
+  if (search) {
+    const searchSql: SQL = sql` WHERE "users"."name" LIKE ${
+      "%" + search + "%"
+    } `;
+    filterUserSql.append(searchSql);
+    countSql.append(searchSql);
+  }
+  if (major) {
+    const concatSql: SQL = search ? sql` AND ` : sql` WHERE `;
+    filterUserSql.append(concatSql);
+    countSql.append(concatSql);
+    const majorFilterSql: SQL = sql` users.id IN  (
+      SELECT users.id
+    FROM
+      "semesters"
+      LEFT JOIN "subjects" ON "subjects"."semester_id" = "semesters"."id"
+      LEFT JOIN "teacher_subject" ON "teacher_subject"."subject_id" = "subjects"."id"
+      LEFT JOIN "teachers" ON "teacher_subject"."teacher_id" = "teachers"."id"
+      LEFT JOIN "users" ON "users"."id" = "teachers"."user_id"
+    WHERE
+      "semesters"."major" = ${major}
+    ) `;
+    filterUserSql.append(majorFilterSql);
+    countSql.append(majorFilterSql);
+  }
 
-  whereSql.append(
+  filterUserSql.append(
     sql` ORDER BY "users"."createdAt"  LIMIT ${pageSize} OFFSET ${
       (page - 1) * pageSize
     }) `
   );
 
-  const total = db.select({ count: count() }).from(teachers);
+  mainInSql.append(filterUserSql);
+  // const total = db.select({ count: count() }).from(teachers);
+  const total: { count: string }[] = await db.execute(countSql);
+  // console.log(total);
 
-  const urs = db
+  const urs = await db
     .select({
       id: users.id,
       name: users.name,
@@ -117,6 +141,7 @@ export async function GET(request: NextRequest) {
       teacher_subject,
       subjects,
       semesters,
+      // count: sql` COUNT(users.id) AS count `,
     })
     .from(users)
     .leftJoin(teachers, eq(users.id, teachers.userId))
@@ -127,75 +152,18 @@ export async function GET(request: NextRequest) {
     //   LIMIT 2 OFFSET 2 )`))
     // .where(sql`users.id IN (SELECT users.id FROM users LEFT JOIN "teachers" ON "users"."id" = "teachers"."user_id" where "users"."user_role" = 'teacher'
     //    ORDER BY "users"."createdAt" LIMIT 3 OFFSET 3)`)
-    .where(whereSql);
+    .where(mainInSql);
+  // .where(and(whereInSql, sql` "users"."name" LIKE ${"%" + search + "%"}`))
+  // .orderBy(users.createdAt);
 
-  // const urs = db
-  //   .select({
-  //     id: users.id,
-  //     name: users.name,
-  //     role: users.role,
-  //     major: users.major,
-  //     gender: users.gender,
-  //     teachers,
-  //     teacher_subject,
-  //     subjects,
-  //     semesters,
-  //   })
-  //   .from(users)
-  //   .leftJoin(teachers, eq(users.id, teachers.userId))
-  //   .leftJoin(teacher_subject, eq(teacher_subject.teacher_id, teachers.id))
-  //   .leftJoin(subjects, eq(subjects.id, teacher_subject.subject_id))
-  //   .leftJoin(semesters, eq(semesters.id, subjects.semesterId))
-  // .where(eq(users.role, "teacher"))
-  // .where(
-  //   and(
-  //     eq(users.role, "teacher"),
-  //     sql`users.id IN (SELECT id FROM users
-  // LIMIT ${pageSize} OFFSET ${(page - 1) * pageSize})`
-  //   )
-  // )
-  // .limit(pageSize)
-  // .orderBy(desc(users.createdAt));
-
-  // const usersList = db.query.users.findMany({
-  //   limit: pageSize,
-  //   offset: (page - 1) * pageSize,
-  //   // where: (table, { and, eq, or }) => eq(table.role, "teacher"),
-  //   where: (table, { like, and, eq }) =>
-  //     and(
-  //       like(table.name, `%${search ? search : ""}%`),
-  //       eq(table.role, "teacher")
-  //     ),
-  //   orderBy: (users, { asc, desc }) => [desc(users.createdAt)],
-  //   columns: {
-  //     email: false,
-  //     password: false,
-  //   },
-
-  //   with: {
-  //     teacher: {
-  //       columns: {
-  //         id: true,
-  //         experience: true,
-  //       },
-  //       with: {
-  //         teacher_subject: {
-  //           with: {
-  //             subject: {
-  //               with: {
-  //                 semester: true,
-  //               },
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  // });
-
-  const [tt, trl] = await Promise.all([total, urs]);
+  // const [tt, trl] = await Promise.all([total, urs]);
   // console.log(trl);
 
-  return NextResponse.json({ total: tt[0].count, users: reduceTeachers(trl) });
+  const reducedTrs = reduceTeachers(urs);
+  return NextResponse.json({
+    total: parseInt(total[0].count, 10),
+    users: reducedTrs,
+  });
   // return NextResponse.json({ total: tt[0].count, users: trl });
+  // return NextResponse.json(reducedTrs);
 }
