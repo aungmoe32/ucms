@@ -16,12 +16,13 @@ import {
 // import "devextreme/dist/css/dx.fluent.blue.light.css";
 import "../scheduler/css/dx.generic.custom-scheme.css";
 import { calendar_v3 } from "googleapis";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { formatDateTime } from "@/lib/event";
 import { AppointmentView } from "./AppointmentView";
 import { TimeCell } from "./TimeCell";
 import { classes } from "@/lib/classes";
+import { Button } from "../ui/button";
 const TimeZone = "Asia/Yangon";
 
 function Table() {
@@ -164,10 +165,20 @@ function Table() {
 
   // if (error) return <div>{error.message}</div>;
   // if (isLoading) return <div>loading...</div>;
-
+  const handlePropertyChange = useCallback((e) => {
+    if (e.name === "currentDate") {
+      setCurrentDate(e.value);
+    }
+  }, []);
+  console.log("render");
   return (
     <>
-      <RefreshBtn queryClient={queryClient}></RefreshBtn>
+      <div className="flex">
+        <RefreshBtn queryClient={queryClient}></RefreshBtn>
+        <Button type="button" onClick={() => setCurrentDate(Date.now())}>
+          Today
+        </Button>
+      </div>
       <Scheduler
         id="scheduler"
         dataSource={fixEvents(data)}
@@ -178,7 +189,8 @@ function Table() {
         recurrenceRuleExpr="recurrence[0]"
         // recurrenceExceptionExpr="extendedProperties.private.exDate"
         recurrenceExceptionExpr="exDate"
-        defaultCurrentDate={currentDate}
+        // defaultCurrentDate={currentDate}
+        currentDate={currentDate}
         defaultCurrentView="workWeek"
         timeZone={TimeZone}
         // adaptivityEnabled={true}
@@ -190,12 +202,12 @@ function Table() {
         appointmentRender={AppointmentView}
         cellDuration={60}
         timeCellComponent={TimeCell}
-        // onOptionChanged={handlePropertyChange}
+        onOptionChanged={handlePropertyChange}
         // dataCellComponent={DataCell}
         onAppointmentRendered={(e) => onAppointmentRendered(e)}
-        startDayHour={6}
-        endDayHour={22}
-        height={500}
+        startDayHour={9}
+        endDayHour={16}
+        // height={500}
         allDayPanelMode="hidden"
         maxAppointmentsPerCell={1}
       >
@@ -208,8 +220,8 @@ function Table() {
         <View type="day" startDayHour={6} endDayHour={22} cellDuration={60} />
         <View
           type="workWeek"
-          startDayHour={6}
-          endDayHour={22}
+          // startDayHour={6}
+          // endDayHour={22}
           cellDuration={60}
           // offset={0}
         />
