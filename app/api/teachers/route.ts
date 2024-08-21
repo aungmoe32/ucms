@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
   const parsedPage = parseInt(searchParams.get("page")!, 10) || 0;
 
   const page = parsedPage < 1 ? 1 : parsedPage;
-  const pageSize = 3;
+  const pageSize = 7;
   const mainInSql: SQL = sql` users.id IN `;
   const countSql = sql<number>` SELECT COUNT(*) FROM users INNER JOIN "teachers" ON "users"."id" = "teachers"."user_id" `;
   const filterUserSql: SQL = sql` (SELECT users.id FROM users INNER JOIN "teachers" ON "users"."id" = "teachers"."user_id"`;

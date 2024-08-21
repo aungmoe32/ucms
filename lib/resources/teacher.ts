@@ -40,7 +40,7 @@ export const teacherList = async (
   search: string,
   major: string
 ) => {
-  const pageSize = 3;
+  const pageSize = 7;
   const res = await axios.get<ResponseType>(
     "/api/teachers?page=" + pageParam + "&search=" + search + "&major=" + major
   );
