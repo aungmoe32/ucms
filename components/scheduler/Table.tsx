@@ -27,6 +27,25 @@ import { subjects, getSubjectColor } from "@/lib/subjects";
 import { Button } from "../ui/button";
 import AgendaAppointmentView from "./AgendaAppointmentView";
 import Tooltip from "./Tooltip";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 const TimeZone = "Asia/Yangon";
 
 function Table() {
@@ -42,6 +61,8 @@ function Table() {
   const [currentDate, setCurrentDate] = useState(Date.now());
   const [isRecurrenceEdit, setIsRecurrenceEdit] = useState(false);
   const [groupBySubject, setGroupBySubject] = useState(false);
+  const [recurrDialogOpen, setRecurrDialogOpen] = useState(false);
+  const [recurrEditEvent, setRecurrEditEvent] = useState<any>(null);
   const schedulerRef = useRef(null);
 
   const createEventMutation = useMutation({
@@ -285,7 +306,15 @@ function Table() {
         onAppointmentDeleting={onAppointmentDeleting}
         onAppointmentUpdating={onAppointmentUpdating}
         // onAppointmentFormOpening={onAppointmentFormOpening}
-        onAppointmentDblClick={(e) => onAppointmentDblClick(e, schedulerRef)}
+        onAppointmentDblClick={(e) => {
+          // onAppointmentDblClick(e, schedulerRef, setRecurrDialogOpen)
+          if (!e.targetedAppointmentData?.recurrence) {
+            return;
+          }
+          e.cancel = true;
+          setRecurrEditEvent(e);
+          setRecurrDialogOpen(true);
+        }}
         // appointmentRender={AppointmentView}
         cellDuration={60}
         timeCellComponent={TimeCell}
@@ -336,6 +365,55 @@ function Table() {
         {/* <View type="month" /> */}
         <Editing allowDragging />
       </Scheduler>
+      <Dialog open={recurrDialogOpen} onOpenChange={setRecurrDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit only this event or series?</DialogTitle>
+            <DialogDescription className="py-3">
+              Series edit can update multiple events.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              type="button"
+              onClick={() => {
+                if (!recurrEditEvent) return;
+                const scheduler = schedulerRef.current?.instance();
+                // window.scheduler = scheduler;
+                const { start, end, summary, extendedProperties } =
+                  recurrEditEvent.targetedAppointmentData;
+                const appointment = {
+                  start,
+                  end,
+                  summary,
+                  extendedProperties,
+                  excep: {
+                    parent: recurrEditEvent.appointmentData,
+                    target: recurrEditEvent.targetedAppointmentData,
+                  },
+                };
+                // appointment.recurrence = undefined;
+                // console.log(appointment);
+                scheduler?.showAppointmentPopup(appointment, true);
+              }}
+            >
+              Edit this event
+            </Button>
+            <Button
+              type="button"
+              onClick={() => {
+                const scheduler = schedulerRef.current?.instance();
+                scheduler?.showAppointmentPopup(
+                  recurrEditEvent.appointmentData,
+                  false
+                );
+              }}
+            >
+              Edit series
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -410,12 +488,13 @@ function onAppointmentRendered(e) {
   // console.log(e.appointmentElement);
 }
 
-function onAppointmentDblClick(e, schedulerRef) {
+function onAppointmentDblClick(e, schedulerRef, setRecurrDialogOpen) {
   // console.log(e.targetedAppointmentData);
   if (!e.targetedAppointmentData.recurrence) {
     return;
   }
   e.cancel = true;
+  setRecurrDialogOpen(true);
   toast((t) => (
     <span>
       <button
