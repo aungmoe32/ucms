@@ -6,7 +6,9 @@ export function AppointmentView(e: SchedulerTypes.AppointmentRenderedEvent) {
   const appointment = e.appointmentData;
   return (
     <div>
-      <p>{getSubjectName(appointment?.extendedProperties?.private?.classId)}</p>
+      <p className="font-bold">
+        {getSubjectName(appointment?.extendedProperties?.private?.classId)}
+      </p>
       <small>{appointment?.summary}</small>
     </div>
   );

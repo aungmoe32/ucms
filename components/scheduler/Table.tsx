@@ -41,6 +41,7 @@ function Table() {
 
   const [currentDate, setCurrentDate] = useState(Date.now());
   const [isRecurrenceEdit, setIsRecurrenceEdit] = useState(false);
+  const [groupBySubject, setGroupBySubject] = useState(false);
   const schedulerRef = useRef(null);
 
   const createEventMutation = useMutation({
@@ -251,6 +252,16 @@ function Table() {
           >
             Today
           </Button>
+          <Button
+            variant="outline"
+            type="button"
+            className="ml-2"
+            onClick={() => {
+              setGroupBySubject(!groupBySubject);
+            }}
+          >
+            Group By Subject
+          </Button>
         </div>
       </div>
       <Scheduler
@@ -301,8 +312,19 @@ function Table() {
           // startDayHour={6}
           // endDayHour={22}
           // cellDuration={60}
+          groupOrientation="horizontal"
+          groups={
+            groupBySubject ? ["extendedProperties.private.classId"] : undefined
+          }
         />
-        <View type="agenda" appointmentRender={AgendaAppointmentView} />
+        <View
+          type="agenda"
+          appointmentRender={AgendaAppointmentView}
+          // groupOrientation="vertical"
+          groups={
+            groupBySubject ? ["extendedProperties.private.classId"] : undefined
+          }
+        />
         <View
           type="workWeek"
           appointmentRender={AppointmentView}
