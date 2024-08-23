@@ -23,7 +23,7 @@ import toast from "react-hot-toast";
 import { formatDateTime } from "@/lib/event";
 import { AppointmentView } from "./AppointmentView";
 import { TimeCell } from "./TimeCell";
-import { classes, getClassColor } from "@/lib/classes";
+import { subjects, getSubjectColor } from "@/lib/subjects";
 import { Button } from "../ui/button";
 import AgendaAppointmentView from "./AgendaAppointmentView";
 import Tooltip from "./Tooltip";
@@ -97,6 +97,23 @@ function Table() {
     },
   });
 
+  function onAppointmentFormOpening(
+    e: SchedulerTypes.AppointmentFormOpeningEvent
+  ) {
+    e.cancel = false;
+    const appo = e.appointmentData;
+    const classId = appo?.extendedProperties?.private?.classId;
+    if (appo && !classId) {
+      e.appointmentData.summary = "hacker";
+      // e.appointmentData = { summary: "hacke" };
+      // console.log(appo);
+      appo.extendedProperties = {
+        private: {
+          classId: "1",
+        },
+      };
+    }
+  }
   function onAppointmentAdding(e: SchedulerTypes.AppointmentAddingEvent) {
     fixRruleStr(e.appointmentData, false);
 
@@ -140,6 +157,19 @@ function Table() {
       // scheduler.updateAppointment(excep, { ...excep });
     }
 
+    const appo = e.appointmentData;
+    const classId = appo?.extendedProperties?.private?.classId;
+    if (appo && !classId) {
+      // e.appointmentData.summary = "hacker";
+      // e.appointmentData = { summary: "hacke" };
+      // console.log(appo);
+      appo.extendedProperties = {
+        private: {
+          classId: "0",
+        },
+      };
+    }
+
     e.appointmentData.start.timeZone = TimeZone;
     e.appointmentData.end.timeZone = TimeZone;
     data.push(e.appointmentData);
@@ -166,7 +196,7 @@ function Table() {
     const scheduler: any = schedulerRef.current?.instance();
 
     // NOTE: You can use props.appointmentData.resouceId to obtain resource color
-    const color = getClassColor(
+    const color = getSubjectColor(
       props.appointmentData?.extendedProperties?.private?.classId
     );
 
@@ -243,6 +273,7 @@ function Table() {
         onAppointmentAdding={onAppointmentAdding}
         onAppointmentDeleting={onAppointmentDeleting}
         onAppointmentUpdating={onAppointmentUpdating}
+        // onAppointmentFormOpening={onAppointmentFormOpening}
         onAppointmentDblClick={(e) => onAppointmentDblClick(e, schedulerRef)}
         // appointmentRender={AppointmentView}
         cellDuration={60}
@@ -259,7 +290,7 @@ function Table() {
         editing={true}
       >
         <Resource
-          dataSource={classes}
+          dataSource={subjects}
           fieldExpr="extendedProperties.private.classId"
           label="Class"
           useColorAsDefault={true}

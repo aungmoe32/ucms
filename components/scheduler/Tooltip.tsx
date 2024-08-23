@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import moment from "moment";
 import { MdDelete } from "react-icons/md";
 
-import { getClassName } from "@/lib/classes";
+import { getSubjectName } from "@/lib/subjects";
 const Tooltip = (props) => {
   const onDeleteButtonClick = useCallback(
     (e) => {
@@ -24,7 +24,7 @@ const Tooltip = (props) => {
         <div className={"dx-tooltip-appointment-item-content"}>
           <div className={"dx-tooltip-appointment-item-content-subject "}>
             <span className=" text-lg">
-              {getClassName(
+              {getSubjectName(
                 props.appointmentData?.extendedProperties?.private?.classId
               )}
             </span>

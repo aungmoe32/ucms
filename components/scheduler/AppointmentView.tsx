@@ -1,4 +1,4 @@
-import { getClassName } from "@/lib/classes";
+import { getSubjectName } from "@/lib/subjects";
 import { SchedulerTypes } from "devextreme-react/scheduler";
 
 export function AppointmentView(e: SchedulerTypes.AppointmentRenderedEvent) {
@@ -6,9 +6,7 @@ export function AppointmentView(e: SchedulerTypes.AppointmentRenderedEvent) {
   const appointment = e.appointmentData;
   return (
     <div>
-      <div>
-        {getClassName(appointment?.extendedProperties?.private?.classId)}
-      </div>
+      <p>{getSubjectName(appointment?.extendedProperties?.private?.classId)}</p>
       <small>{appointment?.summary}</small>
     </div>
   );

@@ -1,10 +1,10 @@
-import { getClassColor, getClassName } from "@/lib/classes";
+import { getSubjectColor, getSubjectName } from "@/lib/subjects";
 import { SchedulerTypes } from "devextreme-react/cjs/scheduler";
 import React from "react";
 
 const AgendaAppointmentView = (e: SchedulerTypes.AppointmentRenderedEvent) => {
   const appointment = e.appointmentData;
-  const color = getClassColor(
+  const color = getSubjectColor(
     appointment?.extendedProperties?.private?.classId
   );
   //   const bg = `bg-[${color}]`;
@@ -18,7 +18,7 @@ const AgendaAppointmentView = (e: SchedulerTypes.AppointmentRenderedEvent) => {
           backgroundColor: color,
         }}
       >
-        {getClassName(appointment?.extendedProperties?.private?.classId)}
+        {getSubjectName(appointment?.extendedProperties?.private?.classId)}
       </div>
       <div className="flex flex-col">
         <div className="font-bold ">{appointment?.summary}</div>
