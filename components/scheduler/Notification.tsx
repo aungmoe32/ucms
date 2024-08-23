@@ -21,9 +21,16 @@ const Notification = () => {
   }, []);
 
   return (
-    <div>
-      <label>Get notification : </label>
-      <input type="checkbox" name="" id="" ref={checkBoxRef} />
+    <div className="flex justify-end items-center my-2">
+      <label className="mx-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+        Notification
+      </label>
+      <input
+        type="checkbox"
+        value=""
+        ref={checkBoxRef}
+        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+      />
     </div>
   );
 };

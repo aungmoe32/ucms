@@ -55,17 +55,19 @@ const Tooltip = (props) => {
 
       {props.isDeleteButtonExist ? (
         <div className={"dx-tooltip-appointment-item-delete-button-container"}>
-          <button
+          <Button
             className={
-              "dx-tooltip-appointment-item-delete-button bg-transparent p-1 hover:bg-gray-300 rounded-lg"
+              "dx-tooltip-appointment-item-delete-button hover:bg-gray-200"
             }
             // icon="trash"
             // stylingMode="text"
             type="button"
+            variant="ghost"
+            size="icon"
             onClick={onDeleteButtonClick}
           >
-            <MdDelete color="gray" size={25} />
-          </button>
+            <MdDelete size={20} />
+          </Button>
         </div>
       ) : (
         <></>

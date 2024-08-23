@@ -1,4 +1,6 @@
 "use client";
+import { IoIosRefresh } from "react-icons/io";
+
 import { createEvent, deleteEvent, events, updateEvent } from "@/lib/event";
 import {
   useMutation,
@@ -207,10 +209,14 @@ function Table() {
   }, []);
   console.log("render");
   return (
-    <>
-      <div className="flex">
+    <div className="mt-5">
+      <div className="flex justify-between">
         <RefreshBtn queryClient={queryClient}></RefreshBtn>
-        <Button type="button" onClick={() => setCurrentDate(Date.now())}>
+        <Button
+          variant="outline"
+          type="button"
+          onClick={() => setCurrentDate(Date.now())}
+        >
           Today
         </Button>
       </div>
@@ -274,7 +280,7 @@ function Table() {
         {/* <View type="month" /> */}
         <Editing allowDragging />
       </Scheduler>
-    </>
+    </div>
   );
 }
 
@@ -326,14 +332,16 @@ function fixEvents(events) {
 
 function RefreshBtn({ queryClient }) {
   return (
-    <button
+    <Button
+      type="button"
+      variant="ghost"
       onClick={() => {
         queryClient.invalidateQueries(["events"], { exact: true });
         toast.success("Refreshed");
       }}
     >
-      Refresh
-    </button>
+      <IoIosRefresh />
+    </Button>
   );
 }
 // for appointment cell full width
