@@ -3,6 +3,7 @@ import { IoIosRefresh } from "react-icons/io";
 import Notification from "@/components/scheduler/Notification";
 import { createEvent, deleteEvent, events, updateEvent } from "@/lib/event";
 import {
+  QueryClient,
   useMutation,
   useQuery,
   useQueryClient,
@@ -50,7 +51,7 @@ const TimeZone = "Asia/Yangon";
 
 function Table() {
   const queryClient = useQueryClient();
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, isFetching } = useQuery({
     queryKey: ["events"],
     queryFn: events,
     placeholderData: [],
@@ -265,7 +266,10 @@ function Table() {
       <div className="flex justify-between">
         <Notification></Notification>
         <div className="flex ">
-          <RefreshBtn queryClient={queryClient}></RefreshBtn>
+          <RefreshBtn
+            queryClient={queryClient}
+            isFetching={isFetching}
+          ></RefreshBtn>
           <Button
             variant="outline"
             type="button"
@@ -464,14 +468,23 @@ function fixEvents(events) {
   });
 }
 
-function RefreshBtn({ queryClient }) {
+function RefreshBtn({
+  queryClient,
+  isFetching,
+}: {
+  queryClient: QueryClient;
+  isFetching: boolean;
+}) {
   return (
     <Button
       type="button"
       variant="ghost"
-      onClick={() => {
-        queryClient.invalidateQueries(["events"], { exact: true });
-        toast.success("Refreshed");
+      disabled={isFetching}
+      onClick={async () => {
+        const id = toast.loading("refreshing...");
+        await queryClient.invalidateQueries(["events"], { exact: true });
+        toast.dismiss(id);
+        toast.success("refreshed");
       }}
     >
       <IoIosRefresh />
