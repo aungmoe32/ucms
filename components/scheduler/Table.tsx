@@ -1,6 +1,6 @@
 "use client";
 import { IoIosRefresh } from "react-icons/io";
-
+import Notification from "@/components/scheduler/Notification";
 import { createEvent, deleteEvent, events, updateEvent } from "@/lib/event";
 import {
   useMutation,
@@ -211,14 +211,17 @@ function Table() {
   return (
     <div className="mt-5">
       <div className="flex justify-between">
-        <RefreshBtn queryClient={queryClient}></RefreshBtn>
-        <Button
-          variant="outline"
-          type="button"
-          onClick={() => setCurrentDate(Date.now())}
-        >
-          Today
-        </Button>
+        <Notification></Notification>
+        <div className="flex ">
+          <RefreshBtn queryClient={queryClient}></RefreshBtn>
+          <Button
+            variant="outline"
+            type="button"
+            onClick={() => setCurrentDate(Date.now())}
+          >
+            Today
+          </Button>
+        </div>
       </div>
       <Scheduler
         id="scheduler"

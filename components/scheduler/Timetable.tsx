@@ -15,7 +15,6 @@ export default async function Timetable() {
 
   return (
     <div className="mt-5">
-      <Notification></Notification>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Table></Table>
       </HydrationBoundary>
