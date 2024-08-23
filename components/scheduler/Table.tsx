@@ -21,8 +21,10 @@ import toast from "react-hot-toast";
 import { formatDateTime } from "@/lib/event";
 import { AppointmentView } from "./AppointmentView";
 import { TimeCell } from "./TimeCell";
-import { classes } from "@/lib/classes";
+import { classes, getClassColor } from "@/lib/classes";
 import { Button } from "../ui/button";
+import AgendaAppointmentView from "./AgendaAppointmentView";
+import Tooltip from "./Tooltip";
 const TimeZone = "Asia/Yangon";
 
 function Table() {
@@ -158,6 +160,39 @@ function Table() {
     updateEventMutation.mutate(e.newData);
   }
 
+  const appointmentTooltip = useCallback((props) => {
+    const scheduler: any = schedulerRef.current?.instance();
+
+    // NOTE: You can use props.appointmentData.resouceId to obtain resource color
+    const color = getClassColor(
+      props.appointmentData?.extendedProperties?.private?.classId
+    );
+
+    // const isAppointmentDisabled = data.appointmentData.disabled;
+    const isDeleteAllowed =
+      (scheduler?.option("editing") &&
+        scheduler.option("editing.allowDeleting") === true) ||
+      scheduler.option("editing") === true;
+    // const isDeleteButtonExist = !isAppointmentDisabled && isDeleteAllowed;
+    const isDeleteButtonExist = isDeleteAllowed;
+
+    const onDeleteButtonClick = (e) => {
+      scheduler.deleteAppointment(props.appointmentData);
+      e.stopPropagation();
+      // console.log(e);
+      scheduler.hideAppointmentTooltip();
+    };
+
+    return (
+      <Tooltip
+        {...props}
+        isDeleteButtonExist={isDeleteButtonExist}
+        onDeleteButtonClick={onDeleteButtonClick}
+        color={color}
+      />
+    );
+  }, []);
+
   useEffect(() => {
     if (isLoading) toast("loading...");
     if (error) toast.error("An error occurred while fetching");
@@ -186,6 +221,7 @@ function Table() {
         startDateExpr="start.dateTime"
         endDateExpr="end.dateTime"
         textExpr="summary"
+        descriptionExpr="description"
         recurrenceRuleExpr="recurrence[0]"
         // recurrenceExceptionExpr="extendedProperties.private.exDate"
         recurrenceExceptionExpr="exDate"
@@ -199,17 +235,19 @@ function Table() {
         onAppointmentDeleting={onAppointmentDeleting}
         onAppointmentUpdating={onAppointmentUpdating}
         onAppointmentDblClick={(e) => onAppointmentDblClick(e, schedulerRef)}
-        appointmentRender={AppointmentView}
+        // appointmentRender={AppointmentView}
         cellDuration={60}
         timeCellComponent={TimeCell}
         onOptionChanged={handlePropertyChange}
         // dataCellComponent={DataCell}
         onAppointmentRendered={(e) => onAppointmentRendered(e)}
+        appointmentTooltipRender={appointmentTooltip}
         startDayHour={9}
         endDayHour={16}
         // height={500}
         allDayPanelMode="hidden"
         maxAppointmentsPerCell={1}
+        editing={true}
       >
         <Resource
           dataSource={classes}
@@ -217,16 +255,24 @@ function Table() {
           label="Class"
           useColorAsDefault={true}
         />
-        <View type="day" startDayHour={6} endDayHour={22} cellDuration={60} />
+        <View
+          type="day"
+          // appointmentRender={AgendaAppointmentView}
+          // startDayHour={6}
+          // endDayHour={22}
+          // cellDuration={60}
+        />
+        <View type="agenda" appointmentRender={AgendaAppointmentView} />
         <View
           type="workWeek"
+          appointmentRender={AppointmentView}
           // startDayHour={6}
           // endDayHour={22}
           cellDuration={60}
           // offset={0}
         />
         {/* <View type="month" /> */}
-        <Editing allowDragging={true} />
+        <Editing allowDragging />
       </Scheduler>
     </>
   );
@@ -290,11 +336,12 @@ function RefreshBtn({ queryClient }) {
     </button>
   );
 }
-
+// for appointment cell full width
 function onAppointmentRendered(e) {
-  const width = e.element.querySelector(
-    ".dx-scheduler-date-table-cell"
-  ).clientWidth; // get a cell's width
+  const el = e.element.querySelector(".dx-scheduler-date-table-cell");
+  if (!el) return;
+  // console.log(el);
+  const width = el.clientWidth; // get a cell's width
   e.appointmentElement.style.width = `${width}px`;
   // console.log(e.appointmentElement);
 }

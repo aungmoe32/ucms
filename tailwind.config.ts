@@ -22,7 +22,10 @@ const config = {
         custom: "1px 1px 17px 14px rgba(203, 211, 220, 0.82)",
       },
       colors: {
-        primary: "#2C80FF",
+        primary: {
+          DEFAULT: "#2C80FF",
+          foreground: "white",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
