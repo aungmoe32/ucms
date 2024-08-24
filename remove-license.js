@@ -14,6 +14,7 @@ function Replace(file) {
 
   // Define the content to be replaced and the new content
   const originalContent = `this._reassignComponent();`;
+  const withoutSemeiColon = `this._reassignComponent()`;
   const newContent = "";
 
   // Read the file
@@ -26,7 +27,8 @@ function Replace(file) {
     //   console.log(data);
 
     // Replace the content
-    const modifiedData = data.replace(originalContent, newContent);
+    let modifiedData = data.replace(originalContent, newContent);
+    modifiedData = modifiedData.replace(withoutSemeiColon, newContent);
 
     // Write the modified content back to the file
     fs.writeFile(filePath, modifiedData, "utf8", (err) => {
