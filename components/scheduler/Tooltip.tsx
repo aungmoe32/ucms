@@ -25,12 +25,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 const Tooltip = (props) => {
+  //   console.log(props);
   //   const onDeleteButtonClick = useCallback(
   //     (e) => {
   //       props.onDeleteButtonClick(e);
   //     },
   //     [props.onDeleteButtonClick]
   //   );
+  const isRecurrence = props.appointmentData.recurrence;
   const [openDelDialog, setOpenDelDialog] = useState(false);
 
   return (
@@ -77,10 +79,13 @@ const Tooltip = (props) => {
         <AlertDialogContent className="z-[1600]">
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Do you want to delete this event?
+              Do you want to delete{" "}
+              {isRecurrence ? `the whole event series?` : `this event?`}
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
+              {isRecurrence &&
+                ` This is an event series that means this action can delete multiple events.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
