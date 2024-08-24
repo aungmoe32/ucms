@@ -312,6 +312,12 @@ function Table() {
         // onAppointmentFormOpening={onAppointmentFormOpening}
         onAppointmentDblClick={(e) => {
           // onAppointmentDblClick(e, schedulerRef, setRecurrDialogOpen)
+          const scheduler = schedulerRef.current?.instance();
+          // console.log(scheduler);
+          if (scheduler && !scheduler?.option("editing")) {
+            e.cancel = true;
+            return;
+          }
           if (!e.targetedAppointmentData?.recurrence) {
             return;
           }
@@ -501,51 +507,51 @@ function onAppointmentRendered(e) {
   // console.log(e.appointmentElement);
 }
 
-function onAppointmentDblClick(e, schedulerRef, setRecurrDialogOpen) {
-  // console.log(e.targetedAppointmentData);
-  if (!e.targetedAppointmentData.recurrence) {
-    return;
-  }
-  e.cancel = true;
-  setRecurrDialogOpen(true);
-  toast((t) => (
-    <span>
-      <button
-        className="bg-green-300"
-        onClick={() => {
-          toast.dismiss(t.id);
-          const scheduler = schedulerRef.current?.instance();
-          // window.scheduler = scheduler;
-          const { start, end, summary, extendedProperties } =
-            e.targetedAppointmentData;
-          const appointment = {
-            start,
-            end,
-            summary,
-            extendedProperties,
-            excep: {
-              parent: e.appointmentData,
-              target: e.targetedAppointmentData,
-            },
-          };
-          // appointment.recurrence = undefined;
-          // console.log(appointment);
-          scheduler?.showAppointmentPopup(appointment, true);
-        }}
-      >
-        Take this event
-      </button>
+// function onAppointmentDblClick(e, schedulerRef, setRecurrDialogOpen) {
+//   // console.log(e.targetedAppointmentData);
+//   if (!e.targetedAppointmentData.recurrence) {
+//     return;
+//   }
+//   e.cancel = true;
+//   setRecurrDialogOpen(true);
+//   toast((t) => (
+//     <span>
+//       <button
+//         className="bg-green-300"
+//         onClick={() => {
+//           toast.dismiss(t.id);
+//           const scheduler = schedulerRef.current?.instance();
+//           // window.scheduler = scheduler;
+//           const { start, end, summary, extendedProperties } =
+//             e.targetedAppointmentData;
+//           const appointment = {
+//             start,
+//             end,
+//             summary,
+//             extendedProperties,
+//             excep: {
+//               parent: e.appointmentData,
+//               target: e.targetedAppointmentData,
+//             },
+//           };
+//           // appointment.recurrence = undefined;
+//           // console.log(appointment);
+//           scheduler?.showAppointmentPopup(appointment, true);
+//         }}
+//       >
+//         Take this event
+//       </button>
 
-      <button
-        className="ml-4 bg-red-400"
-        onClick={() => {
-          toast.dismiss(t.id);
-          const scheduler = schedulerRef.current?.instance();
-          scheduler?.showAppointmentPopup(e.appointmentData, false);
-        }}
-      >
-        Edit series
-      </button>
-    </span>
-  ));
-}
+//       <button
+//         className="ml-4 bg-red-400"
+//         onClick={() => {
+//           toast.dismiss(t.id);
+//           const scheduler = schedulerRef.current?.instance();
+//           scheduler?.showAppointmentPopup(e.appointmentData, false);
+//         }}
+//       >
+//         Edit series
+//       </button>
+//     </span>
+//   ));
+// }
