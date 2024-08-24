@@ -6,13 +6,13 @@ export function AppointmentView(e: SchedulerTypes.AppointmentRenderedEvent) {
   // console.log(e.appointmentData);
   const appointment = e.appointmentData;
   return (
-    <div className=" relative">
+    <div className="">
       <p className="font-bold">
         {getSubjectName(appointment?.extendedProperties?.private?.classId)}
       </p>
       <small>{appointment?.summary}</small>
       {appointment.recurrence && (
-        <div className="absolute top-0 right-0">
+        <div className="absolute top-0 right-0 p-1">
           <FaRepeat />
         </div>
       )}
