@@ -3,7 +3,7 @@ import React, { Suspense } from "react";
 import EventCard from "@/components/shared/EventCard";
 import StudentCard from "@/components/shared/StudentCard";
 import StudentTimetable from "@/components/shared/StudentTimetable";
-import Timetable from "@/components/scheduler/Timetable";
+import TimetablePrefetch from "@/components/scheduler/TimetablePrefetch";
 
 const Student = () => {
   return (
@@ -26,7 +26,7 @@ const Student = () => {
             <p className=" text-2xl font-semibold">Timetable</p>
             {/* <StudentTimetable /> */}
             <Suspense fallback={<div>loading time table...</div>}>
-              <Timetable></Timetable>
+              <TimetablePrefetch></TimetablePrefetch>
             </Suspense>
           </article>
 

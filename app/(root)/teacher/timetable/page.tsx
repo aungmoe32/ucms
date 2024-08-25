@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import {
   Select,
   SelectContent,
@@ -11,12 +11,13 @@ import { FaSearch } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import { FiDownload } from "react-icons/fi";
 import Link from "next/link";
+import TimetablePrefetch from "@/components/scheduler/TimetablePrefetch";
 
 const page = () => {
   return (
     <main className="p-4">
       {/* Timetable Title */}
-      <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4">
+      {/* <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4">
         <div className="flex flex-row items-center gap-4 mr-4">
           <p className="text-2xl font-semibold">Timetable</p>
         </div>
@@ -58,11 +59,11 @@ const page = () => {
             <p className="font-semibold">Search</p>
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* Timetable */}
       <div className="p-2 mt-4">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 justify-between">
+        {/* <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 justify-between">
           <div>
             <p className="font-semibold text-2xl">IT / 2 Year / 2 Term</p>
           </div>
@@ -79,8 +80,11 @@ const page = () => {
               Download
             </button>
           </div>
-        </div>
-        <StudentTimetable role="teacher" />
+        </div> */}
+        {/* <StudentTimetable role="teacher" /> */}
+        <Suspense fallback={<div>loading time table...</div>}>
+          <TimetablePrefetch></TimetablePrefetch>
+        </Suspense>
       </div>
     </main>
   );
