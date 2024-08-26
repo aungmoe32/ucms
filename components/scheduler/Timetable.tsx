@@ -28,16 +28,7 @@ import { subjects, getSubjectColor } from "@/lib/subjects";
 import { Button } from "../ui/button";
 import AgendaAppointmentView from "./AgendaAppointmentView";
 import Tooltip from "./Tooltip";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "../ui/alert-dialog";
+
 import {
   Dialog,
   DialogContent,
@@ -47,6 +38,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import CreateSubjectBtn from "./CreateSubjectBtn";
 const TimeZone = "Asia/Yangon";
 
 function Timetable() {
@@ -260,12 +252,12 @@ function Timetable() {
       setCurrentDate(e.value);
     }
   }, []);
-  console.log("render");
+  console.log("render timetable");
   return (
     <div className="mt-5">
       <div className="flex justify-between">
         <Notification></Notification>
-        <div className="flex ">
+        <div className="flex space-x-2">
           <RefreshBtn
             queryClient={queryClient}
             isFetching={isFetching}
@@ -280,13 +272,14 @@ function Timetable() {
           <Button
             variant="outline"
             type="button"
-            className="ml-2"
+            className=""
             onClick={() => {
               setGroupBySubject(!groupBySubject);
             }}
           >
             Group By Subject
           </Button>
+          <CreateSubjectBtn></CreateSubjectBtn>
         </div>
       </div>
       <Scheduler

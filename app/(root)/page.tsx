@@ -1,3 +1,5 @@
+"use client";
+import SubjectColorPicker from "@/components/scheduler/SubjectColorPicker";
 import Link from "next/link";
 
 export default function Home() {
@@ -18,6 +20,7 @@ export default function Home() {
           <p>Student</p>
         </Link>
       </div>
+      <SubjectColorPicker></SubjectColorPicker>
     </main>
   );
 }

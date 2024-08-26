@@ -12,10 +12,13 @@ import { FaPlus } from "react-icons/fa6";
 import { FiDownload } from "react-icons/fi";
 import Link from "next/link";
 import TimetablePrefetch from "@/components/scheduler/TimetablePrefetch";
-
+import { FormControl } from "@/components/ui/form";
+import { Majors } from "@/lib/constants";
+import { ChromePicker } from "react-color";
 const page = () => {
   return (
     <main className="p-4">
+      {/* <ChromePicker /> */}
       {/* Timetable Title */}
       {/* <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4">
         <div className="flex flex-row items-center gap-4 mr-4">
