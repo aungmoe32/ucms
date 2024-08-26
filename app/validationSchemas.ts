@@ -3,6 +3,7 @@ import { db } from "@/lib/drizzle/db";
 import { semesters, subjects } from "@/lib/drizzle/schema";
 import { inArray } from "drizzle-orm";
 import { z } from "zod";
+import color from "color-string";
 
 export const createStudentFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -59,3 +60,20 @@ export const updateStudentFormSchema = z.object({
   major: z.enum(Majors),
   gender: z.enum(Gender),
 });
+
+export const createSubjectFormSchema = z.object({
+  year: z.enum(Years),
+  major: z.enum(Majors),
+  term: z.enum(SemesterTerms),
+  name: z.string().min(1),
+  code: z.string().min(1),
+  color: z.string().refine(colorValidator),
+});
+
+export function colorValidator(val: string) {
+  try {
+    return color.get(val) != null;
+  } catch {
+    return false;
+  }
+}
