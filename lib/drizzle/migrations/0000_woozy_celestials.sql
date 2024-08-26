@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS "subjects" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text NOT NULL,
 	"code" text NOT NULL,
+	"color" text NOT NULL,
 	"semester_id" uuid NOT NULL
 );
 --> statement-breakpoint

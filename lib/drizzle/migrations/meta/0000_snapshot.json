@@ -1,5 +1,5 @@
 {
-  "id": "15fce2b9-d9d4-44a0-aead-a9a89cdaff5a",
+  "id": "0d393fd7-e44a-4722-8a14-8e8d0cf93c34",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -249,6 +249,12 @@
         },
         "code": {
           "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "color": {
+          "name": "color",
           "type": "text",
           "primaryKey": false,
           "notNull": true

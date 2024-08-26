@@ -77,6 +77,7 @@ export const subjects = pgTable("subjects", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
   code: text("code").notNull(),
+  color: text("color").notNull(),
   semesterId: uuid("semester_id")
     .references(() => semesters.id)
     .notNull(),
