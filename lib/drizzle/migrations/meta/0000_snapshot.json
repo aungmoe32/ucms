@@ -1,5 +1,5 @@
 {
-  "id": "9ab7d44f-c8ab-4aaa-80ed-7569e20ad924",
+  "id": "80d98e42-bb06-49a8-9803-a502015c2c67",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -181,6 +181,12 @@
           "name": "year",
           "type": "year",
           "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "calendar_id": {
+          "name": "calendar_id",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         }

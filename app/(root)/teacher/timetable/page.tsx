@@ -15,7 +15,14 @@ import TimetablePrefetch from "@/components/scheduler/TimetablePrefetch";
 import { FormControl } from "@/components/ui/form";
 import { Majors } from "@/lib/constants";
 import { ChromePicker } from "react-color";
-const page = () => {
+const Page = ({
+  searchParams,
+}: {
+  searchParams?: {
+    semester_id?: string;
+    // calendar_id?: string;
+  };
+}) => {
   return (
     <main className="p-4">
       {/* <ChromePicker /> */}
@@ -86,11 +93,11 @@ const page = () => {
         </div> */}
         {/* <StudentTimetable role="teacher" /> */}
         <Suspense fallback={<div>loading time table...</div>}>
-          <TimetablePrefetch></TimetablePrefetch>
+          <TimetablePrefetch searchParams={searchParams}></TimetablePrefetch>
         </Suspense>
       </div>
     </main>
   );
 };
 
-export default page;
+export default Page;

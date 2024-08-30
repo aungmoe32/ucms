@@ -8,7 +8,8 @@ export async function POST(
 ) {
   // const data = await request.json();
   //   console.log(data);
-  await deleteEvent(params.id);
+  const calendar_id = request.nextUrl.searchParams.get("calendar_id");
+  await deleteEvent(params.id, calendar_id!);
   sendPush({
     title: "An event deleted",
     body: "body",

@@ -29,10 +29,12 @@ const calendar = google.calendar("v3");
 const CalenderID =
   "3d93cb1ef9e3fbbd6e0a9a685c474695ee7ac02c6efccb7a4400b716872a55d5@group.calendar.google.com";
 
-export const getEvents = async (): Promise<calendar_v3.Schema$Event[]> => {
+export const getEvents = async (
+  calendar_id
+): Promise<calendar_v3.Schema$Event[]> => {
   noStore();
   const resp = await calendar.events.list({
-    calendarId: CalenderID,
+    calendarId: calendar_id,
     maxResults: 100,
   });
 
@@ -40,28 +42,33 @@ export const getEvents = async (): Promise<calendar_v3.Schema$Event[]> => {
   return resp.data.items || [];
 };
 
-export const deleteEvent = async (eventId: string) => {
+export const deleteEvent = async (eventId: string, calendar_id: string) => {
   const resp = await calendar.events.delete({
     eventId,
-    calendarId: CalenderID,
+    calendarId: calendar_id,
   });
   return resp.data;
 };
 
 export const updateEvent = async (
   eventId: string,
+  calendar_id: string,
   requestBody: calendar_v3.Schema$Event
 ) => {
   const resp = await calendar.events.patch({
     eventId,
-    calendarId: CalenderID,
+    calendarId: calendar_id,
     requestBody,
   });
   return resp.data;
 };
-export const insertEvent = async (requestBody: calendar_v3.Schema$Event) => {
+export const insertEvent = async (
+  calendar_id: string,
+  requestBody: calendar_v3.Schema$Event
+) => {
+  // console.log(calendar_id, requestBody);
   const resp = await calendar.events.insert({
-    calendarId: CalenderID,
+    calendarId: calendar_id,
     requestBody,
   });
   return resp.data;

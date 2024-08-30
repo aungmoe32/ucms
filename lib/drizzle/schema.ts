@@ -9,7 +9,6 @@ import {
   uuid,
   json,
   pgEnum,
-  uuid,
   uniqueIndex,
   date,
   foreignKey,
@@ -78,6 +77,7 @@ export const semesters = pgTable("semesters", {
   term: term("semester_term").notNull(),
   major: major("major").notNull(),
   year: year("year").notNull(),
+  calendar_id: text("calendar_id").notNull(),
 });
 
 export const subjects = pgTable("subjects", {

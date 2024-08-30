@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS "semesters" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"semester_term" "semester_term" NOT NULL,
 	"major" "major" NOT NULL,
-	"year" "year" NOT NULL
+	"year" "year" NOT NULL,
+	"calendar_id" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "students" (

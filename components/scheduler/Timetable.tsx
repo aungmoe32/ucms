@@ -39,13 +39,17 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import CreateSubjectBtn from "./CreateSubjectBtn";
+import TimetableSwitch from "./TimetableSwitch";
 const TimeZone = "Asia/Yangon";
 
-function Timetable() {
+function Timetable({ teacher_subjects }: { teacher_subjects: any }) {
   const queryClient = useQueryClient();
+  const [semester, setSemester] = useState(
+    teacher_subjects[0].subject.semester
+  );
   const { data, error, isLoading, isFetching } = useQuery({
-    queryKey: ["events"],
-    queryFn: events,
+    queryKey: ["events", semester.id],
+    queryFn: () => events(semester.calendar_id),
     placeholderData: [],
   });
 
@@ -58,52 +62,58 @@ function Timetable() {
   const [recurrEditEvent, setRecurrEditEvent] = useState<any>(null);
   const schedulerRef = useRef(null);
 
+  async function invalidateEvents() {
+    await queryClient.invalidateQueries(["events", semester.id], {
+      exact: true,
+    });
+  }
+
   const createEventMutation = useMutation({
-    mutationFn: createEvent,
+    mutationFn: ({ calId, event }) => createEvent(calId, event),
     onSuccess: (data, variables, toastId) => {
       // queryClient.setQueryData(["Events", data.id], data)
       toast.dismiss(toastId);
       toast.success("added");
-      queryClient.invalidateQueries(["events"], { exact: true });
+      invalidateEvents();
     },
     onError: (error, variables, context) => {
       toast.dismiss(context);
       toast.error("error");
-      queryClient.invalidateQueries(["events"], { exact: true });
+      invalidateEvents();
     },
     onMutate: () => {
       return toast.loading("adding...");
     },
   });
   const deleteEventMutation = useMutation({
-    mutationFn: deleteEvent,
+    mutationFn: ({ calId, event }) => deleteEvent(calId, event),
     onSuccess: (data, variables, toastId) => {
       toast.dismiss(toastId);
       toast.success("deleted");
-      queryClient.invalidateQueries(["events"], { exact: true });
+      invalidateEvents();
     },
     onError: (error, variables, context) => {
       toast.dismiss(context);
       toast.error("error");
-      queryClient.invalidateQueries(["events"], { exact: true });
+      invalidateEvents();
     },
     onMutate: () => {
       return toast.loading("deleting...");
     },
   });
   const updateEventMutation = useMutation({
-    mutationFn: updateEvent,
+    mutationFn: ({ calId, event }) => updateEvent(calId, event),
     onSuccess: (data, v, toastId) => {
       if (toastId) {
         toast.dismiss(toastId);
         toast.success("updated");
       }
-      queryClient.invalidateQueries(["events"], { exact: true });
+      invalidateEvents();
     },
     onError: (error, variables, context) => {
       toast.dismiss(context);
       toast.error("error");
-      queryClient.invalidateQueries(["events"], { exact: true });
+      invalidateEvents();
     },
 
     onMutate: (variables) => {
@@ -145,7 +155,7 @@ function Timetable() {
         dateTime: target.start.dateTime,
         timeZone: TimeZone,
       };
-      createEventMutation.mutate(event);
+      createEventMutation.mutate({ calId: semester.calendar_id, event });
       data.push(event);
       return;
       // const scheduler = schedulerRef.current?.instance();
@@ -188,11 +198,17 @@ function Timetable() {
     e.appointmentData.start.timeZone = TimeZone;
     e.appointmentData.end.timeZone = TimeZone;
     data.push(e.appointmentData);
-    createEventMutation.mutate(e.appointmentData);
+    createEventMutation.mutate({
+      calId: semester.calendar_id,
+      event: e.appointmentData,
+    });
     // e.cancel = false;
   }
   function onAppointmentDeleting(e: SchedulerTypes.AppointmentAddingEvent) {
-    deleteEventMutation.mutate(e.appointmentData);
+    deleteEventMutation.mutate({
+      calId: semester.calendar_id,
+      event: e.appointmentData,
+    });
     // removing appointment
     for (let i = 0; i < data.length; i++) {
       if (data[i].id == e.appointmentData.id) {
@@ -204,7 +220,10 @@ function Timetable() {
   function onAppointmentUpdating(e: SchedulerTypes.AppointmentUpdatingEvent) {
     fixRruleStr(e.newData, false);
     // console.log("update ", e.newData);
-    updateEventMutation.mutate(e.newData);
+    updateEventMutation.mutate({
+      calId: semester.calendar_id,
+      event: e.newData,
+    });
   }
 
   const appointmentTooltip = useCallback((props) => {
@@ -255,12 +274,22 @@ function Timetable() {
   console.log("render timetable");
   return (
     <div className="mt-5">
+      <div className="flex py-2 ">
+        <div>
+          <TimetableSwitch
+            semester={semester}
+            setSemester={setSemester}
+            teacher_subjects={teacher_subjects}
+          ></TimetableSwitch>
+        </div>
+      </div>
       <div className="flex justify-between">
         <Notification></Notification>
         <div className="flex space-x-2">
           <RefreshBtn
             queryClient={queryClient}
             isFetching={isFetching}
+            semester={semester}
           ></RefreshBtn>
           <Button
             variant="outline"
@@ -470,9 +499,11 @@ function fixEvents(events) {
 function RefreshBtn({
   queryClient,
   isFetching,
+  semester,
 }: {
   queryClient: QueryClient;
   isFetching: boolean;
+  semester: any;
 }) {
   return (
     <Button
@@ -481,7 +512,10 @@ function RefreshBtn({
       disabled={isFetching}
       onClick={async () => {
         const id = toast.loading("refreshing...");
-        await queryClient.invalidateQueries(["events"], { exact: true });
+        // await invalidateEvents()
+        await queryClient.invalidateQueries(["events", semester.id], {
+          exact: true,
+        });
         toast.dismiss(id);
         toast.success("refreshed");
       }}
@@ -499,52 +533,3 @@ function onAppointmentRendered(e) {
   e.appointmentElement.style.width = `${width}px`;
   // console.log(e.appointmentElement);
 }
-
-// function onAppointmentDblClick(e, schedulerRef, setRecurrDialogOpen) {
-//   // console.log(e.targetedAppointmentData);
-//   if (!e.targetedAppointmentData.recurrence) {
-//     return;
-//   }
-//   e.cancel = true;
-//   setRecurrDialogOpen(true);
-//   toast((t) => (
-//     <span>
-//       <button
-//         className="bg-green-300"
-//         onClick={() => {
-//           toast.dismiss(t.id);
-//           const scheduler = schedulerRef.current?.instance();
-//           // window.scheduler = scheduler;
-//           const { start, end, summary, extendedProperties } =
-//             e.targetedAppointmentData;
-//           const appointment = {
-//             start,
-//             end,
-//             summary,
-//             extendedProperties,
-//             excep: {
-//               parent: e.appointmentData,
-//               target: e.targetedAppointmentData,
-//             },
-//           };
-//           // appointment.recurrence = undefined;
-//           // console.log(appointment);
-//           scheduler?.showAppointmentPopup(appointment, true);
-//         }}
-//       >
-//         Take this event
-//       </button>
-
-//       <button
-//         className="ml-4 bg-red-400"
-//         onClick={() => {
-//           toast.dismiss(t.id);
-//           const scheduler = schedulerRef.current?.instance();
-//           scheduler?.showAppointmentPopup(e.appointmentData, false);
-//         }}
-//       >
-//         Edit series
-//       </button>
-//     </span>
-//   ));
-// }

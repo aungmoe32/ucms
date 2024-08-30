@@ -4,9 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
+  const calendar_id = request.nextUrl.searchParams.get("calendar_id");
   //   console.log(data);
   try {
-    const event = await insertEvent(data);
+    const event = await insertEvent(calendar_id!, data);
     sendPush({
       title: "New Event Inserted",
       body: "lorem fdsfmk",

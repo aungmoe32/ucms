@@ -7,8 +7,9 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   const data = await request.json();
+  const calendar_id = request.nextUrl.searchParams.get("calendar_id");
   //   console.log(data);
-  const event = await updateEvent(params.id, data);
+  const event = await updateEvent(params.id, calendar_id!, data);
   sendPush({
     title: "An event updated",
     body: "body",

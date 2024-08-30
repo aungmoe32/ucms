@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   Form,
   FormControl,
@@ -35,6 +35,8 @@ import { Majors, SemesterTerms, Years } from "@/lib/constants";
 import { Input } from "../ui/input";
 import color from "color-string";
 import SubjectColorPicker from "./SubjectColorPicker";
+import { useMutation } from "@tanstack/react-query";
+import { createSubject } from "@/lib/subject";
 
 const FormSchema = z.object({
   year: z.enum(Years),
@@ -50,22 +52,36 @@ const CreateSubjectBtn = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: "",
+      code: "",
     },
   });
   const formRef = useRef<HTMLFormElement>(null);
+  const createSubjectMutation = useMutation({
+    mutationFn: createSubject,
+    onSuccess: (data, variables, toastId) => {
+      // queryClient.setQueryData(["Events", data.id], data)
+      toast.dismiss(toastId);
+      toast.success("created");
+      // queryClient.invalidateQueries(["events"], { exact: true });
+    },
+    onError: (error, variables, context) => {
+      toast.dismiss(context);
+      toast.error("error");
+      // queryClient.invalidateQueries(["events"], { exact: true });
+    },
+    onMutate: () => {
+      return toast.loading("creating...");
+    },
+  });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  // const [openDelDialog, setOpenDelDialog] = useState(false);
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
+    await createSubjectMutation.mutateAsync(data);
   }
   return (
+    // <AlertDialog open={openDelDialog} onOpenChange={setOpenDelDialog}>
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button>Create Subject</Button>
@@ -77,7 +93,7 @@ const CreateSubjectBtn = () => {
             Create a subject for a semester
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <div className="max-h-[500px] overflow-scroll">
+        <div className="max-h-[500px] p-3 overflow-scroll">
           <Form {...form}>
             <form
               ref={formRef}
@@ -225,6 +241,7 @@ const CreateSubjectBtn = () => {
           {/* <AlertDialogAction> */}
           <Button
             type="button"
+            disabled={form.formState.isSubmitting}
             onClick={() => {
               // console.log(formRef);
               if (formRef.current) {

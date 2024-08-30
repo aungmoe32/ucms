@@ -11,6 +11,11 @@ dotenv.config({
   path: [".env.local", ".env"],
 });
 
+const isMini = true;
+const miniMajors = ["IT", "MC"];
+const miniYears = ["2"];
+const miniTerms = ["Second"];
+
 const isNeon = false;
 let db: any = null;
 if (isNeon) {
@@ -23,11 +28,14 @@ if (isNeon) {
 
 async function seed() {
   const uniqueCombinations = [];
+  const majors = isMini ? miniMajors : Majors;
+  const years = isMini ? miniYears : Years;
+  const terms = isMini ? miniTerms : SemesterTerms;
 
-  for (const major of Majors) {
-    for (const year of Years) {
-      for (const term of SemesterTerms) {
-        const combination = { major, year, term };
+  for (const major of majors) {
+    for (const year of years) {
+      for (const term of terms) {
+        const combination = { major, year, term, calendar_id: "" };
         uniqueCombinations.push(combination);
       }
     }
