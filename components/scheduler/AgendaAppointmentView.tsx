@@ -1,9 +1,21 @@
-import { getSubjectColor, getSubjectName } from "@/lib/subjects";
 import { SchedulerTypes } from "devextreme-react/cjs/scheduler";
 import React from "react";
 
-const AgendaAppointmentView = (e: SchedulerTypes.AppointmentRenderedEvent) => {
+const AgendaAppointmentView = (
+  e: SchedulerTypes.AppointmentRenderedEvent,
+  query: any
+) => {
   const appointment = e.appointmentData;
+
+  const getSubjectName = (id) => {
+    const name = query.data.find((cls) => cls.id == id)?.name;
+    return name;
+  };
+
+  const getSubjectColor = (id) => {
+    const name = query.data.find((cls) => cls.id == id)?.color;
+    return name;
+  };
   const color = getSubjectColor(
     appointment?.extendedProperties?.private?.classId
   );

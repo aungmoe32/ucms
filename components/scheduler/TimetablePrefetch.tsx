@@ -1,3 +1,4 @@
+import { subjectsListQuery } from "@/app/api/subjects/[semester_id]/route";
 import Notification from "@/components/scheduler/Notification";
 import Timetable from "@/components/scheduler/Timetable";
 import { getEvents } from "@/lib/calendar";
@@ -66,6 +67,14 @@ export default async function TimetablePrefetch({
     queryFn: async () => {
       const events = await getEvents(semester.calendar_id);
       return events;
+    },
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ["subjects", semester.id],
+    queryFn: async () => {
+      const data = await subjectsListQuery(semester.id);
+      return data;
     },
   });
 

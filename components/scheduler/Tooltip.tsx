@@ -4,7 +4,6 @@ import { Button } from "../ui/button";
 import moment from "moment";
 import { MdDelete } from "react-icons/md";
 
-import { getSubjectName } from "@/lib/subjects";
 import {
   Dialog,
   DialogContent,
@@ -46,11 +45,7 @@ const Tooltip = (props) => {
       <div className={"dx-tooltip-appointment-item-content"}>
         <div className={"dx-tooltip-appointment-item-content"}>
           <div className={"dx-tooltip-appointment-item-content-subject "}>
-            <span className=" text-lg">
-              {getSubjectName(
-                props.appointmentData?.extendedProperties?.private?.classId
-              )}
-            </span>
+            <span className=" text-lg">{props.subjectName}</span>
           </div>
           <div
             className={

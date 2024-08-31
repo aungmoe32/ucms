@@ -35,7 +35,7 @@ import { Majors, SemesterTerms, Years } from "@/lib/constants";
 import { Input } from "../ui/input";
 import color from "color-string";
 import SubjectColorPicker from "./SubjectColorPicker";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createSubject } from "@/lib/subject";
 
 const FormSchema = z.object({
@@ -47,7 +47,8 @@ const FormSchema = z.object({
   color: z.string().refine(colorValidator),
 });
 
-const CreateSubjectBtn = () => {
+const CreateSubjectBtn = ({ semester }) => {
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -62,6 +63,10 @@ const CreateSubjectBtn = () => {
       // queryClient.setQueryData(["Events", data.id], data)
       toast.dismiss(toastId);
       toast.success("created");
+
+      queryClient.invalidateQueries(["subjects", semester.id], {
+        exact: true,
+      });
       // queryClient.invalidateQueries(["events"], { exact: true });
     },
     onError: (error, variables, context) => {

@@ -24,7 +24,7 @@ import toast from "react-hot-toast";
 import { formatDateTime } from "@/lib/event";
 import { AppointmentView } from "./AppointmentView";
 import { TimeCell } from "./TimeCell";
-import { subjects, getSubjectColor } from "@/lib/subjects";
+import { getSubjects } from "@/lib/subjects";
 import { Button } from "../ui/button";
 import AgendaAppointmentView from "./AgendaAppointmentView";
 import Tooltip from "./Tooltip";
@@ -50,6 +50,11 @@ function Timetable({ teacher_subjects }: { teacher_subjects: any }) {
   const { data, error, isLoading, isFetching } = useQuery({
     queryKey: ["events", semester.id],
     queryFn: () => events(semester.calendar_id),
+    placeholderData: [],
+  });
+  const subjectQuery = useQuery({
+    queryKey: ["subjects", semester.id],
+    queryFn: () => getSubjects(semester.id),
     placeholderData: [],
   });
 
@@ -226,38 +231,56 @@ function Timetable({ teacher_subjects }: { teacher_subjects: any }) {
     });
   }
 
-  const appointmentTooltip = useCallback((props) => {
-    const scheduler: any = schedulerRef.current?.instance();
+  const appointmentTooltip = useCallback(
+    (props) => {
+      const scheduler: any = schedulerRef.current?.instance();
 
-    // NOTE: You can use props.appointmentData.resouceId to obtain resource color
-    const color = getSubjectColor(
-      props.appointmentData?.extendedProperties?.private?.classId
-    );
+      // NOTE: You can use props.appointmentData.resouceId to obtain resource color
 
-    // const isAppointmentDisabled = data.appointmentData.disabled;
-    const isDeleteAllowed =
-      (scheduler?.option("editing") &&
-        scheduler.option("editing.allowDeleting") === true) ||
-      scheduler.option("editing") === true;
-    // const isDeleteButtonExist = !isAppointmentDisabled && isDeleteAllowed;
-    const isDeleteButtonExist = isDeleteAllowed;
+      const getSubjectColor = (id) => {
+        const name = subjectQuery.data.find((cls) => cls.id == id)?.color;
+        return name;
+      };
 
-    const onDeleteButtonClick = (e) => {
-      scheduler.deleteAppointment(props.appointmentData);
-      e.stopPropagation();
-      // console.log(e);
-      scheduler.hideAppointmentTooltip();
-    };
+      const getSubjectName = (id) => {
+        const name = subjectQuery.data.find((cls) => cls.id == id)?.name;
+        return name;
+      };
+      const color = getSubjectColor(
+        props.appointmentData?.extendedProperties?.private?.classId
+      );
 
-    return (
-      <Tooltip
-        {...props}
-        isDeleteButtonExist={isDeleteButtonExist}
-        onDeleteButtonClick={onDeleteButtonClick}
-        color={color}
-      />
-    );
-  }, []);
+      const subjectName = getSubjectName(
+        props.appointmentData?.extendedProperties?.private?.classId
+      );
+
+      // const isAppointmentDisabled = data.appointmentData.disabled;
+      const isDeleteAllowed =
+        (scheduler?.option("editing") &&
+          scheduler.option("editing.allowDeleting") === true) ||
+        scheduler.option("editing") === true;
+      // const isDeleteButtonExist = !isAppointmentDisabled && isDeleteAllowed;
+      const isDeleteButtonExist = isDeleteAllowed;
+
+      const onDeleteButtonClick = (e) => {
+        scheduler.deleteAppointment(props.appointmentData);
+        e.stopPropagation();
+        // console.log(e);
+        scheduler.hideAppointmentTooltip();
+      };
+
+      return (
+        <Tooltip
+          {...props}
+          subjectName={subjectName}
+          isDeleteButtonExist={isDeleteButtonExist}
+          onDeleteButtonClick={onDeleteButtonClick}
+          color={color}
+        />
+      );
+    },
+    [subjectQuery.data]
+  );
 
   useEffect(() => {
     if (isLoading) toast("loading...");
@@ -308,7 +331,7 @@ function Timetable({ teacher_subjects }: { teacher_subjects: any }) {
           >
             Group By Subject
           </Button>
-          <CreateSubjectBtn></CreateSubjectBtn>
+          <CreateSubjectBtn semester={semester}></CreateSubjectBtn>
         </div>
       </div>
       <Scheduler
@@ -362,10 +385,13 @@ function Timetable({ teacher_subjects }: { teacher_subjects: any }) {
         editing={true}
       >
         <Resource
-          dataSource={subjects}
+          dataSource={subjectQuery.data}
           fieldExpr="extendedProperties.private.classId"
-          label="Class"
+          label="Subject"
           useColorAsDefault={true}
+          valueExpr={"id"}
+          displayExpr={"name"}
+          // colorExpr="color"
         />
         <View
           type="day"
@@ -380,7 +406,7 @@ function Timetable({ teacher_subjects }: { teacher_subjects: any }) {
         />
         <View
           type="agenda"
-          appointmentRender={AgendaAppointmentView}
+          appointmentRender={(e) => AgendaAppointmentView(e, subjectQuery)}
           // groupOrientation="vertical"
           groups={
             groupBySubject ? ["extendedProperties.private.classId"] : undefined
@@ -388,7 +414,7 @@ function Timetable({ teacher_subjects }: { teacher_subjects: any }) {
         />
         <View
           type="workWeek"
-          appointmentRender={AppointmentView}
+          appointmentRender={(e) => AppointmentView(e, subjectQuery)}
           // startDayHour={6}
           // endDayHour={22}
           cellDuration={60}
@@ -514,6 +540,9 @@ function RefreshBtn({
         const id = toast.loading("refreshing...");
         // await invalidateEvents()
         await queryClient.invalidateQueries(["events", semester.id], {
+          exact: true,
+        });
+        await queryClient.invalidateQueries(["subjects", semester.id], {
           exact: true,
         });
         toast.dismiss(id);
