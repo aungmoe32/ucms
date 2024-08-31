@@ -29,10 +29,44 @@ export const major = pgEnum("major", Majors);
 export const year = pgEnum("year", Years);
 export const term = pgEnum("semester_term", SemesterTerms);
 export const gender = pgEnum("gender", Gender);
+
 export const noti_subscriptions = pgTable("noti_subscriptions", {
   id: uuid("id").primaryKey().defaultRandom(),
   value: json("value").notNull(),
 });
+
+export const noti_semester = pgTable("noti_semester", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  noti_id: uuid("noti_id")
+    .references(() => noti_subscriptions.id)
+    .notNull(),
+  semester_id: uuid("semester_id")
+    .references(() => semesters.id)
+    .notNull(),
+});
+
+export const NotiSemesterRelations = relations(noti_semester, ({ one }) => {
+  return {
+    noti: one(noti_subscriptions, {
+      fields: [noti_semester.noti_id],
+      references: [noti_subscriptions.id],
+    }),
+    semesters: one(semesters, {
+      fields: [noti_semester.semester_id],
+      references: [semesters.id],
+    }),
+  };
+});
+
+export const NotiSubscriptionRelations = relations(
+  noti_subscriptions,
+  ({ one, many }) => {
+    return {
+      noti_semester: many(noti_semester),
+    };
+  }
+);
+
 export const users = pgTable(
   "users",
   {
@@ -151,6 +185,7 @@ export const semestersRelations = relations(semesters, ({ one, many }) => {
     subjects: many(subjects),
     exams: many(exams),
     timetable: one(timetables),
+    noti_semester: many(noti_semester),
   };
 });
 

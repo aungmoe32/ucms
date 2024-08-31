@@ -1,5 +1,5 @@
 {
-  "id": "80d98e42-bb06-49a8-9803-a502015c2c67",
+  "id": "4d0eb474-53c5-4d26-95cf-777e62bafd8c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -33,6 +33,62 @@
         "exams_semester_id_semesters_id_fk": {
           "name": "exams_semester_id_semesters_id_fk",
           "tableFrom": "exams",
+          "tableTo": "semesters",
+          "columnsFrom": [
+            "semester_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.noti_semester": {
+      "name": "noti_semester",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "noti_id": {
+          "name": "noti_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "semester_id": {
+          "name": "semester_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "noti_semester_noti_id_noti_subscriptions_id_fk": {
+          "name": "noti_semester_noti_id_noti_subscriptions_id_fk",
+          "tableFrom": "noti_semester",
+          "tableTo": "noti_subscriptions",
+          "columnsFrom": [
+            "noti_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "noti_semester_semester_id_semesters_id_fk": {
+          "name": "noti_semester_semester_id_semesters_id_fk",
+          "tableFrom": "noti_semester",
           "tableTo": "semesters",
           "columnsFrom": [
             "semester_id"
