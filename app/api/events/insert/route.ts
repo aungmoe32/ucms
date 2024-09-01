@@ -4,10 +4,10 @@ import { sendPush } from "@/lib/server-noti";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
-  const calendar_id = request.nextUrl.searchParams.get("calendar_id");
   //   console.log(data);
   try {
+    const data = await request.json();
+    const calendar_id = request.nextUrl.searchParams.get("calendar_id");
     if (!calendar_id) throw new Error();
     const event = await insertEvent(calendar_id!, data);
 
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     );
     return NextResponse.json(event);
   } catch (e) {
-    // console.error(e.message);
+    console.error(e);
     return NextResponse.json([], {
       status: 400,
     });

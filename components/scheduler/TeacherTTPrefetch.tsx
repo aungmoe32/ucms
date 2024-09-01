@@ -12,18 +12,11 @@ import {
 } from "@tanstack/react-query";
 import { InferSelectModel } from "drizzle-orm";
 import { z } from "zod";
-export default async function TimetablePrefetch({
-  searchParams,
-}: {
-  searchParams?: {
-    semester_id?: string;
-    // calendar_id?: string;
-  };
-}) {
-  const semester_id = searchParams?.semester_id;
+import TeacherTimetable from "./TeacherTimetable";
+export default async function TeacherTTPrefetch() {
+  // const semester_id = searchParams?.semester_id;
   // let calendar_id = searchParams?.calendar_id
   // let semester: InferSelectModel<typeof semesters>;
-  let teacher_subjects: any = [];
   // console.log("hi ", semester_id);
   // if (semester_id) {
   //   const sem = await db.query.semesters.findFirst({
@@ -33,6 +26,8 @@ export default async function TimetablePrefetch({
   //   semester = sem;
   //   teacher_subjects.push(sem);
   // }
+
+  let teacher_subjects: any = [];
 
   const userId = process.env.USER_ID;
   const user = await db.query.users.findFirst({
@@ -56,32 +51,36 @@ export default async function TimetablePrefetch({
       },
     },
   });
-  if (user?.teacher?.teacher_subject.length == 0)
+  if (!user?.teacher?.teacher_subject.length)
     return <div>You teach no semesters</div>;
   const semester = user?.teacher?.teacher_subject[0].subject.semester!;
   teacher_subjects = user?.teacher?.teacher_subject;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ["events", semester.id],
-    queryFn: async () => {
-      const events = await getEvents(semester.calendar_id);
-      return events;
-    },
-  });
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ["events", semester.id],
+      queryFn: async () => {
+        const events = await getEvents(semester.calendar_id);
+        return events;
+      },
+    }),
 
-  await queryClient.prefetchQuery({
-    queryKey: ["subjects", semester.id],
-    queryFn: async () => {
-      const data = await subjectsListQuery(semester.id);
-      return data;
-    },
-  });
+    queryClient.prefetchQuery({
+      queryKey: ["subjects", semester.id],
+      queryFn: async () => {
+        const data = await subjectsListQuery(semester.id);
+        return data;
+      },
+    }),
+  ]);
 
   return (
     <div className="mt-5">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Timetable teacher_subjects={teacher_subjects}></Timetable>
+        <TeacherTimetable
+          teacher_subjects={teacher_subjects}
+        ></TeacherTimetable>
       </HydrationBoundary>
     </div>
   );

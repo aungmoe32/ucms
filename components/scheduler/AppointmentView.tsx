@@ -5,18 +5,18 @@ import { FaRepeat } from "react-icons/fa6";
 
 export function AppointmentView(
   e: SchedulerTypes.AppointmentRenderedEvent,
-  query: any
+  subjects: any
 ) {
   // console.log(e.appointmentData);
   const containerRef = useRef<any>(null);
   const appointment = e.appointmentData;
 
   const getSubjectName = (id) => {
-    const name = query.data.find((cls) => cls.id == id)?.name;
+    const name = subjects.find((cls) => cls.id == id)?.name;
     return name;
   };
   const getSubjectColor = (id) => {
-    const name = query.data.find((cls) => cls.id == id)?.color;
+    const name = subjects.find((cls) => cls.id == id)?.color;
     return name;
   };
   const color = getSubjectColor(

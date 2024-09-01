@@ -3,17 +3,17 @@ import React from "react";
 
 const AgendaAppointmentView = (
   e: SchedulerTypes.AppointmentRenderedEvent,
-  query: any
+  subjects: any
 ) => {
   const appointment = e.appointmentData;
 
   const getSubjectName = (id) => {
-    const name = query.data.find((cls) => cls.id == id)?.name;
+    const name = subjects.find((cls) => cls.id == id)?.name;
     return name;
   };
 
   const getSubjectColor = (id) => {
-    const name = query.data.find((cls) => cls.id == id)?.color;
+    const name = subjects.find((cls) => cls.id == id)?.color;
     return name;
   };
   const color = getSubjectColor(
@@ -27,7 +27,7 @@ const AgendaAppointmentView = (
       <div
         className="flex items-center justify-center rounded-full aspect-square text-white"
         style={{
-          backgroundColor: color,
+          backgroundColor: color ? color : "#2C80FF",
         }}
       >
         {getSubjectName(appointment?.extendedProperties?.private?.classId)}

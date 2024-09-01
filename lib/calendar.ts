@@ -66,7 +66,7 @@ export const insertEvent = async (
   calendar_id: string,
   requestBody: calendar_v3.Schema$Event
 ) => {
-  // console.log(calendar_id, requestBody);
+  console.log(calendar_id, requestBody);
   const resp = await calendar.events.insert({
     calendarId: calendar_id,
     requestBody,

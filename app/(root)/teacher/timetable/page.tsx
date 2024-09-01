@@ -11,7 +11,7 @@ import { FaSearch } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import { FiDownload } from "react-icons/fi";
 import Link from "next/link";
-import TimetablePrefetch from "@/components/scheduler/TimetablePrefetch";
+import TeacherTTPrefetch from "@/components/scheduler/TeacherTTPrefetch";
 import { FormControl } from "@/components/ui/form";
 import { Majors } from "@/lib/constants";
 import { ChromePicker } from "react-color";
@@ -93,7 +93,7 @@ const Page = ({
         </div> */}
         {/* <StudentTimetable role="teacher" /> */}
         <Suspense fallback={<div>loading time table...</div>}>
-          <TimetablePrefetch searchParams={searchParams}></TimetablePrefetch>
+          <TeacherTTPrefetch></TeacherTTPrefetch>
         </Suspense>
       </div>
     </main>

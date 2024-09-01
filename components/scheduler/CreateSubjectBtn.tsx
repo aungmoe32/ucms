@@ -47,7 +47,7 @@ const FormSchema = z.object({
   color: z.string().refine(colorValidator),
 });
 
-const CreateSubjectBtn = ({ semester }) => {
+const CreateSubjectBtn = ({ refreshSubjects }) => {
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -63,11 +63,7 @@ const CreateSubjectBtn = ({ semester }) => {
       // queryClient.setQueryData(["Events", data.id], data)
       toast.dismiss(toastId);
       toast.success("created");
-
-      queryClient.invalidateQueries(["subjects", semester.id], {
-        exact: true,
-      });
-      // queryClient.invalidateQueries(["events"], { exact: true });
+      refreshSubjects();
     },
     onError: (error, variables, context) => {
       toast.dismiss(context);

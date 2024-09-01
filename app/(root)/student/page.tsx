@@ -3,7 +3,7 @@ import React, { Suspense } from "react";
 import EventCard from "@/components/shared/EventCard";
 import StudentCard from "@/components/shared/StudentCard";
 import StudentTimetable from "@/components/shared/StudentTimetable";
-import TimetablePrefetch from "@/components/scheduler/TimetablePrefetch";
+import TimetablePrefetch from "@/components/scheduler/TeacherTTPrefetch";
 
 const Student = () => {
   return (
