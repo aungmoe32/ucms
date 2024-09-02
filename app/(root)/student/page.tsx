@@ -4,6 +4,7 @@ import EventCard from "@/components/shared/EventCard";
 import StudentCard from "@/components/shared/StudentCard";
 import StudentTimetable from "@/components/shared/StudentTimetable";
 import TimetablePrefetch from "@/components/scheduler/TeacherTTPrefetch";
+import StudentTTPrefetch from "@/components/scheduler/StudentTTPrefetch";
 
 const Student = () => {
   return (
@@ -26,7 +27,7 @@ const Student = () => {
             <p className=" text-2xl font-semibold">Timetable</p>
             {/* <StudentTimetable /> */}
             <Suspense fallback={<div>loading time table...</div>}>
-              <TimetablePrefetch></TimetablePrefetch>
+              <StudentTTPrefetch></StudentTTPrefetch>
             </Suspense>
           </article>
 

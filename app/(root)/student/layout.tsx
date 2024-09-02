@@ -9,13 +9,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <QueryProvider>
+    <>
       <Menu role="student" />
       <div className="h-full ml-[300px]">
         <Navbar />
         {children}
       </div>
       <Toaster></Toaster>
-    </QueryProvider>
+    </>
   );
 }

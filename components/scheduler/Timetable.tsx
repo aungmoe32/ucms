@@ -30,12 +30,16 @@ function Timetable({
   subjects,
   refreshEvents,
   refreshSubjects,
+  disableCreateSubject,
+  disabled
 }: {
   semester: any;
   events: any;
   subjects: any;
   refreshEvents: any;
   refreshSubjects: any;
+  disableCreateSubject: any;
+  disabled: any;
 }) {
   const queryClient = useQueryClient();
 
@@ -87,14 +91,18 @@ function Timetable({
           >
             Group By Subject
           </Button> */}
-          <CreateSubjectBtn
-            refreshSubjects={refreshSubjects}
-          ></CreateSubjectBtn>
+          {
+            !disableCreateSubject &&
+            <CreateSubjectBtn
+              refreshSubjects={refreshSubjects}
+            ></CreateSubjectBtn>
+          }
         </div>
       </div>
       <Scheduler
         id="scheduler"
         dataSource={fixEvents(events)}
+        // disabled={disabled}
         ref={schedulerRef}
         startDateExpr="start.dateTime"
         endDateExpr="end.dateTime"
@@ -146,7 +154,7 @@ function Timetable({
         // height={500}
         allDayPanelMode="hidden"
         maxAppointmentsPerCell={1}
-        editing={true}
+        editing={!disabled}
       >
         <Resource
           dataSource={subjects}
@@ -155,7 +163,7 @@ function Timetable({
           useColorAsDefault={true}
           valueExpr={"id"}
           displayExpr={"name"}
-          // colorExpr="color"
+        // colorExpr="color"
         />
         <View
           type="day"
@@ -182,10 +190,10 @@ function Timetable({
           // startDayHour={6}
           // endDayHour={22}
           cellDuration={60}
-          // offset={0}
+        // offset={0}
         />
         {/* <View type="month" /> */}
-        <Editing allowDragging />
+        <Editing allowResizing={false} allowTimeZoneEditing={false} />
       </Scheduler>
       <RecurrenceDialog
         recurrEditEvent={recurrEditEvent}
