@@ -29,14 +29,41 @@ const calendar = google.calendar("v3");
 const CalenderID =
   "3d93cb1ef9e3fbbd6e0a9a685c474695ee7ac02c6efccb7a4400b716872a55d5@group.calendar.google.com";
 
+export const getSubjectEvents = async (
+  subjects: { id: string; semester: { calendar_id: string } }[]
+) => {
+  noStore();
+  const total = [];
+
+  await Promise.all([
+    ...subjects.map((subject) => {
+      const calId = subject.semester.calendar_id;
+      return getEvents(calId, subject.id).then((events) => {
+        events.map((e) => (e.calendarId = calId));
+        total.push(...events);
+        return events;
+      });
+    }),
+  ]);
+
+  // console.log("items ", resp.data);
+  return total;
+};
 export const getEvents = async (
-  calendar_id
+  calendar_id,
+  subjectId
 ): Promise<calendar_v3.Schema$Event[]> => {
   noStore();
-  const resp = await calendar.events.list({
+  const body = {
     calendarId: calendar_id,
     maxResults: 100,
-  });
+  };
+  if (subjectId) body.privateExtendedProperty = ["classId=" + subjectId];
+
+  const resp = await calendar.events.list(body);
+
+  if (resp.data.items)
+    resp.data.items.forEach((event) => (event.calendarId = calendar_id));
 
   // console.log("items ", resp.data);
   return resp.data.items || [];

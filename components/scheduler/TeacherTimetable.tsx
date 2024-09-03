@@ -78,6 +78,9 @@ const TeacherTimetable = ({ teacher_subjects }: { teacher_subjects: any }) => {
         subjects={subjects}
         refreshEvents={refreshEvents}
         refreshSubjects={refreshSubjects}
+        disableCreateSubject={false}
+        disabled={false}
+        allowAdd={true}
       ></Timetable>
     </div>
   );

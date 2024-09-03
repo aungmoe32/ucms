@@ -1,13 +1,18 @@
-"use client"
-import { events as getEvents } from '@/lib/event';
-import { getSubjects } from '@/lib/subjects';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useCallback } from 'react'
-import Timetable from './Timetable';
+"use client";
+import { events as getEvents } from "@/lib/event";
+import { getSubjects } from "@/lib/subjects";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useCallback } from "react";
+import Timetable from "./Timetable";
 
 const StudentTimetable = ({ semester }) => {
   const queryClient = useQueryClient();
-  const { data: events, error, isLoading, isFetching } = useQuery({
+  const {
+    data: events,
+    error,
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ["events", semester.id],
     queryFn: () => getEvents(semester.calendar_id),
     placeholderData: [],
@@ -17,7 +22,6 @@ const StudentTimetable = ({ semester }) => {
     queryFn: () => getSubjects(semester.id),
     placeholderData: [],
   });
-
 
   const refreshEvents = useCallback(async () => {
     await queryClient.invalidateQueries(["events", semester.id], {
@@ -31,10 +35,18 @@ const StudentTimetable = ({ semester }) => {
     });
   }, [semester.id]);
 
-
   return (
-    <Timetable semester={semester} events={events} subjects={subjects} refreshEvents={refreshEvents} refreshSubjects={refreshSubjects} disableCreateSubject={true} disabled={true}></Timetable>
-  )
-}
+    <Timetable
+      semester={semester}
+      events={events}
+      subjects={subjects}
+      refreshEvents={refreshEvents}
+      refreshSubjects={refreshSubjects}
+      disableCreateSubject={true}
+      disabled={true}
+      allowAdd={false}
+    ></Timetable>
+  );
+};
 
-export default StudentTimetable
+export default StudentTimetable;

@@ -75,7 +75,7 @@ export const useMutations = (calId, refreshEvents) => {
     },
   });
   const deleteEventMutation = useMutation({
-    mutationFn: ({ event }) => deleteEvent(calId, event),
+    mutationFn: ({ event }) => deleteEvent(event),
     onSuccess: (data, variables, toastId) => {
       toast.dismiss(toastId);
       toast.success("deleted");
@@ -91,7 +91,7 @@ export const useMutations = (calId, refreshEvents) => {
     },
   });
   const updateEventMutation = useMutation({
-    mutationFn: ({ event }) => updateEvent(calId, event),
+    mutationFn: ({ event }) => updateEvent(event),
     onSuccess: (data, v, toastId) => {
       if (toastId) {
         toast.dismiss(toastId);

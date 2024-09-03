@@ -1,12 +1,14 @@
 import EventCalander from "@/components/shared/EventCalander";
 import TotalCard from "@/components/shared/TotalCard";
-import React from "react";
+import React, { Suspense } from "react";
 import { IoPeopleOutline } from "react-icons/io5";
 import { PiStudent } from "react-icons/pi";
 import { MdAccessTime } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import EventCard from "@/components/shared/EventCard";
 import TeacherTimelineTable from "@/components/shared/TeacherTimelineTable";
+import TeacherTTPrefetch from "@/components/scheduler/TeacherTTPrefetch";
+import TeacherTimelinePrefetch from "@/components/scheduler/TeacherTimelinePrefetch";
 
 const Admin = () => {
   const totalCardItems = [
@@ -36,7 +38,7 @@ const Admin = () => {
       <div className=" flex flex-row">
         <section className=" w-[74%] max-[1350px]:w-full h-full pr-5">
           {/* Total Card */}
-          <article className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3  gap-6">
+          {/* <article className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3  gap-6">
             {totalCardItems.map((item, index) => (
               <TotalCard
                 key={index}
@@ -46,12 +48,15 @@ const Admin = () => {
                 bgColor={item.bgColor}
               />
             ))}
-          </article>
+          </article> */}
 
           {/* Timeline Table */}
           <article className="mt-6 overflow-x-scroll no-scrollbar  p-6 bg-white shadow-gray-500 shadow-sm rounded-lg">
             <p className=" text-xl font-semibold">Today's Timeline</p>
-            <TeacherTimelineTable />
+            {/* <TeacherTimelineTable /> */}
+            <Suspense fallback={<div>loading...</div>}>
+              <TeacherTimelinePrefetch></TeacherTimelinePrefetch>
+            </Suspense>
           </article>
         </section>
 

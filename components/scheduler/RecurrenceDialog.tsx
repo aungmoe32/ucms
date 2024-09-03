@@ -10,12 +10,14 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
+import { randomInt, randomUUID } from "crypto";
 
 const RecurrenceDialog = ({
   recurrEditEvent,
   schedulerRef,
   recurrDialogOpen,
   setRecurrDialogOpen,
+  disableEditSeriesBtn,
 }) => {
   return (
     <Dialog open={recurrDialogOpen} onOpenChange={setRecurrDialogOpen}>
@@ -36,6 +38,7 @@ const RecurrenceDialog = ({
               const { start, end, summary, extendedProperties } =
                 recurrEditEvent.targetedAppointmentData;
               const appointment = {
+                // id: Math.random(),
                 start,
                 end,
                 summary,
@@ -46,14 +49,15 @@ const RecurrenceDialog = ({
                 },
               };
               // appointment.recurrence = undefined;
-              // console.log(appointment);
-              scheduler?.showAppointmentPopup(appointment, true);
+              console.log(appointment);
+              scheduler?.showAppointmentPopup(appointment, true, appointment);
             }}
           >
             Edit this event
           </Button>
           <Button
             type="button"
+            disabled={disableEditSeriesBtn}
             onClick={() => {
               const scheduler = schedulerRef.current?.instance();
               scheduler?.showAppointmentPopup(

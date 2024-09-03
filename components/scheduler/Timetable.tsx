@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 import AgendaAppointmentView from "./AgendaAppointmentView";
 import { AppointmentView } from "./AppointmentView";
 import { TimeCell } from "./TimeCell";
-
+import ArrayStore from "devextreme/data/array_store";
 import CreateSubjectBtn from "./CreateSubjectBtn";
 import RecurrenceDialog from "./RecurrenceDialog";
 import RefreshBtn from "./RefreshBtn";
@@ -31,7 +31,11 @@ function Timetable({
   refreshEvents,
   refreshSubjects,
   disableCreateSubject,
-  disabled
+  disabled,
+  allowAdd,
+  allowDelete,
+  isAgenda,
+  disableEditSeriesBtn,
 }: {
   semester: any;
   events: any;
@@ -40,6 +44,10 @@ function Timetable({
   refreshSubjects: any;
   disableCreateSubject: any;
   disabled: any;
+  allowAdd: any;
+  allowDelete: any;
+  isAgenda: any;
+  disableEditSeriesBtn: any;
 }) {
   const queryClient = useQueryClient();
 
@@ -91,17 +99,26 @@ function Timetable({
           >
             Group By Subject
           </Button> */}
-          {
-            !disableCreateSubject &&
+          {!disableCreateSubject && (
             <CreateSubjectBtn
               refreshSubjects={refreshSubjects}
             ></CreateSubjectBtn>
-          }
+          )}
         </div>
       </div>
       <Scheduler
         id="scheduler"
+        // currentView={isAgenda ? "agenda" : "workWeek"}
         dataSource={fixEvents(events)}
+        // dataSource={
+        //   new ArrayStore({
+        //     key: "id",
+        //     data: fixEvents(events),
+        //     onInserting: (value) => {
+        //       value.id = events.length + 1;
+        //     },
+        //   })
+        // }
         // disabled={disabled}
         ref={schedulerRef}
         startDateExpr="start.dateTime"
@@ -154,7 +171,12 @@ function Timetable({
         // height={500}
         allDayPanelMode="hidden"
         maxAppointmentsPerCell={1}
-        editing={!disabled}
+        editing={{
+          allowAdding: !disabled,
+          allowDeleting: !disabled && allowDelete,
+          allowUpdating: !disabled,
+          allowTimeZoneEditing: false,
+        }}
       >
         <Resource
           dataSource={subjects}
@@ -163,7 +185,7 @@ function Timetable({
           useColorAsDefault={true}
           valueExpr={"id"}
           displayExpr={"name"}
-        // colorExpr="color"
+          // colorExpr="color"
         />
         <View
           type="day"
@@ -190,12 +212,19 @@ function Timetable({
           // startDayHour={6}
           // endDayHour={22}
           cellDuration={60}
-        // offset={0}
+          // offset={0}
         />
         {/* <View type="month" /> */}
-        <Editing allowResizing={false} allowTimeZoneEditing={false} />
+        {/* <Editing
+          allowResizing={false}
+          allowTimeZoneEditing={false}
+          allowAdding={allowAdd}
+          allowDeleting={!disabled}
+          allowUpdating={!disabled}
+        /> */}
       </Scheduler>
       <RecurrenceDialog
+        disableEditSeriesBtn={disableEditSeriesBtn}
         recurrEditEvent={recurrEditEvent}
         schedulerRef={schedulerRef}
         recurrDialogOpen={recurrDialogOpen}

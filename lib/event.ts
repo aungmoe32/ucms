@@ -8,6 +8,11 @@ export const events = async (calendar_id: string) => {
   const res = await axios.get(`/api/events/list?calendar_id=${calendar_id}`);
   return res.data;
 };
+export const subjectEvents = async () => {
+  noStore();
+  const res = await axios.get(`/api/events/teach`);
+  return res.data;
+};
 
 export const createEvent = async (calendar_id: string, e) => {
   const event = await axios.post(
@@ -16,16 +21,18 @@ export const createEvent = async (calendar_id: string, e) => {
   );
   return event;
 };
-export const deleteEvent = async (calendar_id: string, e) => {
+export const deleteEvent = async (e) => {
+  // console.log(e);
   const event = await axios.post(
-    `/api/events/delete/${e.id}?calendar_id=${calendar_id}`
+    `/api/events/delete/${e.id}?calendar_id=${e.calendarId}`
   );
   return event;
 };
 
-export const updateEvent = async (calendar_id: string, e) => {
+export const updateEvent = async (e) => {
+  // console.log(e);
   const event = await axios.post(
-    `/api/events/patch/${e.id}?calendar_id=${calendar_id}`,
+    `/api/events/patch/${e.id}?calendar_id=${e.calendarId}`,
     e
   );
   return event;
