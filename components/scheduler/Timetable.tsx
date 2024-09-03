@@ -32,8 +32,8 @@ function Timetable({
   refreshSubjects,
   disableCreateSubject,
   disabled,
-  allowAdd,
-  allowDelete,
+  // allowAdd,
+  // allowDelete,
   isAgenda,
   disableEditSeriesBtn,
 }: {
@@ -44,8 +44,8 @@ function Timetable({
   refreshSubjects: any;
   disableCreateSubject: any;
   disabled: any;
-  allowAdd: any;
-  allowDelete: any;
+  // allowAdd: any;
+  // allowDelete: any;
   isAgenda: any;
   disableEditSeriesBtn: any;
 }) {
@@ -130,7 +130,7 @@ function Timetable({
         recurrenceExceptionExpr="exDate"
         // defaultCurrentDate={currentDate}
         currentDate={currentDate}
-        defaultCurrentView="workWeek"
+        defaultCurrentView={isAgenda ? "agenda" : "workWeek"}
         timeZone={TimeZone}
         // adaptivityEnabled={true}
         recurrenceEditMode="series"
@@ -171,12 +171,13 @@ function Timetable({
         // height={500}
         allDayPanelMode="hidden"
         maxAppointmentsPerCell={1}
-        editing={{
-          allowAdding: !disabled,
-          allowDeleting: !disabled && allowDelete,
-          allowUpdating: !disabled,
-          allowTimeZoneEditing: false,
-        }}
+        editing={!disabled}
+        // editing={{
+        //   allowAdding: !disabled,
+        //   allowDeleting: !disabled,
+        //   allowUpdating: !disabled,
+        //   allowTimeZoneEditing: false,
+        // }}
       >
         <Resource
           dataSource={subjects}
@@ -218,8 +219,8 @@ function Timetable({
         {/* <Editing
           allowResizing={false}
           allowTimeZoneEditing={false}
-          allowAdding={allowAdd}
-          allowDeleting={!disabled}
+          allowAdding={!disabled}
+          allowDeleting={!disabled && allowDelete}
           allowUpdating={!disabled}
         /> */}
       </Scheduler>

@@ -44,7 +44,7 @@ const StudentTimetable = ({ semester }) => {
       refreshSubjects={refreshSubjects}
       disableCreateSubject={true}
       disabled={true}
-      allowAdd={false}
+      // allowAdd={false}
     ></Timetable>
   );
 };

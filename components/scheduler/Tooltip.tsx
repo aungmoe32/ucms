@@ -35,7 +35,7 @@ const Tooltip = (props) => {
   const [openDelDialog, setOpenDelDialog] = useState(false);
 
   return (
-    <div className="relative p-3" onClick={(e) => e.stopPropagation()}>
+    <div className="relative p-3">
       <div className=" flex  flex-col space-y-2 items-start">
         <span className=" text-lg font-bold">{props.subjectName}</span>
 

@@ -15,8 +15,11 @@ export const subjectEvents = async () => {
 };
 
 export const createEvent = async (calendar_id: string, e) => {
+  // console.log(e);
   const event = await axios.post(
-    `/api/events/insert?calendar_id=${calendar_id}`,
+    `/api/events/insert?calendar_id=${
+      calendar_id ? calendar_id : e.calendarId
+    }`,
     e
   );
   return event;

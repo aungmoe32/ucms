@@ -39,6 +39,7 @@ const RecurrenceDialog = ({
                 recurrEditEvent.targetedAppointmentData;
               const appointment = {
                 // id: Math.random(),
+                calendarId: recurrEditEvent.appointmentData.calendarId,
                 start,
                 end,
                 summary,
@@ -49,7 +50,7 @@ const RecurrenceDialog = ({
                 },
               };
               // appointment.recurrence = undefined;
-              console.log(appointment);
+              console.log(recurrEditEvent);
               scheduler?.showAppointmentPopup(appointment, true, appointment);
             }}
           >
