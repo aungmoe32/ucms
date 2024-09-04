@@ -7,21 +7,10 @@ const AgendaAppointmentView = (
 ) => {
   const appointment = e.appointmentData;
 
-  const getSubjectName = (id) => {
-    const name = subjects.find((cls) => cls.id == id)?.name;
-    return name;
-  };
+  const subject = e.appointmentData.subject;
+  const color = subject?.color;
+  const name = subject?.name;
 
-  const getSubjectColor = (id) => {
-    const name = subjects.find((cls) => cls.id == id)?.color;
-    return name;
-  };
-  const color = getSubjectColor(
-    appointment?.extendedProperties?.private?.classId
-  );
-  //   const bg = `bg-[${color}]`;
-  //   console.log(bg);
-  // console.log(appointment);
   return (
     <div className="flex space-x-5">
       <div
@@ -30,17 +19,17 @@ const AgendaAppointmentView = (
           backgroundColor: color ? color : "#2C80FF",
         }}
       >
-        {getSubjectName(appointment?.extendedProperties?.private?.classId)}
+        {name}
       </div>
       <div className="flex flex-col">
-        <div className="font-bold ">{appointment?.summary}</div>
+        <div className="font-bold ">{appointment.title}</div>
         <small className="text-gray-500">
-          {new Date(appointment.start.dateTime).toLocaleString("en-US", {
+          {new Date(appointment.startDate).toLocaleString("en-US", {
             hour: "numeric",
             hour12: true,
           })}{" "}
           -{" "}
-          {new Date(appointment.end.dateTime).toLocaleString("en-US", {
+          {new Date(appointment.endDate).toLocaleString("en-US", {
             hour: "numeric",
             hour12: true,
           })}

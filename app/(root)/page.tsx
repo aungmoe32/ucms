@@ -1,8 +1,15 @@
-"use client";
 import SubjectColorPicker from "@/components/scheduler/SubjectColorPicker";
+import dynamic from "next/dynamic";
+import TT from "@/components/scheduler/Timetable/TT";
 import Link from "next/link";
+import TeacherTTPrefetch from "@/components/scheduler/Timetable/teacher/TeacherTTPrefetch";
+import { Suspense } from "react";
 
-export default function Home() {
+// const TT = dynamic(() => import("@/components/scheduler/TT"), {
+//   ssr: false,
+//   loading: () => <div>loading...</div>,
+// });
+export default async function Home() {
   return (
     <main className="p-8">
       <p>Home Page</p>
@@ -20,7 +27,11 @@ export default function Home() {
           <p>Student</p>
         </Link>
       </div>
-      <SubjectColorPicker></SubjectColorPicker>
+      {/* <SubjectColorPicker></SubjectColorPicker> */}
+
+      <Suspense fallback={<div>loading time table...</div>}>
+        <TeacherTTPrefetch></TeacherTTPrefetch>
+      </Suspense>
     </main>
   );
 }

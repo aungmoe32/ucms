@@ -1,5 +1,5 @@
-import { insertEvent } from "@/lib/calendar";
 import { db } from "@/lib/drizzle/db";
+import { insertEvent } from "@/lib/events";
 import { sendPush } from "@/lib/server-noti";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,20 +7,20 @@ export async function POST(request: NextRequest) {
   //   console.log(data);
   try {
     const data = await request.json();
-    const calendar_id = request.nextUrl.searchParams.get("calendar_id");
-    if (!calendar_id) throw new Error();
-    const event = await insertEvent(calendar_id!, data);
+    const semeseter_id = request.nextUrl.searchParams.get("semester_id");
+    if (!semeseter_id) throw new Error();
+    const event = await insertEvent(semeseter_id!, data);
 
     // console.log(subs);
-    const subs = await getNotiSubs(calendar_id);
+    // const subs = await getNotiSubs(semeseter_id);
 
-    await sendPush(
-      {
-        title: "New Event Created",
-        body: event.summary,
-      },
-      subs
-    );
+    // await sendPush(
+    //   {
+    //     title: "New Event Created",
+    //     body: event.summary,
+    //   },
+    //   subs
+    // );
     return NextResponse.json(event);
   } catch (e) {
     console.error(e);

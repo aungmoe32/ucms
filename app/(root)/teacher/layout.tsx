@@ -20,14 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <div>
-
       <Menu role="teacher" />
       <div className="h-full ml-[300px]">
         <Navbar />
         {children}
       </div>
-      <Toaster></Toaster>
     </div>
-
   );
 }

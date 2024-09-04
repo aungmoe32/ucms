@@ -106,6 +106,22 @@ export const students = pgTable("students", {
     .notNull(),
 });
 
+export const events = pgTable("events", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: text("title").notNull().default(""),
+  description: text("description").notNull().default(""),
+  recurrenceRule: text("recurrenceRule").default(""),
+  recurrenceException: text("recurrenceException").default(""),
+  startDate: text("startDate").notNull(),
+  endDate: text("endDate").notNull(),
+  semesterId: uuid("semester_id")
+    .references(() => semesters.id)
+    .notNull(),
+  subjectId: uuid("subject_id")
+    .references(() => subjects.id)
+    .notNull(),
+});
+
 export const semesters = pgTable("semesters", {
   id: uuid("id").primaryKey().defaultRandom(),
   term: term("semester_term").notNull(),
@@ -179,11 +195,25 @@ export const usersRelations = relations(users, ({ one, many }) => {
   };
 });
 
+export const eventsRelations = relations(events, ({ one, many }) => {
+  return {
+    semester: one(semesters, {
+      fields: [events.semesterId],
+      references: [semesters.id],
+    }),
+    subject: one(subjects, {
+      fields: [events.subjectId],
+      references: [subjects.id],
+    }),
+  };
+});
+
 export const semestersRelations = relations(semesters, ({ one, many }) => {
   return {
     students: many(students),
     subjects: many(subjects),
     exams: many(exams),
+    events: many(events),
     timetable: one(timetables),
     noti_semester: many(noti_semester),
   };
@@ -220,6 +250,7 @@ export const subjectsRelations = relations(subjects, ({ one, many }) => {
       references: [semesters.id],
     }),
     results: many(results),
+    events: many(events),
     teacher_subject: many(teacher_subject),
   };
 });

@@ -56,9 +56,9 @@ function fixRruleStr(event: any, remove: boolean) {
   }
 }
 
-export const useMutations = (calId, refreshEvents) => {
+export const useMutations = (semesterId, refreshEvents) => {
   const createEventMutation = useMutation({
-    mutationFn: ({ event }) => createEvent(calId, event),
+    mutationFn: ({ event }) => createEvent(semesterId, event),
     onSuccess: (data, variables, toastId) => {
       // queryClient.setQueryData(["Events", data.id], data)
       toast.dismiss(toastId);
@@ -118,44 +118,14 @@ export const useMutations = (calId, refreshEvents) => {
   };
 };
 
-export function onAppointmentAdding(
+export async function onAppointmentAdding(
   e: SchedulerTypes.AppointmentAddingEvent,
   events,
-  createEventMutation
+  createEventMutation,
+  subjects
 ) {
-  fixRruleStr(e.appointmentData, false);
-
-  // console.log("add ", e.appointmentData);
-
-  const excep = e.appointmentData.excep;
-  if (excep) {
-    const parent = excep.parent;
-    const target = excep.target;
-    const event = e.appointmentData;
-    event.recurrence = [];
-    event.recurringEventId = parent.id;
-    event.originalStartTime = {
-      dateTime: target.start.dateTime,
-      timeZone: TimeZone,
-    };
-    createEventMutation.mutate({ event });
-    events.push(event);
-    return;
-  }
-
-  const appo = e.appointmentData;
-  const classId = appo?.extendedProperties?.private?.classId;
-  if (appo && !classId) {
-    appo.extendedProperties = {
-      private: {
-        classId: "0",
-      },
-    };
-  }
-
-  e.appointmentData.start.timeZone = TimeZone;
-  e.appointmentData.end.timeZone = TimeZone;
-  events.push(e.appointmentData);
+  if (!e.appointmentData.subjectId)
+    e.appointmentData.subjectId = subjects.find((sub) => sub.name == ".").id;
   createEventMutation.mutate({
     event: e.appointmentData,
   });
@@ -169,19 +139,12 @@ export function onAppointmentDeleting(
   deleteEventMutation.mutate({
     event: e.appointmentData,
   });
-  // removing appointment
-  for (let i = 0; i < events.length; i++) {
-    if (events[i].id == e.appointmentData.id) {
-      events.splice(i, 1);
-      break;
-    }
-  }
 }
 export function onAppointmentUpdating(
   e: SchedulerTypes.AppointmentUpdatingEvent,
   updateEventMutation
 ) {
-  fixRruleStr(e.newData, false);
+  // fixRruleStr(e.newData, false);
   // console.log("update ", e.newData);
   updateEventMutation.mutate({
     event: e.newData,

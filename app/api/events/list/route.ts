@@ -1,11 +1,11 @@
-import { getEvents, insertEvent } from "@/lib/calendar";
+import { eventList } from "@/lib/events";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   // const data = await request.json();
-  const calendar_id = request.nextUrl.searchParams.get("calendar_id");
+  const semester_id = request.nextUrl.searchParams.get("semester_id");
   try {
-    const events = await getEvents(calendar_id);
+    const events = await eventList(semester_id);
     return NextResponse.json(events);
   } catch (e) {
     // console.log(e);

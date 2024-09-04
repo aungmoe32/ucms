@@ -3,9 +3,9 @@ import { unstable_noStore as noStore } from "next/cache";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_URL;
 
-export const events = async (calendar_id: string) => {
+export const getEvents = async (semester_id: string) => {
   noStore();
-  const res = await axios.get(`/api/events/list?calendar_id=${calendar_id}`);
+  const res = await axios.get(`/api/events/list?semester_id=${semester_id}`);
   return res.data;
 };
 export const subjectEvents = async () => {
@@ -14,30 +14,24 @@ export const subjectEvents = async () => {
   return res.data;
 };
 
-export const createEvent = async (calendar_id: string, e) => {
+export const createEvent = async (semester_id: string, e) => {
   // console.log(e);
+  e.id = undefined;
   const event = await axios.post(
-    `/api/events/insert?calendar_id=${
-      calendar_id ? calendar_id : e.calendarId
-    }`,
+    `/api/events/insert?semester_id=${semester_id}`,
     e
   );
   return event;
 };
 export const deleteEvent = async (e) => {
   // console.log(e);
-  const event = await axios.post(
-    `/api/events/delete/${e.id}?calendar_id=${e.calendarId}`
-  );
+  const event = await axios.post(`/api/events/delete/${e.id}`);
   return event;
 };
 
 export const updateEvent = async (e) => {
   // console.log(e);
-  const event = await axios.post(
-    `/api/events/patch/${e.id}?calendar_id=${e.calendarId}`,
-    e
-  );
+  const event = await axios.post(`/api/events/patch/${e.id}`, e);
   return event;
 };
 

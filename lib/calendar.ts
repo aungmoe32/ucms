@@ -2,6 +2,8 @@ import { calendar_v3, google } from "googleapis";
 const { v4: uuidv4 } = require("uuid");
 
 import { unstable_noStore as noStore } from "next/cache";
+import { db } from "./drizzle/db";
+import { events } from "./drizzle/schema";
 const credential = JSON.parse(
   Buffer.from(process.env.GOOGLE_SERVICE_KEY, "base64").toString()
 );
@@ -90,15 +92,16 @@ export const updateEvent = async (
   return resp.data;
 };
 export const insertEvent = async (
-  calendar_id: string,
+  semester_id: string,
   requestBody: calendar_v3.Schema$Event
 ) => {
-  console.log(calendar_id, requestBody);
-  const resp = await calendar.events.insert({
-    calendarId: calendar_id,
-    requestBody,
+  // console.log(semester_id, requestBody);
+
+  await db.insert(events).values({
+    ...requestBody,
+    title: requestBody.text,
+    subjectId: requestBody.sub,
   });
-  return resp.data;
 };
 
 export async function wachEvent() {

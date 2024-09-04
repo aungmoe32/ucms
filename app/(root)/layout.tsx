@@ -22,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} flex flex-row`}>
         <QueryProvider>{children}</QueryProvider>
+        <Toaster></Toaster>
       </body>
     </html>
   );

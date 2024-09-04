@@ -5,6 +5,8 @@ dotenv.config({
   path: [".env.local", ".env"],
 });
 
+console.log(process.env.DATABASE_URL!)
+
 export default defineConfig({
   schema: "./lib/drizzle/schema.ts",
   out: "./lib/drizzle/migrations",
