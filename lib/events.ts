@@ -16,17 +16,28 @@ export const eventList = async (semester_id: string) => {
 export const insertEvent = async (semester_id: string, requestBody) => {
   // console.log(semester_id, requestBody);
 
-  const data = await db.insert(events).values({
-    ...requestBody,
-    // subjectId : requestBody.subject
-    semesterId: semester_id,
-  });
+  const data = await db
+    .insert(events)
+    .values({
+      ...requestBody,
+      // subjectId : requestBody.subject
+      semesterId: semester_id,
+    })
+    .returning({
+      title: events.title,
+    });
   return data;
 };
 
 export const deleteEvent = async (eventId: string) => {
-  await db.delete(events).where(eq(events.id, eventId));
-  return 1;
+  const event = await db
+    .delete(events)
+    .where(eq(events.id, eventId))
+    .returning({
+      semesterId: events.semesterId,
+      title: events.title,
+    });
+  return event[0];
 };
 
 export const updateEvent = async (eventId: string, requestBody: any) => {
@@ -36,6 +47,10 @@ export const updateEvent = async (eventId: string, requestBody: any) => {
       ...requestBody,
       // title: requestBody.text,
     })
-    .where(eq(events.id, eventId));
-  return event;
+    .where(eq(events.id, eventId))
+    .returning({
+      title: events.title,
+      semesterId: events.semesterId,
+    });
+  return event[0];
 };

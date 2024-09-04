@@ -13,15 +13,15 @@ export async function POST(
     // const calendar_id = request.nextUrl.searchParams.get("calendar_id");
 
     // if (!calendar_id) throw new Error();
-    await deleteEvent(params.id);
-    // const subs = await getNotiSubs(calendar_id);
-    // await sendPush(
-    //   {
-    //     title: "Event is deleted",
-    //     body: "",
-    //   },
-    //   subs
-    // );
+    const event = await deleteEvent(params.id);
+    const subs = await getNotiSubs(event.semesterId);
+    await sendPush(
+      {
+        title: "Event is deleted",
+        body: event.title,
+      },
+      subs
+    );
 
     return NextResponse.json({});
   } catch (e) {

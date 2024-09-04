@@ -12,15 +12,15 @@ export async function POST(request: NextRequest) {
     const event = await insertEvent(semeseter_id!, data);
 
     // console.log(subs);
-    // const subs = await getNotiSubs(semeseter_id);
+    const subs = await getNotiSubs(semeseter_id);
 
-    // await sendPush(
-    //   {
-    //     title: "New Event Created",
-    //     body: event.summary,
-    //   },
-    //   subs
-    // );
+    await sendPush(
+      {
+        title: "New Event Created",
+        body: event.title,
+      },
+      subs
+    );
     return NextResponse.json(event);
   } catch (e) {
     console.error(e);
@@ -30,9 +30,9 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export const getNotiSubs = async (calendar_id: string) => {
+export const getNotiSubs = async (semeseter_id: string) => {
   const sem = await db.query.semesters.findFirst({
-    where: (tb, funcs) => funcs.eq(tb.calendar_id, calendar_id),
+    where: (tb, funcs) => funcs.eq(tb.id, semeseter_id),
     with: {
       noti_semester: {
         with: {

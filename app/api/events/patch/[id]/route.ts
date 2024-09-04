@@ -15,15 +15,15 @@ export async function POST(
 
     // if (!calendar_id) throw new Error();
     const event = await updateEvent(params.id, data);
-
-    // const subs = await getNotiSubs(calendar_id);
-    // await sendPush(
-    //   {
-    //     title: "Event is updated",
-    //     body: event.summary,
-    //   },
-    //   subs
-    // );
+    // console.log(event);
+    const subs = await getNotiSubs(event.semesterId);
+    await sendPush(
+      {
+        title: "Event is updated",
+        body: event.title,
+      },
+      subs
+    );
 
     return NextResponse.json(event);
   } catch (e) {
