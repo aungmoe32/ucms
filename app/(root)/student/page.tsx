@@ -4,7 +4,7 @@ import EventCard from "@/components/shared/EventCard";
 import StudentCard from "@/components/shared/StudentCard";
 import StudentTimetable from "@/components/shared/StudentTimetable";
 import TimetablePrefetch from "@/components/scheduler/TeacherTTPrefetch";
-import StudentTTPrefetch from "@/components/scheduler/StudentTTPrefetch";
+import StudentTTPrefetch from "@/components/scheduler/Timetable/student/StudentTTPrefetch";
 
 const Student = () => {
   return (

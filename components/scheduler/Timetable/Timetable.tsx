@@ -26,6 +26,7 @@ const TT = ({
   refreshEvents,
   refreshSubjects,
   disableCreateSubject,
+  disabled,
 }) => {
   // console.log("render TT");
 
@@ -110,7 +111,7 @@ const TT = ({
         // height={500}
         allDayPanelMode="hidden"
         maxAppointmentsPerCell={1}
-        editing={true}
+        editing={!disabled}
         // editing={{
         //   allowAdding: !disabled,
         //   allowDeleting: !disabled,

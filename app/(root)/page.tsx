@@ -28,10 +28,6 @@ export default async function Home() {
         </Link>
       </div>
       {/* <SubjectColorPicker></SubjectColorPicker> */}
-
-      <Suspense fallback={<div>loading time table...</div>}>
-        <TeacherTTPrefetch></TeacherTTPrefetch>
-      </Suspense>
     </main>
   );
 }
