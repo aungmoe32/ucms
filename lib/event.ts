@@ -1,5 +1,6 @@
 import axios from "axios";
 import { unstable_noStore as noStore } from "next/cache";
+import toast from "react-hot-toast";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_URL;
 
@@ -16,6 +17,10 @@ export const subjectEvents = async () => {
 
 export const createEvent = async (semester_id: string, e) => {
   // console.log(e);
+  if (!semester_id) {
+    toast.error("Currently not supported");
+    throw new Error();
+  }
   e.id = undefined;
   const event = await axios.post(
     `/api/events/insert?semester_id=${semester_id}`,

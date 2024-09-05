@@ -124,8 +124,16 @@ export async function onAppointmentAdding(
   createEventMutation,
   subjects
 ) {
-  if (!e.appointmentData.subjectId)
-    e.appointmentData.subjectId = subjects.find((sub) => sub.name == ".").id;
+  if (!e.appointmentData.subjectId) {
+    // const defaultSubject = subjects.find((sub) => sub.name == ".");
+    // if (!defaultSubject) {
+    toast.error("Please also choose subject");
+    e.cancel = true;
+    return;
+    // }
+    // e.appointmentData.subjectId = defaultSubject.id;
+  }
+
   createEventMutation.mutate({
     event: e.appointmentData,
   });

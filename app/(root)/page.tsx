@@ -4,6 +4,7 @@ import TT from "@/components/scheduler/Timetable/TT";
 import Link from "next/link";
 import TeacherTTPrefetch from "@/components/scheduler/Timetable/teacher/TeacherTTPrefetch";
 import { Suspense } from "react";
+import Notification from "@/components/scheduler/Notification";
 
 // const TT = dynamic(() => import("@/components/scheduler/TT"), {
 //   ssr: false,
@@ -28,6 +29,7 @@ export default async function Home() {
         </Link>
       </div>
       {/* <SubjectColorPicker></SubjectColorPicker> */}
+      <Notification></Notification>
     </main>
   );
 }
