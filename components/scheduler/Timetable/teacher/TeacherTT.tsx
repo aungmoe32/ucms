@@ -77,7 +77,7 @@ const TeacherTT = ({
   //   });
   return (
     <div>
-      <div className="flex py-2 ">
+      <div className="flex py-2 items-center justify-end w-full">
         <div>
           <TimetableSwitch
             semester={semester}

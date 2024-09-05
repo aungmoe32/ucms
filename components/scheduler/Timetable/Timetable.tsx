@@ -46,7 +46,7 @@ const TT = ({
     <div>
       <div className="flex justify-between">
         <Notification></Notification>
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 items-center">
           <RefreshBtn
             refreshEvents={refreshEvents}
             refreshSubjects={refreshSubjects}
