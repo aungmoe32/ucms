@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { use, useCallback } from "react";
 import {
   Select,
   SelectContent,
@@ -11,6 +11,17 @@ import {
 } from "@/components/ui/select";
 
 const TimetableSwitch = ({ semester, setSemester, teacher_subjects }) => {
+  const sems = useCallback(() => {
+    return [
+      ...new Map(
+        teacher_subjects.map((ts) => [
+          ts.subject.semester.id,
+          ts.subject.semester,
+        ])
+      ).values(),
+    ];
+  }, [teacher_subjects]);
+  // console.log(sems());
   return (
     <Select
       defaultValue={semester.id}
@@ -20,10 +31,7 @@ const TimetableSwitch = ({ semester, setSemester, teacher_subjects }) => {
         //   teacher_subjects.find((ts: any) => ts.subject.semester.id == id)
         //     .subject.semester
         // );
-        setSemester(
-          teacher_subjects.find((ts: any) => ts.subject.semester.id == id)
-            .subject.semester
-        );
+        setSemester(sems().find((sem) => sem.id == id));
       }}
     >
       <SelectTrigger className="">
@@ -32,12 +40,9 @@ const TimetableSwitch = ({ semester, setSemester, teacher_subjects }) => {
       <SelectContent>
         <SelectGroup>
           {/* <SelectLabel>Fruits</SelectLabel> */}
-          {teacher_subjects.map((teacher_subject: any) => (
-            <SelectItem
-              key={teacher_subject.id}
-              value={teacher_subject.subject.semester.id}
-            >
-              {selectName(teacher_subject.subject.semester)}
+          {sems().map((sem: any) => (
+            <SelectItem key={sem.id} value={sem.id}>
+              {selectName(sem)}
             </SelectItem>
           ))}
         </SelectGroup>

@@ -22,8 +22,8 @@ export function AppointmentView(
   // console.log(e);
   return (
     <div className="" ref={containerRef}>
-      <p className="font-bold">{subject?.name}</p>
-      <small>{appointment?.title}</small>
+      <p className="font-bold text-md">{subject?.name}</p>
+      <p>{appointment?.title}</p>
       {appointment.recurrenceRule && (
         <div className="absolute top-0 right-0 p-1">
           <FaRepeat />

@@ -19,7 +19,7 @@ export default async function Home() {
           href="/teacher"
           className="bg-green-500 text-white p-3 rounded-lg text-lg"
         >
-          <p>Teacher</p>
+          <li className=" list-disc">Teacher</li>
         </Link>
         <Link
           href="/student"
