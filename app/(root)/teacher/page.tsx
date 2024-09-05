@@ -7,8 +7,7 @@ import { MdAccessTime } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import EventCard from "@/components/shared/EventCard";
 import TeacherTimelineTable from "@/components/shared/TeacherTimelineTable";
-import TeacherTTPrefetch from "@/components/scheduler/TeacherTTPrefetch";
-import TeacherTimelinePrefetch from "@/components/scheduler/TeacherTimelinePrefetch";
+import TeacherTimelinePrefetch from "@/components/scheduler/Timetable/teacher/TeacherTimelinePrefetch";
 
 const Admin = () => {
   const totalCardItems = [

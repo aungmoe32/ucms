@@ -9,7 +9,7 @@ export default function RefreshBtn({ refreshEvents, refreshSubjects }) {
   const refresh = async () => {
     setBtnDisabled(true);
     const id = toast.loading("refreshing...");
-    await refreshEvents();
+    if (refreshEvents) await refreshEvents();
     // await Promise.all([refreshEvents(), refreshSubjects && refreshSubjects()]);
     toast.dismiss(id);
     toast.success("refreshed");

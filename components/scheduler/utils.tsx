@@ -63,12 +63,12 @@ export const useMutations = (semesterId, refreshEvents) => {
       // queryClient.setQueryData(["Events", data.id], data)
       toast.dismiss(toastId);
       toast.success("added");
-      refreshEvents();
+      if (refreshEvents) refreshEvents();
     },
     onError: (error, variables, context) => {
       toast.dismiss(context);
       toast.error("error");
-      refreshEvents();
+      if (refreshEvents) refreshEvents();
     },
     onMutate: () => {
       return toast.loading("adding...");
@@ -79,12 +79,12 @@ export const useMutations = (semesterId, refreshEvents) => {
     onSuccess: (data, variables, toastId) => {
       toast.dismiss(toastId);
       toast.success("deleted");
-      refreshEvents();
+      if (refreshEvents) refreshEvents();
     },
     onError: (error, variables, context) => {
       toast.dismiss(context);
       toast.error("error");
-      refreshEvents();
+      if (refreshEvents) refreshEvents();
     },
     onMutate: () => {
       return toast.loading("deleting...");
@@ -97,12 +97,12 @@ export const useMutations = (semesterId, refreshEvents) => {
         toast.dismiss(toastId);
         toast.success("updated");
       }
-      refreshEvents();
+      if (refreshEvents) refreshEvents();
     },
     onError: (error, variables, context) => {
       toast.dismiss(context);
       toast.error("error");
-      refreshEvents();
+      if (refreshEvents) refreshEvents();
     },
 
     onMutate: (variables) => {

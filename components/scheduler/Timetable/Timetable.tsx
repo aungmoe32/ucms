@@ -27,6 +27,7 @@ const TT = ({
   refreshSubjects,
   disableCreateSubject,
   disabled,
+  isAgenda,
 }) => {
   // console.log("render TT");
 
@@ -87,7 +88,7 @@ const TT = ({
         // recurrenceExceptionExpr="exDate"
         // defaultCurrentDate={currentDate}
         currentDate={currentDate}
-        defaultCurrentView="workWeek"
+        defaultCurrentView={isAgenda ? "agenda" : "workWeek"}
         timeZone={TimeZone}
         // adaptivityEnabled={true}
         // recurrenceEditMode="series"
