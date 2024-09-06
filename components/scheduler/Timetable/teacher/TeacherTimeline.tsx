@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 const TeacherTimeline = ({
   subjects,
   events,
+  eventTypes
 }: {
   subjects: [];
   events: any;
@@ -36,8 +37,8 @@ const TeacherTimeline = ({
         disableCreateSubject={true}
         disabled={false}
         // allowAdd={false}
-        isAgenda={true}
-        // allowDelete={false}
+        isAgenda={true} eventTypes={eventTypes}        // allowDelete={false}
+        recurrEditMode="occurrence"
       ></Timetable>
     </div>
     // <div></div>

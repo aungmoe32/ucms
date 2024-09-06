@@ -17,16 +17,23 @@ export const subjectEvents = async () => {
 
 export const createEvent = async (semester_id: string, e) => {
   // console.log(e);
-  if (!semester_id) {
+  let semId = null
+  if(e.semesterId) semId = e.semesterId 
+  else if(semester_id) semId = semester_id
+
+  if(semId) {
+    e.id = undefined;
+    const event = await axios.post(
+      `/api/events/insert?semester_id=${semId}`,
+      e
+    );
+    return event;
+  }
+  else {
     toast.error("Currently not supported");
     throw new Error();
   }
-  e.id = undefined;
-  const event = await axios.post(
-    `/api/events/insert?semester_id=${semester_id}`,
-    e
-  );
-  return event;
+
 };
 export const deleteEvent = async (e) => {
   // console.log(e);

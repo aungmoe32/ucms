@@ -28,6 +28,12 @@ EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "eventTypes" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" text NOT NULL,
+	"color" text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "events" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"title" text DEFAULT '' NOT NULL,
@@ -37,7 +43,8 @@ CREATE TABLE IF NOT EXISTS "events" (
 	"startDate" text NOT NULL,
 	"endDate" text NOT NULL,
 	"semester_id" uuid NOT NULL,
-	"subject_id" uuid NOT NULL
+	"subject_id" uuid NOT NULL,
+	"event_type_id" uuid NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "exams" (
@@ -126,6 +133,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "events" ADD CONSTRAINT "events_subject_id_subjects_id_fk" FOREIGN KEY ("subject_id") REFERENCES "public"."subjects"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "events" ADD CONSTRAINT "events_event_type_id_eventTypes_id_fk" FOREIGN KEY ("event_type_id") REFERENCES "public"."eventTypes"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

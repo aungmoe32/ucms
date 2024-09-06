@@ -9,6 +9,7 @@ export const eventList = async (semester_id: string) => {
     where: (tb, funcs) => funcs.eq(tb.semesterId, semester_id),
     with: {
       subject: true,
+      eventType : true
     },
   });
   return data;

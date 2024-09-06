@@ -26,6 +26,7 @@ export default async function TeacherTimelinePrefetch() {
                   events: {
                     with: {
                       subject: true,
+                      eventType: true
                     },
                   },
                 },
@@ -51,14 +52,17 @@ export default async function TeacherTimelinePrefetch() {
   //   });
 
   const events = user.teacher.teacher_subject.reduce((acc, ts) => {
+    // ts.subject.semester
     return acc.concat(ts.subject.events);
   }, []);
 
-  console.log(events);
+  const eventTypes = await db.query.eventTypes.findMany({});
+
+  // console.log(eventTypes);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TeacherTimeline subjects={subjects} events={events}></TeacherTimeline>
+      <TeacherTimeline subjects={subjects} events={events} eventTypes={eventTypes}></TeacherTimeline>
     </HydrationBoundary>
   );
 }

@@ -35,9 +35,11 @@ import Timetable from "../Timetable";
 const TeacherTT = ({
   teacher_subjects,
   sem,
+  eventTypes,
 }: {
   teacher_subjects: any;
   sem: any;
+  eventTypes: any;
 }) => {
   const queryClient = useQueryClient();
   const [semester, setSemester] = useState(sem);
@@ -90,10 +92,11 @@ const TeacherTT = ({
         semester={semester}
         events={data}
         subjects={subjects}
+        eventTypes={eventTypes}
         refreshEvents={refreshEvents}
         refreshSubjects={refreshSubjects}
         disableCreateSubject={false}
-        // allowAdd={true}
+      // allowAdd={true}
       ></Timetable>
     </div>
   );

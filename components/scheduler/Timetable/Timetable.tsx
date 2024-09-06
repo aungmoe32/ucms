@@ -1,5 +1,11 @@
 "use client";
-import { Editing, Resource, Scheduler, View } from "devextreme-react/scheduler";
+import {
+  Editing,
+  Resource,
+  Scheduler,
+  SchedulerTypes,
+  View,
+} from "devextreme-react/scheduler";
 import React, { useCallback, useState } from "react";
 import {
   TimeZone,
@@ -19,6 +25,7 @@ import CreateSubjectBtn from "../CreateSubjectBtn";
 import Notification from "../Notification";
 import { AppointmentView } from "../AppointmentView";
 import AgendaAppointmentView from "../AgendaAppointmentView";
+import Tooltip from "../Tooltip";
 const TT = ({
   semester,
   events,
@@ -28,10 +35,14 @@ const TT = ({
   disableCreateSubject,
   disabled,
   isAgenda,
+  eventTypes,
+  recurrEditMode = "dialog"
 }) => {
   // console.log("render TT");
 
   const [currentDate, setCurrentDate] = useState(Date.now());
+  const [openTooltip, setOpenTooltip] = useState(false);
+  const [clickedEvent, setClickedEvent] = useState(null);
 
   const { createEventMutation, updateEventMutation, deleteEventMutation } =
     useMutations(semester.id, refreshEvents);
@@ -82,6 +93,7 @@ const TT = ({
         // startDateExpr="start.dateTime"
         // endDateExpr="end.dateTime"
         textExpr="title"
+        recurrenceEditMode={recurrEditMode}
         // descriptionExpr="description"
         // recurrenceRuleExpr="recurrence[0]"
         // recurrenceExceptionExpr="extendedProperties.private.exDate"
@@ -101,24 +113,59 @@ const TT = ({
         onAppointmentUpdating={(e) =>
           onAppointmentUpdating(e, updateEventMutation)
         }
+        onAppointmentFormOpening={(
+          e: SchedulerTypes.AppointmentFormOpeningEvent
+        ) => {
+          // console.log(e.form.items);
+          const form = e.form;
+          let mainGroupItems = form.itemOption("mainGroup").items;
+          // console.log(mainGroupItems)
+          const titleInput = mainGroupItems.find(i => i.dataField === "title")
+          titleInput.label.text = "Title"
+          // if (
+          //   !mainGroupItems.find(function (i) {
+          //     return i.dataField === "eventTypeId";
+          //   })
+          // ) {
+          //   mainGroupItems.push({
+          //     label: {
+          //       text: "Event Type",
+          //     },
+          //     editorType: "dxSelectBox",
+          //     dataField: "eventTypeId",
+          //     editorOptions: {
+          //       items: eventTypes,
+          //       displayExpr: "name",
+          //       valueExpr: "id",
+          //     },
+          //   });
+          //   form.itemOption("mainGroup", "items", mainGroupItems);
+          // }
+        }}
         cellDuration={60}
         timeCellComponent={TimeCell}
         onOptionChanged={handlePropertyChange}
         // dataCellComponent={DataCell}
         onAppointmentRendered={(e) => onAppointmentRendered(e)}
-        // appointmentTooltipRender={tooltip}
+        onAppointmentClick={(e) => {
+          e.cancel = true
+          // console.log(e)
+          setClickedEvent(e)
+          setOpenTooltip(true)
+        }}
+        // appointmentTooltipRender={Tooltip}
         startDayHour={9}
         endDayHour={16}
         // height={500}
         allDayPanelMode="hidden"
         maxAppointmentsPerCell={1}
         editing={!disabled}
-        // editing={{
-        //   allowAdding: !disabled,
-        //   allowDeleting: !disabled,
-        //   allowUpdating: !disabled,
-        //   allowTimeZoneEditing: false,
-        // }}
+      // editing={{
+      //   allowAdding: !disabled,
+      //   allowDeleting: !disabled,
+      //   allowUpdating: !disabled,
+      //   allowTimeZoneEditing: false,
+      // }}
       >
         <Resource
           dataSource={subjects}
@@ -127,26 +174,35 @@ const TT = ({
           useColorAsDefault={true}
           valueExpr={"id"}
           displayExpr={"name"}
-          // colorExpr="color"
+        // colorExpr="color"
+        />
+        <Resource
+          dataSource={eventTypes}
+          fieldExpr="eventTypeId"
+          label="Event Type"
+          useColorAsDefault={false}
+          valueExpr={"id"}
+          displayExpr={"name"}
+        // colorExpr="color"
         />
         <View
           type="day"
-          // appointmentRender={AgendaAppointmentView}
-          // startDayHour={6}
-          // endDayHour={22}
-          // cellDuration={60}
-          //   groupOrientation="horizontal"
-          //   groups={
-          //     groupBySubject ? ["extendedProperties.private.classId"] : undefined
-          //   }
+        // appointmentRender={AgendaAppointmentView}
+        // startDayHour={6}
+        // endDayHour={22}
+        // cellDuration={60}
+        //   groupOrientation="horizontal"
+        //   groups={
+        //     groupBySubject ? ["extendedProperties.private.classId"] : undefined
+        //   }
         />
         <View
           type="agenda"
           appointmentRender={(e) => AgendaAppointmentView(e, subjects)}
-          //   // groupOrientation="vertical"
-          // groups={
-          //   groupBySubject ? ["extendedProperties.private.classId"] : undefined
-          // }
+        //   // groupOrientation="vertical"
+        // groups={
+        //   groupBySubject ? ["extendedProperties.private.classId"] : undefined
+        // }
         />
         <View
           type="workWeek"
@@ -154,9 +210,10 @@ const TT = ({
           //   // startDayHour={6}
           //   // endDayHour={22}
           cellDuration={60}
-          //   // offset={0}
+        //   // offset={0}
         />
       </Scheduler>
+      <Tooltip openDialog={openTooltip} setOpenDialog={setOpenTooltip} props={clickedEvent} enableEdit={!disabled}></Tooltip>
     </div>
   );
 };

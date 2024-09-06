@@ -13,8 +13,8 @@ import { Button } from "../ui/button";
 import { randomInt, randomUUID } from "crypto";
 
 const RecurrenceDialog = ({
-  recurrEditEvent,
-  schedulerRef,
+  e,
+  scheduler,
   recurrDialogOpen,
   setRecurrDialogOpen,
   disableEditSeriesBtn,
@@ -32,26 +32,26 @@ const RecurrenceDialog = ({
           <Button
             type="button"
             onClick={() => {
-              if (!recurrEditEvent) return;
-              const scheduler = schedulerRef.current?.instance();
+              if (!e) return;
+              // const scheduler = schedulerRef.current?.instance();
               // window.scheduler = scheduler;
-              const { start, end, summary, extendedProperties } =
-                recurrEditEvent.targetedAppointmentData;
-              const appointment = {
-                // id: Math.random(),
-                calendarId: recurrEditEvent.appointmentData.calendarId,
-                start,
-                end,
-                summary,
-                extendedProperties,
-                excep: {
-                  parent: recurrEditEvent.appointmentData,
-                  target: recurrEditEvent.targetedAppointmentData,
-                },
-              };
-              // appointment.recurrence = undefined;
-              console.log(recurrEditEvent);
-              scheduler?.showAppointmentPopup(appointment, true, appointment);
+              // const { start, end, summary, extendedProperties } =
+              //   recurrEditEvent.targetedAppointmentData;
+              // const appointment = {
+              //   // id: Math.random(),
+              //   calendarId: recurrEditEvent.appointmentData.calendarId,
+              //   start,
+              //   end,
+              //   summary,
+              //   extendedProperties,
+              //   excep: {
+              //     parent: recurrEditEvent.appointmentData,
+              //     target: recurrEditEvent.targetedAppointmentData,
+              //   },
+              // };
+              // // appointment.recurrence = undefined;
+              // console.log(recurrEditEvent);
+              // scheduler?.showAppointmentPopup(e.targetedAppointmentData, true, appointment);
             }}
           >
             Edit this event
@@ -60,9 +60,9 @@ const RecurrenceDialog = ({
             type="button"
             disabled={disableEditSeriesBtn}
             onClick={() => {
-              const scheduler = schedulerRef.current?.instance();
+              // const scheduler = schedulerRef.current?.instance();
               scheduler?.showAppointmentPopup(
-                recurrEditEvent.appointmentData,
+                e.appointmentData,
                 false
               );
             }}

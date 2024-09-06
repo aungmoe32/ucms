@@ -1,9 +1,38 @@
 {
-  "id": "84a3c1f4-af18-4c02-9a80-afd77e957b22",
+  "id": "93ae6b89-fd33-424f-859a-45b9f452d1f9",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.eventTypes": {
+      "name": "eventTypes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "color": {
+          "name": "color",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.events": {
       "name": "events",
       "schema": "",
@@ -66,6 +95,12 @@
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
+        },
+        "event_type_id": {
+          "name": "event_type_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -89,6 +124,19 @@
           "tableTo": "subjects",
           "columnsFrom": [
             "subject_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "events_event_type_id_eventTypes_id_fk": {
+          "name": "events_event_type_id_eventTypes_id_fk",
+          "tableFrom": "events",
+          "tableTo": "eventTypes",
+          "columnsFrom": [
+            "event_type_id"
           ],
           "columnsTo": [
             "id"

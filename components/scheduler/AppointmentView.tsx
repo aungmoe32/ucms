@@ -24,6 +24,11 @@ export function AppointmentView(
     <div className="" ref={containerRef}>
       <p className="font-bold text-md">{subject?.name}</p>
       <p>{appointment?.title}</p>
+      {
+        appointment.eventType?.name != "None" && <div className="absolute bottom-1 right-1 p-1 rounded-full bg-black">
+        </div>
+      }
+
       {appointment.recurrenceRule && (
         <div className="absolute top-0 right-0 p-1">
           <FaRepeat />

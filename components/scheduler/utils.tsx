@@ -127,13 +127,18 @@ export async function onAppointmentAdding(
   if (!e.appointmentData.subjectId) {
     // const defaultSubject = subjects.find((sub) => sub.name == ".");
     // if (!defaultSubject) {
-    toast.error("Please also choose subject");
+    toast.error("Subject is required");
     e.cancel = true;
     return;
     // }
     // e.appointmentData.subjectId = defaultSubject.id;
   }
-
+  if (!e.appointmentData.eventTypeId) {
+    toast.error("Event type is required");
+    e.cancel = true;
+    return;
+  }
+  // console.log('adding', e)
   createEventMutation.mutate({
     event: e.appointmentData,
   });
@@ -153,7 +158,7 @@ export function onAppointmentUpdating(
   updateEventMutation
 ) {
   // fixRruleStr(e.newData, false);
-  // console.log("update ", e.newData);
+  // console.log("update ", e);
   updateEventMutation.mutate({
     event: e.newData,
   });

@@ -9,6 +9,7 @@ import {
 import React from "react";
 import TeacherTimetable from "../../TeacherTimetable";
 import TeacherTT from "./TeacherTT";
+import { eventTypes } from "@/lib/drizzle/schema";
 
 const TeacherTTPrefetch = async () => {
   let teacher_subjects: any = [];
@@ -58,6 +59,7 @@ const TeacherTTPrefetch = async () => {
       },
     }),
   ]);
+  const eventTypes = await db.query.eventTypes.findMany({});
 
   return (
     <div className="mt-5">
@@ -65,6 +67,7 @@ const TeacherTTPrefetch = async () => {
         <TeacherTT
           teacher_subjects={teacher_subjects}
           sem={semester}
+          eventTypes={eventTypes}
         ></TeacherTT>
       </HydrationBoundary>
     </div>

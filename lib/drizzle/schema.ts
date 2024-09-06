@@ -120,6 +120,15 @@ export const events = pgTable("events", {
   subjectId: uuid("subject_id")
     .references(() => subjects.id)
     .notNull(),
+  eventTypeId: uuid("event_type_id")
+    .references(() => eventTypes.id)
+    .notNull(),
+});
+
+export const eventTypes = pgTable("eventTypes", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  color: text("color").default(""),
 });
 
 export const semesters = pgTable("semesters", {
@@ -205,6 +214,16 @@ export const eventsRelations = relations(events, ({ one, many }) => {
       fields: [events.subjectId],
       references: [subjects.id],
     }),
+    eventType: one(eventTypes, {
+      fields: [events.eventTypeId],
+      references: [eventTypes.id],
+    }),
+  };
+});
+
+export const eventTypeRelations = relations(eventTypes, ({ one, many }) => {
+  return {
+    events: many(events),
   };
 });
 
