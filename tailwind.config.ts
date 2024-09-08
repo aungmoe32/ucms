@@ -23,8 +23,9 @@ const config = {
       },
       colors: {
         primary: {
-          DEFAULT: "#2C80FF",
-          foreground: "white",
+          DEFAULT: "hsl(var(--primary))",
+          // DEFAULT: "#2C80FF",
+          foreground: "hsl(var(--primary-foreground))",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

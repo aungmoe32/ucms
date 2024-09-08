@@ -29,9 +29,10 @@ const TeacherTimeline = ({ subjects }: { subjects: [] }) => {
         refreshSubjects={undefined}
         disableCreateSubject={true}
         disabled={false}
+        timelineMode={true}
         // allowAdd={false}
         isAgenda={true}
-        // allowDelete={false}
+      // allowDelete={false}
       ></Timetable>
     </div>
     // <div></div>

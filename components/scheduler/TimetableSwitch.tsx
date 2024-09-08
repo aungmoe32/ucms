@@ -39,7 +39,7 @@ const TimetableSwitch = ({ semester, setSemester, teacher_subjects }) => {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {/* <SelectLabel>Fruits</SelectLabel> */}
+          <SelectLabel>Select Semester</SelectLabel>
           {sems().map((sem: any) => (
             <SelectItem key={sem.id} value={sem.id}>
               {selectName(sem)}
@@ -52,7 +52,7 @@ const TimetableSwitch = ({ semester, setSemester, teacher_subjects }) => {
 };
 
 function selectName(sem) {
-  return sem.major + ", " + sem.year + " year, " + sem.term + " sem";
+  return sem.major + ", " + sem.year + " year, " + sem.term + " Sem";
 }
 
 export default TimetableSwitch;

@@ -2,11 +2,12 @@ import { eq } from "drizzle-orm";
 import { db } from "./drizzle/db";
 import { events } from "./drizzle/schema";
 
-export const eventList = async (semester_id: string) => {
+export const eventList = async (semester_id: string, eventType) => {
   // console.log(semester_id, requestBody);
+  let isAll = eventType == "0" || !eventType
 
   const data = await db.query.events.findMany({
-    where: (tb, funcs) => funcs.eq(tb.semesterId, semester_id),
+    where: (tb, {eq, and}) => isAll ? eq(tb.semesterId, semester_id) : and(eq(tb.semesterId, semester_id), eq(tb.eventTypeId, eventType)),
     with: {
       subject: true,
       eventType : true

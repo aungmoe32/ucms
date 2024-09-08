@@ -16,7 +16,7 @@ const AgendaAppointmentView = (
       <div
         className="flex items-center justify-center rounded-full aspect-square text-white"
         style={{
-          backgroundColor: color ? color : "#2C80FF",
+          backgroundColor: color ? color : "hsl(var(--primary))",
         }}
       >
         {name}

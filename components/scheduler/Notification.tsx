@@ -34,14 +34,9 @@ const Notification = () => {
 
   return (
     <div className="flex justify-center items-center my-2">
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={onClick}
-        disabled={disabled}
-      >
+      <Button variant="ghost" size="icon" onClick={onClick} disabled={disabled}>
         {isChecked ? (
-          <IoMdNotifications size={25} color="#2C80FF" />
+          <IoMdNotifications size={25} className="text-primary" />
         ) : (
           <IoMdNotificationsOff size={25} color="gray" />
         )}

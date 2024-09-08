@@ -36,7 +36,8 @@ const TT = ({
   disabled,
   isAgenda,
   eventTypes,
-  recurrEditMode = "dialog"
+  recurrEditMode = "dialog",
+  timelineMode,
 }) => {
   // console.log("render TT");
 
@@ -55,21 +56,20 @@ const TT = ({
 
   return (
     <div>
-      <div className="flex justify-between">
-        <Notification></Notification>
-        <div className="flex space-x-2 items-center">
-          <RefreshBtn
-            refreshEvents={refreshEvents}
-            refreshSubjects={refreshSubjects}
-          ></RefreshBtn>
-          <Button
-            variant="outline"
-            type="button"
-            onClick={() => setCurrentDate(Date.now())}
-          >
-            Today
-          </Button>
-          {/* <Button
+      {/* <div className="flex justify-between"> */}
+      <div className="flex space-x-2 items-center justify-end">
+        <RefreshBtn
+          refreshEvents={refreshEvents}
+          refreshSubjects={refreshSubjects}
+        ></RefreshBtn>
+        <Button
+          variant="ghost"
+          type="button"
+          onClick={() => setCurrentDate(Date.now())}
+        >
+          Today
+        </Button>
+        {/* <Button
             variant="outline"
             type="button"
             className=""
@@ -79,13 +79,13 @@ const TT = ({
           >
             Group By Subject
           </Button> */}
-          {!disableCreateSubject && (
-            <CreateSubjectBtn
-              refreshSubjects={refreshSubjects}
-            ></CreateSubjectBtn>
-          )}
-        </div>
+        {!disableCreateSubject && (
+          <CreateSubjectBtn
+            refreshSubjects={refreshSubjects}
+          ></CreateSubjectBtn>
+        )}
       </div>
+      {/* </div> */}
       <Scheduler
         id="scheduler"
         dataSource={events}
@@ -120,27 +120,31 @@ const TT = ({
           const form = e.form;
           let mainGroupItems = form.itemOption("mainGroup").items;
           // console.log(mainGroupItems)
-          const titleInput = mainGroupItems.find(i => i.dataField === "title")
-          titleInput.label.text = "Title"
-          // if (
-          //   !mainGroupItems.find(function (i) {
-          //     return i.dataField === "eventTypeId";
-          //   })
-          // ) {
-          //   mainGroupItems.push({
-          //     label: {
-          //       text: "Event Type",
-          //     },
-          //     editorType: "dxSelectBox",
-          //     dataField: "eventTypeId",
-          //     editorOptions: {
-          //       items: eventTypes,
-          //       displayExpr: "name",
-          //       valueExpr: "id",
-          //     },
-          //   });
-          //   form.itemOption("mainGroup", "items", mainGroupItems);
-          // }
+          const titleInput = mainGroupItems.find(
+            (i) => i.dataField === "title"
+          );
+          titleInput.label.text = "Title";
+
+          if (timelineMode) {
+            const subjectSelect = mainGroupItems.find(
+              (i) => i.dataField === "subjectId"
+            );
+            subjectSelect.editorOptions.disabled = true;
+            mainGroupItems.splice(2, 1);
+            // mainGroupItems.push({
+            //   label: {
+            //     text: "Event Type",
+            //   },
+            //   editorType: "dxSelectBox",
+            //   dataField: "eventTypeId",
+            //   editorOptions: {
+            //     items: eventTypes,
+            //     displayExpr: "name",
+            //     valueExpr: "id",
+            //   },
+            // });
+          }
+          form.itemOption("mainGroup", "items", mainGroupItems);
         }}
         cellDuration={60}
         timeCellComponent={TimeCell}
@@ -148,10 +152,10 @@ const TT = ({
         // dataCellComponent={DataCell}
         onAppointmentRendered={(e) => onAppointmentRendered(e)}
         onAppointmentClick={(e) => {
-          e.cancel = true
+          e.cancel = true;
           // console.log(e)
-          setClickedEvent(e)
-          setOpenTooltip(true)
+          setClickedEvent(e);
+          setOpenTooltip(true);
         }}
         // appointmentTooltipRender={Tooltip}
         startDayHour={9}
@@ -160,12 +164,12 @@ const TT = ({
         allDayPanelMode="hidden"
         maxAppointmentsPerCell={1}
         editing={!disabled}
-      // editing={{
-      //   allowAdding: !disabled,
-      //   allowDeleting: !disabled,
-      //   allowUpdating: !disabled,
-      //   allowTimeZoneEditing: false,
-      // }}
+        // editing={{
+        //   allowAdding: !disabled,
+        //   allowDeleting: !disabled,
+        //   allowUpdating: !disabled,
+        //   allowTimeZoneEditing: false,
+        // }}
       >
         <Resource
           dataSource={subjects}
@@ -174,7 +178,7 @@ const TT = ({
           useColorAsDefault={true}
           valueExpr={"id"}
           displayExpr={"name"}
-        // colorExpr="color"
+          // colorExpr="color"
         />
         <Resource
           dataSource={eventTypes}
@@ -183,26 +187,26 @@ const TT = ({
           useColorAsDefault={false}
           valueExpr={"id"}
           displayExpr={"name"}
-        // colorExpr="color"
+          // colorExpr="color"
         />
         <View
           type="day"
-        // appointmentRender={AgendaAppointmentView}
-        // startDayHour={6}
-        // endDayHour={22}
-        // cellDuration={60}
-        //   groupOrientation="horizontal"
-        //   groups={
-        //     groupBySubject ? ["extendedProperties.private.classId"] : undefined
-        //   }
+          // appointmentRender={AgendaAppointmentView}
+          // startDayHour={6}
+          // endDayHour={22}
+          // cellDuration={60}
+          //   groupOrientation="horizontal"
+          //   groups={
+          //     groupBySubject ? ["extendedProperties.private.classId"] : undefined
+          //   }
         />
         <View
           type="agenda"
           appointmentRender={(e) => AgendaAppointmentView(e, subjects)}
-        //   // groupOrientation="vertical"
-        // groups={
-        //   groupBySubject ? ["extendedProperties.private.classId"] : undefined
-        // }
+          //   // groupOrientation="vertical"
+          // groups={
+          //   groupBySubject ? ["extendedProperties.private.classId"] : undefined
+          // }
         />
         <View
           type="workWeek"
@@ -210,10 +214,15 @@ const TT = ({
           //   // startDayHour={6}
           //   // endDayHour={22}
           cellDuration={60}
-        //   // offset={0}
+          //   // offset={0}
         />
       </Scheduler>
-      <Tooltip openDialog={openTooltip} setOpenDialog={setOpenTooltip} props={clickedEvent} enableEdit={!disabled}></Tooltip>
+      <Tooltip
+        openDialog={openTooltip}
+        setOpenDialog={setOpenTooltip}
+        props={clickedEvent}
+        enableEdit={!disabled}
+      ></Tooltip>
     </div>
   );
 };

@@ -39,6 +39,7 @@ const TeacherTimeline = ({
         // allowAdd={false}
         isAgenda={true} eventTypes={eventTypes}        // allowDelete={false}
         recurrEditMode="occurrence"
+        timelineMode={true}
       ></Timetable>
     </div>
     // <div></div>

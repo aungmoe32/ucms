@@ -26,7 +26,8 @@ export default async function TeacherTimelinePrefetch() {
                   events: {
                     with: {
                       subject: true,
-                      eventType: true
+                      eventType: true,
+                      semester: true
                     },
                   },
                 },

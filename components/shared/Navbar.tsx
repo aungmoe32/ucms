@@ -3,6 +3,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import Notification from "../scheduler/Notification";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -15,15 +16,17 @@ const Navbar = () => {
     }
   };
 
-  console.log(pathname);
+  // console.log(pathname);
 
   return (
     <nav className=" px-4  bg-white shadow-gray-300 shadow-sm  w-full h-24 flex items-center justify-between">
       <div className="font-bold text-3xl">{title()}</div>
       <div className="flex flex-row gap-5 items-center">
-        <button>
-          <IoMdNotificationsOutline size={30} />
-        </button>
+        {/* <button> */}
+        {/* <IoMdNotificationsOutline size={30} /> */}
+
+        <Notification></Notification>
+        {/* </button> */}
         <div className="flex gap-3 flex-row items-center px-3 border-gray-400 border-l-[1px]">
           <div>
             <p className="font-semibold">Golden Cat</p>

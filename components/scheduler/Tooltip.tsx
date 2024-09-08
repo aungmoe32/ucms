@@ -2,7 +2,7 @@
 import React, { useCallback, useState } from "react";
 import { Button } from "../ui/button";
 import moment from "moment";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdDelete, MdEdit, MdOutlinePlace } from "react-icons/md";
 
 import {
   Dialog,
@@ -26,9 +26,16 @@ import {
 import { CiTextAlignLeft } from "react-icons/ci";
 import { AppointmentClickEvent } from "devextreme/ui/scheduler_types";
 import RecurrenceDialog from "./RecurrenceDialog";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaInfoCircle, FaRegCalendarAlt } from "react-icons/fa";
 import { FaBook } from "react-icons/fa6";
-const Tooltip = ({ openDialog, setOpenDialog, props, enableEdit }: { props: AppointmentClickEvent }) => {
+const Tooltip = ({
+  openDialog,
+  setOpenDialog,
+  props,
+  enableEdit,
+}: {
+  props: AppointmentClickEvent;
+}) => {
   //   console.log(props);
   //   const onDeleteButtonClick = useCallback(
   //     (e) => {
@@ -36,14 +43,15 @@ const Tooltip = ({ openDialog, setOpenDialog, props, enableEdit }: { props: Appo
   //     },
   //     [props.onDeleteButtonClick]
   //   );
-  const rootEvent = props?.appointmentData
-  const event = props?.targetedAppointmentData
-  const title = event?.title
-  const description = event?.description
-  const startDate = event?.startDate
-  const endDate = event?.endDate
-  const eventType = event?.eventType
-  const subject = event?.subject
+  const rootEvent = props?.appointmentData;
+  const event = props?.targetedAppointmentData;
+  const title = event?.title;
+  const description = event?.description;
+  const semester = event?.semester;
+  const startDate = event?.startDate;
+  const endDate = event?.endDate;
+  const eventType = event?.eventType;
+  const subject = event?.subject;
   const isRecurrence = event?.recurrenceRule;
   const [openDelDialog, setOpenDelDialog] = useState(false);
   // const [recurrDialogOpen, setRecurrDialogOpen] = useState(false);
@@ -118,72 +126,81 @@ const Tooltip = ({ openDialog, setOpenDialog, props, enableEdit }: { props: Appo
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
-              <div className="flex items-center space-x-4 mb-5">
-                <div className={`rounded-full p-2`} style={{ backgroundColor: subject?.color }}>
-                </div>
-                <span>
-                  {title}
-                </span>
-
-
-              </div>
-            </DialogTitle>
+            <div className="flex items-center space-x-4 mb-3">
+              <div
+                className={`rounded-full p-2`}
+                style={{ backgroundColor: subject?.color }}
+              ></div>
+              <DialogTitle>{title}</DialogTitle>
+            </div>
             <DialogDescription>
               <div className=" flex  flex-col space-y-5 items-start">
                 {/* <span className=" text-lg font-bold">{props.subjectName}</span> */}
-                {
-                  enableEdit &&
+                {enableEdit && (
                   <div className=" absolute top-1 right-10 flex justify-center items-center">
-                    <Button variant="ghost" onClick={() => {
-                      // if (event?.recurrenceRule) {
-                      //   setRecurrDialogOpen(true)
-                      //   return
-                      // }
-                      props.component.showAppointmentPopup(rootEvent, false, event)
-                    }}>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        // if (event?.recurrenceRule) {
+                        //   setRecurrDialogOpen(true)
+                        //   return
+                        // }
+                        props.component.showAppointmentPopup(
+                          rootEvent,
+                          false,
+                          event
+                        );
+                      }}
+                    >
                       <MdEdit />
                     </Button>
-                    <Button variant="ghost" onClick={() => {
-                      setOpenDialog(false)
-                      setOpenDelDialog(true)
-                    }}>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        setOpenDialog(false);
+                        setOpenDelDialog(true);
+                      }}
+                    >
                       <MdDelete />
                     </Button>
                   </div>
-                }
+                )}
 
-                {eventType && eventType.name != "None" && <div className=" flex space-x-2 items-center">
-                  <FaRegCalendarAlt color="black" />
+                {eventType && eventType.name != "None" && (
+                  <div className=" flex space-x-2 items-center">
+                    {/* <FaRegCalendarAlt className="text-primary" /> */}
+                    <FaInfoCircle className="text-primary" />
+                    <p className="">{eventType.name}</p>
+                  </div>
+                )}
+                {subject?.name && (
+                  <div className=" flex space-x-2 items-center">
+                    <FaBook className="text-primary" />
+                    <p className=" ">{subject?.name}</p>
+                  </div>
+                )}
 
-                  <p className="">{eventType.name}</p>
-                </div>}
-                {subject?.name && <div className=" flex space-x-2 items-center">
-                  <FaBook color="black" />
-                  <p className=" ">{subject?.name}</p>
-                </div>}
+                {description && (
+                  <div className=" flex space-x-2 items-center">
+                    <CiTextAlignLeft className="text-primary" />
 
+                    <p className=" ">{description}</p>
+                  </div>
+                )}
 
-                {description && <div className=" flex space-x-2 items-center">
-                  <CiTextAlignLeft color="black" />
-
-                  <p className=" ">{description}</p>
-                </div>}
-
+                {semester && (
+                  <div className=" flex space-x-2 items-center">
+                    <MdOutlinePlace className="text-primary" size={20} />
+                    <p className=" ">{`${semester.major}, ${semester.year} year, ${semester.term} Semester`}</p>
+                  </div>
+                )}
 
                 <div className="flex items-start flex-col space-y-2 font-normal">
-
                   <div>
-                    From :{" "}
-                    <span>
-                      {moment(startDate).format("llll")}
-                    </span>
+                    From : <span>{moment(startDate).format("llll")}</span>
                   </div>
-                  <div >
-                    To :{" "}
-                    <span>
-                      {moment(endDate).format("llll")}
-                    </span>
+                  <div>
+                    To : <span>{moment(endDate).format("llll")}</span>
                   </div>
                 </div>
               </div>

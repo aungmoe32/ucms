@@ -4,9 +4,9 @@ import toast from "react-hot-toast";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_URL;
 
-export const getEvents = async (semester_id: string) => {
+export const getEvents = async (semester_id: string, eventType) => {
   noStore();
-  const res = await axios.get(`/api/events/list?semester_id=${semester_id}`);
+  const res = await axios.get(`/api/events/list?semester_id=${semester_id}&eventType=${eventType || ''}`);
   return res.data;
 };
 export const subjectEvents = async () => {

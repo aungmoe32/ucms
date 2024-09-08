@@ -1,6 +1,7 @@
 "use client";
 import { SchedulerTypes } from "devextreme-react/scheduler";
 import { useEffect, useRef } from "react";
+import { FaInfoCircle } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
 
 export function AppointmentView(
@@ -25,7 +26,8 @@ export function AppointmentView(
       <p className="font-bold text-md">{subject?.name}</p>
       <p>{appointment?.title}</p>
       {
-        appointment.eventType?.name != "None" && <div className="absolute bottom-1 right-1 p-1 rounded-full bg-black">
+        appointment.eventType?.name != "Class" && <div className="absolute bottom-1 right-1">
+          <FaInfoCircle />
         </div>
       }
 

@@ -10,12 +10,17 @@ import { FaSearch } from "react-icons/fa";
 import ExamCard from "@/components/shared/ExamCard";
 import { FaPlus } from "react-icons/fa6";
 import Link from "next/link";
+import EventTTPrefetch from "@/components/scheduler/events/EventTTPrefetch";
 
 const page = () => {
   return (
     <main className="p-4">
+
+
+
+
       {/* Timetable Title */}
-      <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4">
+      {/* <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4">
         <div className="flex flex-row items-center gap-4">
           <h2 className="text-2xl font-semibold">Exam</h2>
         </div>
@@ -57,7 +62,8 @@ const page = () => {
             <p className="font-semibold">Search</p>
           </button>
         </div>
-      </div>
+      </div> */}
+      <EventTTPrefetch></EventTTPrefetch>
 
       <div className="mt-8">
         {/* Guide */}
