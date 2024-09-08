@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import Notification from "../scheduler/Notification";
+import { ModeToggle } from "../ModeToggle";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -26,6 +27,7 @@ const Navbar = () => {
         {/* <IoMdNotificationsOutline size={30} /> */}
 
         <Notification></Notification>
+        <ModeToggle></ModeToggle>
         {/* </button> */}
         <div className="flex gap-3 flex-row items-center px-3 border-gray-400 border-l-[1px]">
           <div>

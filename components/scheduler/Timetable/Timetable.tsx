@@ -55,7 +55,7 @@ const TT = ({
   }, []);
 
   return (
-    <div>
+    <div className=" rounded-md">
       {/* <div className="flex justify-between"> */}
       <div className="flex space-x-2 items-center justify-end">
         <RefreshBtn

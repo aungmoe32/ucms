@@ -5,6 +5,7 @@ import Menu from "@/components/shared/Menu";
 import Navbar from "@/components/shared/Navbar";
 import { QueryProvider } from "@/components/scheduler/QueryProvider";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} flex flex-row`}>
-        <QueryProvider>{children}</QueryProvider>
-        <Toaster></Toaster>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <QueryProvider>{children}</QueryProvider>
+          <Toaster></Toaster>
+        </ThemeProvider>
       </body>
     </html>
   );
