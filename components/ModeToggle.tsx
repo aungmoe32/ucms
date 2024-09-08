@@ -3,6 +3,7 @@
 import * as React from "react";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
+import themes from "devextreme/ui/themes";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +14,23 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function ModeToggle() {
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
+
+  // console.log(theme);
+
+  React.useEffect(() => {
+    // changeMode(theme);
+  }, []);
+
+  function changeMode(theme) {
+    themes.ready(() => {
+      // console.log("ready", schedulerRef);
+      schedulerRef.current.instance().repaint();
+      // button.current.instance().repaint();
+    });
+    setTheme(theme);
+    themes.current(`fluent.blue.${theme}`);
+  }
 
   return (
     <DropdownMenu>
@@ -25,10 +42,18 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem
+          onClick={() => {
+            changeMode("light");
+          }}
+        >
           Light
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem
+          onClick={() => {
+            changeMode("dark");
+          }}
+        >
           Dark
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>

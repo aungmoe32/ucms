@@ -6,7 +6,7 @@ import {
   SchedulerTypes,
   View,
 } from "devextreme-react/scheduler";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   TimeZone,
   onAppointmentAdding,
@@ -16,7 +16,7 @@ import {
   useMutations,
 } from "../utils";
 import { TimeCell } from "../TimeCell";
-import "../css/dx.generic.custom-scheme.css";
+// import "../css/dx.generic.custom-scheme.css";
 import { useQuery } from "@tanstack/react-query";
 import { getEvents } from "@/lib/event";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,8 @@ import Notification from "../Notification";
 import { AppointmentView } from "../AppointmentView";
 import AgendaAppointmentView from "../AgendaAppointmentView";
 import Tooltip from "../Tooltip";
+import themes from "devextreme/ui/themes";
+import { useTheme } from "next-themes";
 const TT = ({
   semester,
   events,
@@ -41,9 +43,12 @@ const TT = ({
 }) => {
   // console.log("render TT");
 
+  const { setTheme, theme } = useTheme();
+
   const [currentDate, setCurrentDate] = useState(Date.now());
   const [openTooltip, setOpenTooltip] = useState(false);
   const [clickedEvent, setClickedEvent] = useState(null);
+  const schedulerRef = useRef(null);
 
   const { createEventMutation, updateEventMutation, deleteEventMutation } =
     useMutations(semester.id, refreshEvents);
@@ -54,16 +59,36 @@ const TT = ({
     }
   }, []);
 
+  useEffect(() => {
+    window.schedulerRef = schedulerRef;
+    themes.ready(() => {
+      // console.log("ready", schedulerRef);
+      schedulerRef.current.instance().repaint();
+      // button.current.instance().repaint();
+    });
+    // setTheme(theme);
+    themes.current(`fluent.blue.${theme}`);
+  }, []);
+
+  //   const changeTheme = useCallback(() => {
+  //     themes.ready(() => {
+  //         schedulerRef.current.instance().repaint();
+  //         // button.current.instance().repaint();
+  //     });
+  //     // themes.current('generic.light');
+  //     // themes.current('generic.dark');
+  // }, []);
+
   return (
     <div className=" rounded-md">
       {/* <div className="flex justify-between"> */}
-      <div className="flex space-x-2 items-center justify-end">
+      <div className="flex space-x-2 items-center justify-between">
         <RefreshBtn
           refreshEvents={refreshEvents}
           refreshSubjects={refreshSubjects}
         ></RefreshBtn>
         <Button
-          variant="ghost"
+          variant="outline"
           type="button"
           onClick={() => setCurrentDate(Date.now())}
         >
@@ -89,7 +114,7 @@ const TT = ({
       <Scheduler
         id="scheduler"
         dataSource={events}
-        // ref={schedulerRef}
+        ref={schedulerRef}
         // startDateExpr="start.dateTime"
         // endDateExpr="end.dateTime"
         textExpr="title"
@@ -189,7 +214,7 @@ const TT = ({
           displayExpr={"name"}
           // colorExpr="color"
         />
-        <View
+        {/* <View
           type="day"
           // appointmentRender={AgendaAppointmentView}
           // startDayHour={6}
@@ -199,7 +224,7 @@ const TT = ({
           //   groups={
           //     groupBySubject ? ["extendedProperties.private.classId"] : undefined
           //   }
-        />
+        /> */}
         <View
           type="agenda"
           appointmentRender={(e) => AgendaAppointmentView(e, subjects)}

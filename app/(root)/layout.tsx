@@ -21,6 +21,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="dx-theme"
+          data-theme="fluent.blue.light"
+          href="http://192.168.100.33:8080/absproxy/3000/dx.generic.custom-scheme.css"
+          data-active="true"
+        />
+        <link
+          rel="dx-theme"
+          data-theme="fluent.blue.dark"
+          href="http://192.168.100.33:8080/absproxy/3000/dx.fluent.blue.dark.css"
+          data-active="false"
+        />
+      </head>
       <body className={`${inter.className} flex flex-row`}>
         <ThemeProvider
           attribute="class"

@@ -24,7 +24,7 @@ import {
   View,
 } from "devextreme-react/scheduler";
 // import "devextreme/dist/css/dx.fluent.blue.light.css";
-import "../../css/dx.generic.custom-scheme.css";
+// import "../../css/dx.generic.custom-scheme.css";
 import { calendar_v3 } from "googleapis";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getSubjects } from "@/lib/subjects";
@@ -96,7 +96,7 @@ const TeacherTT = ({
         refreshEvents={refreshEvents}
         refreshSubjects={refreshSubjects}
         disableCreateSubject={false}
-      // allowAdd={true}
+        // allowAdd={true}
       ></Timetable>
     </div>
   );
