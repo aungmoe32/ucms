@@ -10,27 +10,27 @@ import {
 export const TeacherLinks = [
   {
     text: "Dashboard",
-    path: "/dashboard",
+    path: "/teacher/dashboard",
     icon: <Home className="h-4 w-4" />,
   },
   {
     text: "Teachers",
-    path: "/teachers",
+    path: "/teacher/teachers",
     icon: <UserCheck className="h-4 w-4" />,
   },
   {
     text: "Students",
-    path: "/students",
+    path: "/teacher/students",
     icon: <Users className="h-4 w-4" />,
   },
   {
     text: "Events",
-    path: "/events",
+    path: "/teacher/events",
     icon: <CalendarDays className="h-4 w-4" />,
   },
   {
     text: "Results",
-    path: "/results",
+    path: "/teacher/results",
     icon: <BookCheck className="h-4 w-4" />,
   },
 ];
