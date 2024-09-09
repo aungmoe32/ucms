@@ -32,6 +32,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { TeacherLinks } from "@/components/Links";
+import Notification from "@/components/scheduler/Notification";
 
 export const description =
   "A products dashboard with a sidebar navigation and a main content area. The dashboard has a header with a search input and a user menu. The sidebar has a logo, navigation links, and a card with a call to action. The main content area shows an empty state with a call to action.";
@@ -46,10 +47,6 @@ export default function Dashboard({ children }) {
               {/* <Package2 className="h-6 w-6" /> */}
               <span className="text-background">UCMS</span>
             </Link>
-            <Button variant="ghost" size="icon" className="ml-auto h-8 w-8">
-              <Bell className="h-4 w-4 text-background" />
-              <span className="sr-only">Toggle notifications</span>
-            </Button>
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-3">
@@ -113,7 +110,7 @@ export default function Dashboard({ children }) {
           </div> */}
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col h-screen">
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
           <Sheet>
             <SheetTrigger asChild>
@@ -149,6 +146,7 @@ export default function Dashboard({ children }) {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1"></div>
+          <Notification></Notification>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
@@ -166,9 +164,7 @@ export default function Dashboard({ children }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          {children}
-        </main>
+        <main className=" p-4 flex-1 overflow-scroll">{children}</main>
       </div>
     </div>
   );
