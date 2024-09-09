@@ -22,8 +22,8 @@ const AgendaAppointmentView = (
         {name}
       </div>
       <div className="flex flex-col">
-        <div className="font-bold ">{appointment.title}</div>
-        <small className="text-gray-500">
+        <div className="font-bold text-foreground">{appointment.title}</div>
+        <small className="text-foreground">
           {new Date(appointment.startDate).toLocaleString("en-US", {
             hour: "numeric",
             hour12: true,

@@ -33,7 +33,7 @@ export const TimeCell = (props: TimeCellProps) => {
   const { date, text } = props.data;
 
   return (
-    <div className="timecell-box">
+    <div className="timecell-box text-foreground ">
       {date.toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "numeric",

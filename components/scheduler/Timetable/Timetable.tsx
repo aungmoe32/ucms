@@ -16,7 +16,7 @@ import {
   useMutations,
 } from "../utils";
 import { TimeCell } from "../TimeCell";
-// import "../css/dx.generic.custom-scheme.css";
+import "../../../public/dx.generic.custom-scheme.css";
 import { useQuery } from "@tanstack/react-query";
 import { getEvents } from "@/lib/event";
 import { Button } from "@/components/ui/button";
@@ -59,16 +59,16 @@ const TT = ({
     }
   }, []);
 
-  useEffect(() => {
-    window.schedulerRef = schedulerRef;
-    themes.ready(() => {
-      // console.log("ready", schedulerRef);
-      schedulerRef.current.instance().repaint();
-      // button.current.instance().repaint();
-    });
-    // setTheme(theme);
-    themes.current(`fluent.blue.${theme}`);
-  }, []);
+  // useEffect(() => {
+  //   window.schedulerRef = schedulerRef;
+  //   themes.ready(() => {
+  //     // console.log("ready", schedulerRef);
+  //     schedulerRef.current.instance().repaint();
+  //     // button.current.instance().repaint();
+  //   });
+  //   // setTheme(theme);
+  //   themes.current(`fluent.blue.${theme}`);
+  // }, []);
 
   //   const changeTheme = useCallback(() => {
   //     themes.ready(() => {
@@ -82,7 +82,7 @@ const TT = ({
   return (
     <div className=" rounded-md">
       {/* <div className="flex justify-between"> */}
-      <div className="flex space-x-2 items-center justify-between">
+      <div className="flex space-x-2 items-center justify-between my-2">
         <RefreshBtn
           refreshEvents={refreshEvents}
           refreshSubjects={refreshSubjects}

@@ -2150,10 +2150,10 @@
 }
 .dx-button-mode-text {
   background-color: transparent;
-  color: #242424;
+  color: hsl(var(--foreground));
 }
 .dx-button-mode-text .dx-icon {
-  color: #242424;
+  color: hsl(var(--foreground));
 }
 .dx-button-mode-text.dx-state-selected {
   background-color: #ebebeb;
@@ -16914,7 +16914,7 @@ input.dx-hidden {
   border-radius: 5px;
 }
 .dx-scheduler-agenda .dx-scheduler-appointment.dx-state-hover {
-  background-color: #f5f5f5;
+  background-color: hsl(var(--muted));
 }
 .dx-scheduler-agenda .dx-scheduler-appointment.dx-state-focused {
   color: #242424;
@@ -17472,7 +17472,7 @@ input.dx-hidden {
 }
 .dx-scheduler-work-space {
   border: 1px solid rgba(255,0,0,0);
-  background-color: #fff;
+  background-color: hsl(var(--background));
   position: relative;
   display: flex;
   flex-direction: column;
@@ -17692,7 +17692,7 @@ input.dx-hidden {
 }
 .dx-scheduler-header-panel-cell {
   position: relative;
-  color: #707070;
+  color: hsl(var(--foreground));
   padding: 0;
   height: 40px;
   font-weight: 400;
@@ -17747,7 +17747,7 @@ input.dx-hidden {
   margin-top: 0;
 }
 .dx-scheduler-time-panel-cell {
-  color: #707070;
+  color: hsl(var(--foreground));
   position: relative;
   width: 100%;
   text-align: right;
@@ -17794,7 +17794,7 @@ input.dx-hidden {
 }
 .dx-scheduler-all-day-table-cell.dx-state-focused,
 .dx-scheduler-date-table-cell.dx-state-focused {
-  background-color: #ebebeb;
+  background-color: hsl(var(--muted));
   opacity: 1;
 }
 .dx-scheduler-all-day-table-cell.dx-scheduler-focused-cell,
@@ -18570,7 +18570,7 @@ input.dx-hidden {
   margin-top: 4px;
   margin-bottom: 4px;
   margin-left: 8px;
-  color: #424242;
+  color: hsl(var(--foreground));
 }
 .dx-scheduler-timeline .dx-scheduler-date-table-cell {
   border-right: none;
@@ -18668,7 +18668,7 @@ input.dx-hidden {
 }
 .dx-scheduler-header {
   height: 50px;
-  background-color: #fff;
+  background-color: hsl(var(--background));
   border-top-right-radius: 0;
   border-top-left-radius: 0;
 }
@@ -18787,7 +18787,7 @@ input.dx-hidden {
 }
 .dx-scheduler-all-day-table-cell.dx-state-hover,
 .dx-scheduler-date-table-cell.dx-state-hover {
-  background-color: #f5f5f5;
+  background-color: hsl(var(--accent));
   color: rgba(36,36,36,.54);
 }
 .dx-scheduler-all-day-table-cell.dx-scheduler-focused-cell,
