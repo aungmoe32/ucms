@@ -87,13 +87,20 @@ const TT = ({
           refreshEvents={refreshEvents}
           refreshSubjects={refreshSubjects}
         ></RefreshBtn>
-        <Button
-          variant="outline"
-          type="button"
-          onClick={() => setCurrentDate(Date.now())}
-        >
-          Today
-        </Button>
+        <div className=" flex items-center space-x-2">
+          <Button
+            variant="outline"
+            type="button"
+            onClick={() => setCurrentDate(Date.now())}
+          >
+            Today
+          </Button>
+          {!disableCreateSubject && (
+            <CreateSubjectBtn
+              refreshSubjects={refreshSubjects}
+            ></CreateSubjectBtn>
+          )}
+        </div>
         {/* <Button
             variant="outline"
             type="button"
@@ -104,11 +111,6 @@ const TT = ({
           >
             Group By Subject
           </Button> */}
-        {!disableCreateSubject && (
-          <CreateSubjectBtn
-            refreshSubjects={refreshSubjects}
-          ></CreateSubjectBtn>
-        )}
       </div>
       {/* </div> */}
       <Scheduler
