@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import "../../globals.css";
+import "./globals.css";
 import { Inter } from "next/font/google";
 import Menu from "@/components/shared/Menu";
 import Navbar from "@/components/shared/Navbar";
 import { QueryProvider } from "@/components/scheduler/QueryProvider";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +20,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-      <Menu role="teacher" />
-      <div className="h-full ml-[300px]">
-        <Navbar />
-        {children}
-      </div>
-    </div>
+    <html lang="en">
+      <body className={`${inter.className} `}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <QueryProvider>{children}</QueryProvider>
+          <Toaster></Toaster>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
