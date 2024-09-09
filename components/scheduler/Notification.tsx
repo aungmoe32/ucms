@@ -38,7 +38,7 @@ const Notification = () => {
         {isChecked ? (
           <IoMdNotifications size={25} className="text-primary" />
         ) : (
-          <IoMdNotificationsOff size={25} color="gray" />
+          <IoMdNotificationsOff size={25} className="text-neutral" />
         )}
       </Button>
       {/* <label className="mx-2 text-sm font-medium text-gray-900 dark:text-gray-300">

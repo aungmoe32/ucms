@@ -16,7 +16,9 @@ export async function POST(
     // if (!calendar_id) throw new Error();
     const event = await updateEvent(params.id, data);
     // console.log(event);
-    const subs = await getNotiSubs(event.semesterId);
+    let subs = await getNotiSubs(event.semesterId);
+    subs = [...new Map(subs.map((sub) => [sub.id, sub])).values()];
+    // console.log(subs);
     await sendPush(
       {
         title: "Event is updated",

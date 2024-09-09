@@ -51,7 +51,7 @@ const StudentTTPrefetch = async () => {
   ]);
 
   return (
-    <div className="mt-5">
+    <div>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <StudentTT semester={semester}></StudentTT>
       </HydrationBoundary>

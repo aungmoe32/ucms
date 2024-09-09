@@ -62,7 +62,7 @@ const TeacherTTPrefetch = async () => {
   const eventTypes = await db.query.eventTypes.findMany({});
 
   return (
-    <div className="mt-5">
+    <div>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <TeacherTT
           teacher_subjects={teacher_subjects}

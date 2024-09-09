@@ -72,9 +72,9 @@ function Timetable({
       setCurrentDate(e.value);
     }
   }, []);
-  console.log("render timetable");
+  // console.log("render timetable");
   return (
-    <div className="mt-5">
+    <div className="">
       <div className="flex justify-between">
         <Notification></Notification>
         <div className="flex space-x-2">
