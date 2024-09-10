@@ -16,6 +16,9 @@ import Server from "@/components/Server";
 import SearchBox from "@/components/shared/SearchBox";
 import SearchProvider from "@/components/context/SearchProvider";
 import MajorSelect from "./MajorSelect";
+import SelectBox from "./SelectBox";
+import YearSelect from "./YearSelect";
+import TermSelect from "./TermSelect";
 
 const TeacherList = () => {
   return (
@@ -38,6 +41,9 @@ const TeacherList = () => {
             </SelectContent>
           </Select> */}
           <MajorSelect></MajorSelect>
+          <YearSelect></YearSelect>
+          <TermSelect></TermSelect>
+
           {/* <Select>
             <SelectTrigger className=" h-[50px] focus:ring-0 ring-0 shadow-sm shadow-gray-400 ">
               <SelectValue placeholder="Major" />

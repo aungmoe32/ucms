@@ -74,6 +74,7 @@ export async function GET(request: NextRequest) {
   unstable_noStore();
   const searchParams = request.nextUrl.searchParams;
   const year = searchParams.get("year");
+  const term = searchParams.get("term");
   const sch = searchParams.get("search");
   const search = sch ? sch : "";
   const major = searchParams.get("major");
@@ -87,12 +88,6 @@ export async function GET(request: NextRequest) {
   const countSql = sql<number>` SELECT COUNT(*) FROM users INNER JOIN "teachers" ON "users"."id" = "teachers"."user_id" `;
   const filterUserSql: SQL = sql` (SELECT users.id FROM users INNER JOIN "teachers" ON "users"."id" = "teachers"."user_id"`;
 
-  // const whereInSql: SQL = sql`users.id IN (SELECT users.id FROM users
-  // LEFT JOIN "teachers" ON "users"."id" = "teachers"."user_id"
-  // LEFT JOIN "teacher_subject" ON "teacher_subject"."teacher_id" = "teachers"."id"
-  // LEFT JOIN "subjects" ON "subjects"."id" = "teacher_subject"."subject_id"
-  // LEFT JOIN "semesters" ON "semesters"."id" = "subjects"."semester_id"
-  // where "users"."user_role" = 'teacher' `;
   if (search) {
     const searchSql: SQL = sql` WHERE "users"."name" LIKE ${
       "%" + search + "%"
@@ -100,11 +95,11 @@ export async function GET(request: NextRequest) {
     filterUserSql.append(searchSql);
     countSql.append(searchSql);
   }
-  if (major) {
+  if (major || year || term) {
     const concatSql: SQL = search ? sql` AND ` : sql` WHERE `;
     filterUserSql.append(concatSql);
     countSql.append(concatSql);
-    const majorFilterSql: SQL = sql` users.id IN  (
+    const temp: SQL = sql` users.id IN  (
       SELECT users.id
     FROM
       "semesters"
@@ -112,11 +107,21 @@ export async function GET(request: NextRequest) {
       LEFT JOIN "teacher_subject" ON "teacher_subject"."subject_id" = "subjects"."id"
       LEFT JOIN "teachers" ON "teacher_subject"."teacher_id" = "teachers"."id"
       LEFT JOIN "users" ON "users"."id" = "teachers"."user_id"
-    WHERE
-      "semesters"."major" = ${major}
-    ) `;
-    filterUserSql.append(majorFilterSql);
-    countSql.append(majorFilterSql);
+    WHERE `;
+
+    if (major) temp.append(sql`"semesters"."major" = ${major}`);
+    if (year) {
+      if (major) temp.append(sql` AND `);
+      temp.append(sql`"semesters"."year" = ${year}`);
+    }
+    if (term) {
+      if (year || major) temp.append(sql` AND `);
+      temp.append(sql`"semesters"."semester_term" = ${term}`);
+    }
+
+    temp.append(sql`) `);
+    filterUserSql.append(temp);
+    countSql.append(temp);
   }
 
   filterUserSql.append(
@@ -128,7 +133,7 @@ export async function GET(request: NextRequest) {
   mainInSql.append(filterUserSql);
   // const total = db.select({ count: count() }).from(teachers);
   const total: { count: string }[] = await db.execute(countSql);
-  // console.log(total);
+  // console.log(mainInSql);
 
   const urs = await db
     .select({
@@ -148,16 +153,7 @@ export async function GET(request: NextRequest) {
     .leftJoin(teacher_subject, eq(teacher_subject.teacher_id, teachers.id))
     .leftJoin(subjects, eq(subjects.id, teacher_subject.subject_id))
     .leftJoin(semesters, eq(semesters.id, subjects.semesterId))
-    // .where(and(eq(users.userRole, "teacher"), sql`teachers.id IN (SELECT id FROM teachers
-    //   LIMIT 2 OFFSET 2 )`))
-    // .where(sql`users.id IN (SELECT users.id FROM users LEFT JOIN "teachers" ON "users"."id" = "teachers"."user_id" where "users"."user_role" = 'teacher'
-    //    ORDER BY "users"."createdAt" LIMIT 3 OFFSET 3)`)
     .where(mainInSql);
-  // .where(and(whereInSql, sql` "users"."name" LIKE ${"%" + search + "%"}`))
-  // .orderBy(users.createdAt);
-
-  // const [tt, trl] = await Promise.all([total, urs]);
-  // console.log(trl);
 
   const reducedTrs = reduceTeachers(urs);
   return NextResponse.json({

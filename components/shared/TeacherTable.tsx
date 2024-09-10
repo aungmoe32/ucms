@@ -14,44 +14,10 @@ import { teacherList } from "@/lib/resources/teacher";
 import { Button } from "../ui/button";
 import { SearchContext } from "../context/SearchContext";
 
-const data = [
-  {
-    image: "",
-    name: "Daw Mya",
-    major: "It",
-    teachYear: [4, 3, 2],
-    subjects: ["C++", "Web", "English", "Math", "Be"],
-    gender: "Female",
-  },
-  {
-    image: "",
-    name: "Daw Hla",
-    major: "Ec",
-    teachYear: [1, 2],
-    subjects: ["C++", "Web"],
-    gender: "Female",
-  },
-  {
-    image: "",
-    name: "Daw Su",
-    major: "Ep",
-    teachYear: [1],
-    subjects: ["C++", "Web"],
-    gender: "Female",
-  },
-  {
-    image: "",
-    name: "U Kyaw",
-    major: "Mc",
-    teachYear: [5, 6],
-    subjects: ["C++", "Web"],
-    gender: "Male",
-  },
-];
 const tableHeadStyle = "table-head text-base text-black font-semibold";
 
 const TeacherTable = () => {
-  const { search, major } = useContext(SearchContext);
+  const { search, major, year, term } = useContext(SearchContext);
   const {
     isLoading,
     error,
@@ -62,8 +28,8 @@ const TeacherTable = () => {
   } = useInfiniteQuery({
     getNextPageParam: (prevData: any) => prevData.nextPage,
     initialPageParam: 1,
-    queryKey: ["teachers", search, major],
-    queryFn: (param) => teacherList(param, search, major),
+    queryKey: ["teachers", search, major, year, term],
+    queryFn: (param) => teacherList(param, search, major, year, term),
   });
 
   if (isLoading) return <h1>Loading...</h1>;

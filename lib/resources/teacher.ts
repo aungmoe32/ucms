@@ -38,11 +38,22 @@ export const createTeacher = async (data) => {
 export const teacherList = async (
   { pageParam },
   search: string,
-  major: string
+  major: string,
+  year: string,
+  term: string
 ) => {
   const pageSize = 7;
   const res = await axios.get<ResponseType>(
-    "/api/teachers?page=" + pageParam + "&search=" + search + "&major=" + major
+    "/api/teachers?page=" +
+      pageParam +
+      "&search=" +
+      search +
+      "&major=" +
+      major +
+      "&year=" +
+      year +
+      "&term=" +
+      term
   );
   const hasNext = pageParam * pageSize < res.data.total;
   return {
