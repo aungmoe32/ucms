@@ -33,6 +33,7 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { TeacherLinks } from "@/components/Links";
 import Notification from "@/components/scheduler/Notification";
+import { ModeToggle } from "@/components/ModeToggle";
 
 export const description =
   "A products dashboard with a sidebar navigation and a main content area. The dashboard has a header with a search input and a user menu. The sidebar has a logo, navigation links, and a card with a call to action. The main content area shows an empty state with a call to action.";
@@ -42,10 +43,10 @@ export default function Dashboard({ children }) {
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
         <div className="flex h-full max-h-screen flex-col gap-2 bg-primary">
-          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+          <div className="flex h-14 items-center  px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               {/* <Package2 className="h-6 w-6" /> */}
-              <span className="text-background">UCMS</span>
+              <span className="text-white">UCMS</span>
             </Link>
           </div>
           <div className="flex-1">
@@ -53,7 +54,7 @@ export default function Dashboard({ children }) {
               {TeacherLinks.map((tl) => (
                 <Link
                   href={tl.path}
-                  className="flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-background hover:bg-blue-400"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-white hover:bg-blue-400"
                 >
                   {tl.icon}
                   {tl.text}
@@ -130,12 +131,12 @@ export default function Dashboard({ children }) {
                   className="flex items-center  text-lg font-semibold"
                 >
                   {/* <Package2 className="h-6 w-6 text-background" /> */}
-                  <span className="text-background">UCMS</span>
+                  <span className="text-white">UCMS</span>
                 </Link>
                 {TeacherLinks.map((tl) => (
                   <Link
                     href={tl.path}
-                    className="flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-background hover:bg-blue-400"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-white hover:bg-blue-400"
                   >
                     {tl.icon}
                     {tl.text}
@@ -147,6 +148,7 @@ export default function Dashboard({ children }) {
           </Sheet>
           <div className="w-full flex-1"></div>
           <Notification></Notification>
+          <ModeToggle></ModeToggle>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
