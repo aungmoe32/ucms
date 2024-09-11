@@ -6,12 +6,12 @@ import {
 } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import { teacherList } from "@/lib/resources/teacher";
-import TeacherTable from "../teacher/TeacherTable";
+import TeacherTable from "./TeacherTable";
 import { SearchContext } from "../context/SearchContext";
 import { getSubjects } from "@/lib/subject";
 import { db } from "@/lib/drizzle/db";
 import { subjectListQuery } from "@/app/api/subjects/route";
-import TeacherTableBar from "../teacher/TeacherTableBar";
+import TeacherTableBar from "./TeacherTableBar";
 
 const TeacherTablePrefetch = async () => {
   const queryClient = new QueryClient();

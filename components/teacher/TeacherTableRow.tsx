@@ -76,7 +76,7 @@ const TeacherTableRow = ({
               };
 
               // console.log(user);
-              console.log(info);
+              // console.log(info);
               setDefaultValues(info);
               setEdit(true);
               setOpen(true);

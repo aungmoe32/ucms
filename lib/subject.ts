@@ -7,3 +7,8 @@ export const getSubjects = async () => {
   // console.log("subjects api", res.data);
   return res.data;
 };
+
+export const createSubject = async (data) => {
+  const event = await axios.post("/api/subjects", data);
+  return event;
+};
