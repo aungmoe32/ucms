@@ -14,8 +14,8 @@ import { teacherList } from "@/lib/resources/teacher";
 import { Button } from "../ui/button";
 import { SearchContext } from "../context/SearchContext";
 import { getSubjects } from "@/lib/subject";
-
-const tableHeadStyle = "table-head text-base text-black font-semibold";
+import RefreshTableBtn from "./RefreshTableBtn";
+import CreateTeacherBtn from "./CreateTeacherBtn";
 
 const TeacherTable = () => {
   const { search, major, year, term } = useContext(SearchContext);
@@ -33,24 +33,20 @@ const TeacherTable = () => {
     queryFn: (param) => teacherList(param, search, major, year, term),
   });
 
-  // const { data: subjects } = useQuery({
-  //   queryKey: ["subjects"],
-  //   queryFn: getSubjects,
-  //   placeholderData: [],
-  // });
-
   if (isLoading) return <h1>Loading...</h1>;
-  if (error) return <h1>{JSON.stringify(error)}</h1>;
+  if (error) return null;
   return (
-    <div>
-      <p className="font-semibold text-lg ml-1 pb-4">
-        Total: {data?.pages[0].total}
-      </p>
+    <div className="flex flex-col">
+      <div className="flex items-center justify-between">
+        <p className="font-semibold text-lg ml-1 my-3">
+          Total : {data?.pages[0].total}
+        </p>
+        <div className="flex items-center space-x-2">
+          <RefreshTableBtn></RefreshTableBtn>
+          <CreateTeacherBtn></CreateTeacherBtn>
+        </div>
+      </div>
       <Table className="w-full">
-        {/* <TableFooter>
-          <Button type="button">Load More</Button>
-        </TableFooter> */}
-
         <TableHeader>
           <TableRow>
             <TableHead>S/N</TableHead>

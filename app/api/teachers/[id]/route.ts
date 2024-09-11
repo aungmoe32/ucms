@@ -125,16 +125,14 @@ export async function DELETE(
     if (!teacher)
       return NextResponse.json({ error: "Invalid teacher" }, { status: 404 });
 
-    await Promise.all([
-      db.delete(teacher_subject).where(
-        inArray(
-          teacher_subject.id,
-          teacher.teacher_subject.map((ts) => ts.id)
-        )
-      ),
-      db.delete(teachers).where(eq(teachers.id, params.id)),
-      db.delete(users).where(eq(users.id, teacher.userId)),
-    ]);
+    await db.delete(teacher_subject).where(
+      inArray(
+        teacher_subject.id,
+        teacher.teacher_subject.map((ts) => ts.id)
+      )
+    );
+    await db.delete(teachers).where(eq(teachers.id, params.id));
+    await db.delete(users).where(eq(users.id, teacher.userId));
 
     return NextResponse.json({});
   } catch (e) {

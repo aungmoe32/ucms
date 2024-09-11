@@ -6,11 +6,12 @@ import {
 } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import { teacherList } from "@/lib/resources/teacher";
-import TeacherTable from "../shared/TeacherTable";
+import TeacherTable from "../teacher/TeacherTable";
 import { SearchContext } from "../context/SearchContext";
 import { getSubjects } from "@/lib/subject";
 import { db } from "@/lib/drizzle/db";
 import { subjectListQuery } from "@/app/api/subjects/route";
+import TeacherTableBar from "../teacher/TeacherTableBar";
 
 const TeacherTablePrefetch = async () => {
   const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const TeacherTablePrefetch = async () => {
   return (
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
+        <TeacherTableBar></TeacherTableBar>
         <TeacherTable></TeacherTable>
       </HydrationBoundary>
     </>

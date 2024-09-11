@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
-import ProfileImage from "./ProfileImage";
+import ProfileImage from "../shared/ProfileImage";
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { FormContext } from "../context/FormContext";
