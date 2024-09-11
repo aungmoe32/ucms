@@ -54,7 +54,6 @@ const TeacherTable = () => {
         <TableHeader>
           <TableRow>
             <TableHead>S/N</TableHead>
-            <TableHead>Image</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Major</TableHead>
             <TableHead>Subjects</TableHead>

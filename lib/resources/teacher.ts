@@ -40,6 +40,11 @@ export const updateTeacher = async (id, data) => {
   return res.data;
 };
 
+export const deleteTeacher = async (id) => {
+  const res = await axios.delete("/api/teachers/" + id);
+  return res.data;
+};
+
 export const teacherList = async (
   { pageParam },
   search: string,

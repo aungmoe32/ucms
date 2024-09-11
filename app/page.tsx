@@ -18,7 +18,11 @@ const TeacherList = () => {
             <YearSelect></YearSelect>
             <TermSelect></TermSelect>
           </div>
-          <SearchBox></SearchBox>
+          <div className=" flex justify-end ">
+            <div>
+              <SearchBox></SearchBox>
+            </div>
+          </div>
           <CreateTeacherBtn></CreateTeacherBtn>
           <TeacherDialog></TeacherDialog>
           <TeacherTablePrefetch></TeacherTablePrefetch>

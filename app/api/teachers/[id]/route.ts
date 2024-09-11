@@ -115,18 +115,30 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const student = await db.query.students.findFirst({
+    const teacher = await db.query.teachers.findFirst({
       where: (table, { and, eq }) => eq(table.id, params.id),
+      with: {
+        teacher_subject: true,
+      },
     });
 
-    if (!student)
-      return NextResponse.json({ error: "Invalid student" }, { status: 404 });
+    if (!teacher)
+      return NextResponse.json({ error: "Invalid teacher" }, { status: 404 });
 
-    await db.delete(students).where(eq(students.id, params.id));
-    await db.delete(users).where(eq(users.id, student.userId));
+    await Promise.all([
+      db.delete(teacher_subject).where(
+        inArray(
+          teacher_subject.id,
+          teacher.teacher_subject.map((ts) => ts.id)
+        )
+      ),
+      db.delete(teachers).where(eq(teachers.id, params.id)),
+      db.delete(users).where(eq(users.id, teacher.userId)),
+    ]);
 
     return NextResponse.json({});
   } catch (e) {
+    console.log(e);
     return NextResponse.json({ error: "server error" }, { status: 404 });
   }
 }
