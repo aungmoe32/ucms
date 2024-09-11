@@ -2,6 +2,7 @@ import {
   createStudentFormSchema,
   createTeacherFormSchema,
   updateStudentFormSchema,
+  updateTeacherFormSchema,
 } from "@/app/validationSchemas";
 import { db } from "@/lib/drizzle/db";
 import {
@@ -21,9 +22,10 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const validation = await createTeacherFormSchema.safeParseAsync(body);
+    const validation = await updateTeacherFormSchema.safeParseAsync(body);
     if (!validation.success)
       return NextResponse.json(validation.error.format(), { status: 400 });
+    // throw new Error();
 
     const teacher = await db.query.teachers.findFirst({
       where: (table, { and, eq }) => eq(table.id, params.id),
@@ -36,19 +38,19 @@ export async function PATCH(
     if (!teacher) throw new Error();
 
     const out = await db.transaction(async (tx) => {
-      const salt = genSaltSync(10);
-      const hash = hashSync(body.password, salt);
-      await tx
-        .update(users)
-        .set({
-          name: body.name,
-          email: body.email,
-          password: hash,
-          role: "teacher",
-          major: body.major,
-          gender: body.gender,
-        })
-        .where(eq(users.id, teacher.user.id));
+      const data = {
+        name: body.name,
+        email: body.email,
+        role: "teacher",
+        major: body.major,
+        gender: body.gender,
+      };
+      if (body.password) {
+        const salt = genSaltSync(10);
+        const hash = hashSync(body.password, salt);
+        data.password = hash;
+      }
+      await tx.update(users).set(data).where(eq(users.id, teacher.user.id));
 
       await tx
         .update(teachers)

@@ -54,7 +54,6 @@ const TeacherTableRow = ({
             variant="ghost"
             onClick={() => {
               const info = {
-                password: "",
                 teacher: user.teacher,
                 name: user.name,
                 email: user.email,

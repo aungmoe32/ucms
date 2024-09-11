@@ -16,7 +16,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Majors } from "@/lib/constants";
-import { createTeacherFormSchema } from "@/lib/formSchema";
+import {
+  createTeacherFormSchema,
+  updateTeacherFormSchema,
+} from "@/lib/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   useForm,
@@ -47,7 +50,9 @@ import { FormContext } from "../context/FormContext";
 const TeacherCreateForm = () => {
   const { edit, defaultValues } = useContext(FormContext);
   const form = useForm<z.infer<typeof createTeacherFormSchema>>({
-    resolver: zodResolver(createTeacherFormSchema),
+    resolver: zodResolver(
+      edit ? updateTeacherFormSchema : createTeacherFormSchema
+    ),
     defaultValues,
   });
 
@@ -59,7 +64,7 @@ const TeacherCreateForm = () => {
     control,
   } = form;
 
-  const router = useRouter();
+  // const router = useRouter();
 
   // console.log(form.formState.errors);
 
@@ -71,7 +76,8 @@ const TeacherCreateForm = () => {
       else await createTeacher(values);
       // router.push("/teacher/teacher");
       queryClient.invalidateQueries(["teachers"], { exact: true });
-      toast.success("created");
+      if (edit) toast.success("edited");
+      else toast.success("created");
       // router.refresh();
     } catch (error) {
       setError("root", {
@@ -121,7 +127,14 @@ const TeacherCreateForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Password" {...field} type="password" />
+                  <Input
+                    placeholder="Password"
+                    {...field}
+                    type="password"
+                    onChange={(event) =>
+                      field.onChange(event.target.value || undefined)
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

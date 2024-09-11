@@ -43,6 +43,14 @@ export const createTeacherFormSchema = z.object({
   role: z.enum(Role).default("teacher"),
 });
 
+export const updateTeacherFormSchema = createTeacherFormSchema.extend({
+  password: z
+    .string()
+    // .min(1, { message: "Password is required" })
+    .min(6, { message: "Password must be at least 6 characters" })
+    .optional(),
+});
+
 export const editTimetableFormSchema = z.object({
   major: z
     .string()

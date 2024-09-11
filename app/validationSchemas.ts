@@ -58,6 +58,14 @@ export const createTeacherFormSchema = z.object({
     ),
 });
 
+export const updateTeacherFormSchema = createTeacherFormSchema.extend({
+  password: z
+    .string()
+    // .min(1, { message: "Password is required" })
+    .min(6, { message: "Password must be at least 6 characters" })
+    .optional(),
+});
+
 export const updateStudentFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   year: z.enum(Years),
