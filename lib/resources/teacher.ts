@@ -35,6 +35,11 @@ export const createTeacher = async (data) => {
   return res;
 };
 
+export const updateTeacher = async (id, data) => {
+  const res = await axios.patch("/api/teachers/" + id, data);
+  return res.data;
+};
+
 export const teacherList = async (
   { pageParam },
   search: string,
@@ -43,23 +48,29 @@ export const teacherList = async (
   term: string
 ) => {
   const pageSize = 7;
-  const res = await axios.get<ResponseType>(
-    "/api/teachers?page=" +
-      pageParam +
-      "&search=" +
-      search +
-      "&major=" +
-      major +
-      "&year=" +
-      year +
-      "&term=" +
-      term
-  );
-  const hasNext = pageParam * pageSize < res.data.total;
-  return {
-    nextPage: hasNext ? pageParam + 1 : undefined,
-    previousPage: pageParam > 1 ? pageParam - 1 : undefined,
-    teachers: res.data.users,
-    total: res.data.total,
-  };
+  try {
+    const res = await axios.get<ResponseType>(
+      "/api/teachers?page=" +
+        pageParam +
+        "&search=" +
+        search +
+        "&major=" +
+        major +
+        "&year=" +
+        year +
+        "&term=" +
+        term
+    );
+    const hasNext = pageParam * pageSize < res.data.total;
+    return {
+      nextPage: hasNext ? pageParam + 1 : undefined,
+      previousPage: pageParam > 1 ? pageParam - 1 : undefined,
+      teachers: res.data.users,
+      total: res.data.total,
+    };
+  } catch (e) {
+    console.log(e);
+    throw e;
+    // console.log("tr list", res.data);
+  }
 };

@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import ProfileImage from "./ProfileImage";
+import { Pencil, Trash2 } from "lucide-react";
+import { Button } from "../ui/button";
+import { FormContext } from "../context/FormContext";
 
 type Props = {
+  user: any;
   num: number;
   image: string;
   name: string;
@@ -14,6 +18,7 @@ type Props = {
 };
 
 const TeacherTableRow = ({
+  user,
   num,
   image,
   name,
@@ -23,10 +28,11 @@ const TeacherTableRow = ({
   experience,
   gender,
 }: Props) => {
+  const { edit, setEdit, setOpen, setDefaultValues } = useContext(FormContext);
   return (
     <TableRow className="">
-      <TableCell className="table-des">{num}.</TableCell>
-      <TableCell className="table-des  ">
+      <TableCell>{num}.</TableCell>
+      <TableCell>
         <ProfileImage
           image={image}
           name={name}
@@ -35,18 +41,48 @@ const TeacherTableRow = ({
           textSize="text-sm"
         />
       </TableCell>
-      <TableCell className="table-des cursor-pointer min-w-[170px] hover:text-primary">
-        {name}
+      <TableCell>{name}</TableCell>
+      <TableCell>{major}</TableCell>
+      <TableCell>{subjects.join(" , ")}</TableCell>
+      {/* <TableCell>{teachYear.join(" , ")}</TableCell> */}
+      <TableCell>{experience} year(s)</TableCell>
+      <TableCell>{gender}</TableCell>
+      <TableCell>
+        <div className="flex items-center ">
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => {
+              const info = {
+                password: "",
+                teacher: user.teacher,
+                name: user.name,
+                email: user.email,
+                experience: user.teacher.experience,
+                major: user.major,
+                gender: user.gender,
+                subjects: user.subjects.map((s) => ({
+                  subject_id: s.id,
+                  year: s.semester.year,
+                  major: s.semester.major,
+                  term: s.semester.term,
+                })),
+              };
+
+              // console.log(user);
+              console.log(info);
+              setDefaultValues(info);
+              setEdit(true);
+              setOpen(true);
+            }}
+          >
+            <Pencil />
+          </Button>
+          <Button size="icon" variant="ghost">
+            <Trash2 />
+          </Button>
+        </div>
       </TableCell>
-      <TableCell className="table-des min-w-[100px]">{major}</TableCell>
-      <TableCell className="table-des max-w-[150px] overflow-x-scroll no-scrollbar">
-        {subjects.join(" , ")}
-      </TableCell>
-      <TableCell className="table-des min-w-[150px]">
-        {teachYear.join(" , ")}
-      </TableCell>
-      <TableCell className="table-des">{experience} year(s)</TableCell>
-      <TableCell className="table-des">{gender}</TableCell>
     </TableRow>
   );
 };

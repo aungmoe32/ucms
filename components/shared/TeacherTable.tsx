@@ -13,6 +13,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { teacherList } from "@/lib/resources/teacher";
 import { Button } from "../ui/button";
 import { SearchContext } from "../context/SearchContext";
+import { getSubjects } from "@/lib/subject";
 
 const tableHeadStyle = "table-head text-base text-black font-semibold";
 
@@ -32,6 +33,12 @@ const TeacherTable = () => {
     queryFn: (param) => teacherList(param, search, major, year, term),
   });
 
+  // const { data: subjects } = useQuery({
+  //   queryKey: ["subjects"],
+  //   queryFn: getSubjects,
+  //   placeholderData: [],
+  // });
+
   if (isLoading) return <h1>Loading...</h1>;
   if (error) return <h1>{JSON.stringify(error)}</h1>;
   return (
@@ -45,15 +52,16 @@ const TeacherTable = () => {
         </TableFooter> */}
 
         <TableHeader>
-          <TableRow className="bg-blue-100 hover:bg-blue-100">
-            <TableHead className={tableHeadStyle}>S/N</TableHead>
-            <TableHead className={tableHeadStyle}>Image</TableHead>
-            <TableHead className={tableHeadStyle}>Name</TableHead>
-            <TableHead className={tableHeadStyle}>Major</TableHead>
-            <TableHead className={tableHeadStyle}>Subjects</TableHead>
-            <TableHead className={tableHeadStyle}>Teach Year</TableHead>
-            <TableHead className={tableHeadStyle}>Experience</TableHead>
-            <TableHead className={tableHeadStyle}>Gender</TableHead>
+          <TableRow>
+            <TableHead>S/N</TableHead>
+            <TableHead>Image</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Major</TableHead>
+            <TableHead>Subjects</TableHead>
+            {/* <TableHead>Teach Year</TableHead> */}
+            <TableHead>Experience</TableHead>
+            <TableHead>Gender</TableHead>
+            <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -61,6 +69,7 @@ const TeacherTable = () => {
             .flatMap((data) => data.teachers)
             .map((item, index) => (
               <TeacherTableRow
+                user={item}
                 key={index}
                 num={index + 1}
                 image={""}

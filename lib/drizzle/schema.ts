@@ -82,22 +82,15 @@ export const subjects = pgTable("subjects", {
     .notNull(),
 });
 
-export const teacher_subject = pgTable(
-  "teacher_subject",
-  {
-    teacher_id: uuid("teacher_id")
-      .references(() => teachers.id)
-      .notNull(),
-    subject_id: uuid("subject_id")
-      .references(() => subjects.id)
-      .notNull(),
-  },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.teacher_id, table.subject_id] }),
-    };
-  }
-);
+export const teacher_subject = pgTable("teacher_subject", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  teacher_id: uuid("teacher_id")
+    .references(() => teachers.id)
+    .notNull(),
+  subject_id: uuid("subject_id")
+    .references(() => subjects.id)
+    .notNull(),
+});
 
 export const exams = pgTable("exams", {
   id: uuid("id").primaryKey().defaultRandom(),

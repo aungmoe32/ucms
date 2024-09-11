@@ -1,5 +1,5 @@
 {
-  "id": "15fce2b9-d9d4-44a0-aead-a9a89cdaff5a",
+  "id": "4ed1d23b-9277-4c65-8269-c0e6393d37d7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -283,6 +283,13 @@
       "name": "teacher_subject",
       "schema": "",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
         "teacher_id": {
           "name": "teacher_id",
           "type": "uuid",
@@ -325,15 +332,7 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "teacher_subject_teacher_id_subject_id_pk": {
-          "name": "teacher_subject_teacher_id_subject_id_pk",
-          "columns": [
-            "teacher_id",
-            "subject_id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
     "public.teachers": {

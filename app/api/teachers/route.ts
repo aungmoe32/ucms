@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
         });
       });
       //   console.log(datas);
-      await tx.insert(teacher_subject).values(datas);
+      if (datas.length > 0) await tx.insert(teacher_subject).values(datas);
       return teacher;
     });
 
@@ -139,6 +139,7 @@ export async function GET(request: NextRequest) {
     .select({
       id: users.id,
       name: users.name,
+      email: users.email,
       role: users.role,
       major: users.major,
       gender: users.gender,
