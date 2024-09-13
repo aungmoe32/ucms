@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { sendPush, setUpPush } from "../../lib/notification";
 import { IoMdNotifications, IoMdNotificationsOff } from "react-icons/io";
 import { Button } from "../ui/button";
+import { Bell, BellOff } from "lucide-react";
 
 const Notification = () => {
   const checkBoxRef = useRef(null);
@@ -36,9 +37,9 @@ const Notification = () => {
     <div className="flex justify-center items-center my-2">
       <Button variant="ghost" size="icon" onClick={onClick} disabled={disabled}>
         {isChecked ? (
-          <IoMdNotifications size={25} className="text-primary" />
+          <Bell size={25} className="text-primary" />
         ) : (
-          <IoMdNotificationsOff size={25} className="text-neutral" />
+          <BellOff size={25} className="text-neutral" />
         )}
       </Button>
       {/* <label className="mx-2 text-sm font-medium text-gray-900 dark:text-gray-300">
