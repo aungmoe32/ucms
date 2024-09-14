@@ -19,7 +19,7 @@ const TeacherDialog = () => {
       <DialogContent className=" max-h-[700px] max-w-[700px] overflow-scroll">
         <DialogHeader>
           <DialogTitle>Teacher Form</DialogTitle>
-          <DialogDescription></DialogDescription>
+          <DialogDescription>Create a teacher</DialogDescription>
           <TeacherCreateForm></TeacherCreateForm>
         </DialogHeader>
       </DialogContent>

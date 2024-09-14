@@ -88,9 +88,9 @@ const TeacherCreateForm = () => {
   }
 
   return (
-    <div className=" flex flex-col">
+    <div className="text-left">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Name */}
           <FormField
             control={form.control}

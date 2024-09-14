@@ -50,7 +50,7 @@ const SubjectTable = ({
   });
 
   return (
-    <div>
+    <div className=" grid grid-cols-1">
       <div className="flex justify-between">
         <FormLabel className="text-lg font-semibold">
           Teaching Subjects

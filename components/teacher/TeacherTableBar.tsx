@@ -6,7 +6,7 @@ import SearchBox from "./SearchBox";
 
 export default function TeacherTableBar() {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between space-x-2">
       <div className=" flex items-center space-x-2">
         <MajorSelect></MajorSelect>
         <YearSelect></YearSelect>

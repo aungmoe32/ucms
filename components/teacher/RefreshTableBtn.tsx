@@ -18,7 +18,7 @@ const RefreshTableBtn = () => {
         toast.success("refreshed");
       }}
     >
-      <RotateCcw />
+      <RotateCcw size={20} />
     </Button>
   );
 };

@@ -39,7 +39,7 @@ const TeacherTable = () => {
     <div className="grid grid-cols-1">
       <div className="flex items-center justify-between">
         <p className="font-semibold text-lg ml-1 my-3">
-          Total : {data?.pages[0].total}
+          Total Found : {data?.pages[0].total}
         </p>
         <div className="flex items-center space-x-2">
           <RefreshTableBtn></RefreshTableBtn>

@@ -153,3 +153,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.dx-scheduler-view-switcher{
+  display:  none !important;
+}

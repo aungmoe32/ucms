@@ -9,7 +9,7 @@ export default function Teachers() {
     <FormProvider>
       <SearchProvider>
         <TeacherDialog></TeacherDialog>
-        <div className="my-10 mx-5">
+        <div className="md:mx-5">
           <TeacherTablePrefetch></TeacherTablePrefetch>
         </div>
       </SearchProvider>

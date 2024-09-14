@@ -122,7 +122,7 @@ export default function Nav({ children, links }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="p-4">{children}</main>
+        <main className="p-3">{children}</main>
       </div>
     </div>
   );

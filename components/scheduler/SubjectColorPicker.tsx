@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 
 export default function SubjectColorPicker({ onChange }) {
-  const [color, setColor] = useState("#b32aa9");
+  const [color, setColor] = useState("#2C80FF");
 
   return (
     <div className="flex space-x-3">
