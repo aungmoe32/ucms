@@ -28,6 +28,7 @@ import AgendaAppointmentView from "../AgendaAppointmentView";
 import Tooltip from "../Tooltip";
 import themes from "devextreme/ui/themes";
 import { useTheme } from "next-themes";
+import ViewSwitcher from "../ViewSwitcher";
 const TT = ({
   semester,
   events,
@@ -44,6 +45,7 @@ const TT = ({
   // console.log("render TT");
 
   const { setTheme, theme } = useTheme();
+  const [currView, setCurrView] = useState(isAgenda ? "agenda" : "workWeek");
 
   const [currentDate, setCurrentDate] = useState(Date.now());
   const [openTooltip, setOpenTooltip] = useState(false);
@@ -95,6 +97,7 @@ const TT = ({
           >
             Today
           </Button>
+          <ViewSwitcher view={currView} setView={setCurrView}></ViewSwitcher>
           {!disableCreateSubject && (
             <CreateSubjectBtn
               refreshSubjects={refreshSubjects}
@@ -127,7 +130,8 @@ const TT = ({
         // recurrenceExceptionExpr="exDate"
         // defaultCurrentDate={currentDate}
         currentDate={currentDate}
-        defaultCurrentView={isAgenda ? "agenda" : "workWeek"}
+        // defaultCurrentView={isAgenda ? "agenda" : "workWeek"}
+        currentView={currView}
         timeZone={TimeZone}
         // adaptivityEnabled={true}
         // recurrenceEditMode="series"
