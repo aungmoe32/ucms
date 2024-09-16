@@ -1,6 +1,5 @@
-import { createTeacherFormSchema } from "@/app/validationSchemas";
 import { db } from "@/lib/drizzle/db";
-import { reduceTeachers } from "@/lib/dbReducer";
+import { reduceTeachers } from "@/lib/utils/dbReducer";
 import {
   semesters,
   subjects,
@@ -13,6 +12,8 @@ import { and, count, desc, eq, SQL, sql } from "drizzle-orm";
 import { QueryBuilder } from "drizzle-orm/pg-core";
 import { unstable_noStore } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
+import { PageSize } from "@/lib/constant/constants";
+import { createTeacherFormSchema } from "@/lib/schemas/validationSchemas";
 
 export async function POST(request: NextRequest) {
   try {
@@ -83,7 +84,7 @@ export async function GET(request: NextRequest) {
   const parsedPage = parseInt(searchParams.get("page")!, 10) || 0;
 
   const page = parsedPage < 1 ? 1 : parsedPage;
-  const pageSize = 7;
+  const pageSize = PageSize;
   const mainInSql: SQL = sql` users.id IN `;
   const countSql = sql<number>` SELECT COUNT(*) FROM users INNER JOIN "teachers" ON "users"."id" = "teachers"."user_id" `;
   const filterUserSql: SQL = sql` (SELECT users.id FROM users INNER JOIN "teachers" ON "users"."id" = "teachers"."user_id"`;

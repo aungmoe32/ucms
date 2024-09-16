@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import SelectBox from "./SelectBox";
 import { SearchContext } from "@/components/context/SearchContext";
-import { Years } from "@/lib/constants";
+import { Years } from "@/lib/constant/constants";
 
 const YearSelect = () => {
   const { setYear, year } = useContext(SearchContext);

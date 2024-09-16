@@ -27,32 +27,9 @@ import {
   UseFormReturn,
   useWatch,
 } from "react-hook-form";
-import { createTeacherFormSchema } from "@/lib/formSchema";
+import { createTeacherFormSchema } from "@/lib/schemas/formSchema";
 import { z } from "zod";
-import { getSubjects } from "@/lib/subject";
-import { FormContext } from "../context/FormContext";
-// import { subjects } from "@/lib/subject";
-
-// const subjects = [
-//   {
-//     name: "DLD",
-//     id: "3433f",
-//     semester: {
-//       year: "1",
-//       major: "IT",
-//       term: "First",
-//     },
-//   },
-//   {
-//     name: "BEE",
-//     id: "34311",
-//     semester: {
-//       year: "1",
-//       major: "IT",
-//       term: "First",
-//     },
-//   },
-// ];
+import { getAllSubjects } from "@/lib/api/subject";
 
 type formSchema = z.infer<typeof createTeacherFormSchema>;
 
@@ -79,7 +56,7 @@ const SubjectSelectField = ({
     isLoading,
   } = useQuery({
     queryKey: ["subjects"],
-    queryFn: getSubjects,
+    queryFn: getAllSubjects,
     placeholderData: [],
   });
 

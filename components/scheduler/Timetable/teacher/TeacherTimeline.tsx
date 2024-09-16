@@ -1,5 +1,5 @@
 "use client";
-import { subjectEvents } from "@/lib/event";
+import { subjectEvents } from "@/lib/api/event";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useCallback } from "react";
 import Timetable from "../Timetable";
@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const TeacherTimeline = ({
   subjects,
   events,
-  eventTypes
+  eventTypes,
 }: {
   subjects: [];
   events: any;
@@ -37,7 +37,8 @@ const TeacherTimeline = ({
         disableCreateSubject={true}
         disabled={false}
         // allowAdd={false}
-        isAgenda={true} eventTypes={eventTypes}        // allowDelete={false}
+        isAgenda={true}
+        eventTypes={eventTypes} // allowDelete={false}
         recurrEditMode="occurrence"
         timelineMode={true}
       ></Timetable>

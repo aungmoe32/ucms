@@ -31,12 +31,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Majors, SemesterTerms, Years } from "@/lib/constants";
+import { Majors, SemesterTerms, Years } from "@/lib/constant/constants";
 import { Input } from "../ui/input";
 import color from "color-string";
 import SubjectColorPicker from "./SubjectColorPicker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createSubject } from "@/lib/subject";
+import { createSubject } from "@/lib/api/subject";
 import { Plus } from "lucide-react";
 
 const FormSchema = z.object({

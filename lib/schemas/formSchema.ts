@@ -1,5 +1,11 @@
 import { z } from "zod";
-import { Gender, Majors, Role, SemesterTerms, Years } from "./constants";
+import {
+  Gender,
+  Majors,
+  Role,
+  SemesterTerms,
+  Years,
+} from "../constant/constants";
 
 export const createStudentFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),

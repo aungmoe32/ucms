@@ -25,17 +25,10 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Control, useFieldArray, UseFormReturn } from "react-hook-form";
-import { createTeacherFormSchema } from "@/lib/formSchema";
+import { createTeacherFormSchema } from "@/lib/schemas/formSchema";
 import { z } from "zod";
-import { Majors, SemesterTerms, Years } from "@/lib/constants";
+import { Majors, SemesterTerms, Years } from "@/lib/constant/constants";
 import SubjectSelectField from "./SubjectSelectField";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import { getSubjects } from "@/lib/subject";
 
 const SubjectTable = ({
   control,

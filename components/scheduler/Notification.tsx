@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { sendPush, setUpPush } from "../../lib/notification";
+import { sendPush, setUpPush } from "../../lib/utils/notification";
 import { IoMdNotifications, IoMdNotificationsOff } from "react-icons/io";
 import { Button } from "../ui/button";
 import { Bell, BellOff } from "lucide-react";

@@ -1,16 +1,11 @@
-import { studentList } from "@/lib/resources/student";
+import { subjectListQuery } from "@/app/api/subjects/route";
+import { teacherList } from "@/lib/api/teacher";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import React, { useContext } from "react";
-import { teacherList } from "@/lib/resources/teacher";
 import TeacherTable from "./TeacherTable";
-import { SearchContext } from "../context/SearchContext";
-import { getSubjects } from "@/lib/subject";
-import { db } from "@/lib/drizzle/db";
-import { subjectListQuery } from "@/app/api/subjects/route";
 import TeacherTableBar from "./TeacherTableBar";
 
 const TeacherTablePrefetch = async () => {

@@ -1,6 +1,6 @@
-import { createSubjectFormSchema } from "@/app/validationSchemas";
 import { db } from "@/lib/drizzle/db";
 import { subjects } from "@/lib/drizzle/schema";
+import { createSubjectFormSchema } from "@/lib/schemas/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

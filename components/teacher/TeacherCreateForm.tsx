@@ -15,11 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Majors } from "@/lib/constants";
+import { Majors } from "@/lib/constant/constants";
 import {
   createTeacherFormSchema,
   updateTeacherFormSchema,
-} from "@/lib/formSchema";
+} from "@/lib/schemas/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   useForm,
@@ -37,9 +37,9 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import SubjectTable from "./SubjectTable";
-import { getSubjects } from "@/lib/subject";
+import { getSubjects } from "@/lib/api/subject";
 import axios from "axios";
-import { createTeacher, updateTeacher } from "@/lib/resources/teacher";
+import { createTeacher, updateTeacher } from "@/lib/api/teacher";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";

@@ -1,10 +1,10 @@
 "use client";
 
-import { getSubjects } from "@/lib/subjects";
+import { getSubjects } from "@/lib/api/subject";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useCallback } from "react";
 import Timetable from "../Timetable";
-import { getEvents } from "@/lib/event";
+import { getEvents } from "@/lib/api/event";
 
 const StudentTT = ({ semester }) => {
   const queryClient = useQueryClient();

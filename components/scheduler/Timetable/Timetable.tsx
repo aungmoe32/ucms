@@ -18,7 +18,7 @@ import {
 import { TimeCell } from "../TimeCell";
 import "../../../public/dx.generic.custom-scheme.css";
 import { useQuery } from "@tanstack/react-query";
-import { getEvents } from "@/lib/event";
+import { getEvents } from "@/lib/api/event";
 import { Button } from "@/components/ui/button";
 import RefreshBtn from "../RefreshBtn";
 import CreateSubjectBtn from "../CreateSubjectBtn";

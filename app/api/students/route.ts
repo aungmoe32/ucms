@@ -1,4 +1,3 @@
-import { createStudentFormSchema } from "@/app/validationSchemas";
 import { db } from "@/lib/drizzle/db";
 import { semesters, students, teachers, users } from "@/lib/drizzle/schema";
 import { genSaltSync, hashSync } from "bcrypt-ts";
@@ -6,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSemesterIfNotExist } from "./[id]/route";
 import { unstable_noStore } from "next/cache";
 import { count } from "drizzle-orm";
+import { createStudentFormSchema } from "@/lib/schemas/validationSchemas";
 
 export async function POST(request: NextRequest) {
   try {

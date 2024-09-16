@@ -1,4 +1,4 @@
-import { getSubjectEvents } from "@/lib/calendar";
+import { getSubjectEvents } from "@/lib/resources/calendars";
 import { db } from "@/lib/drizzle/db";
 import {
   HydrationBoundary,
@@ -27,7 +27,7 @@ export default async function TeacherTimelinePrefetch() {
                     with: {
                       subject: true,
                       eventType: true,
-                      semester: true
+                      semester: true,
                     },
                   },
                 },
@@ -63,7 +63,11 @@ export default async function TeacherTimelinePrefetch() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TeacherTimeline subjects={subjects} events={events} eventTypes={eventTypes}></TeacherTimeline>
+      <TeacherTimeline
+        subjects={subjects}
+        events={events}
+        eventTypes={eventTypes}
+      ></TeacherTimeline>
     </HydrationBoundary>
   );
 }

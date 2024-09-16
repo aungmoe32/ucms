@@ -3,7 +3,7 @@ import {
   deleteEvent,
   formatDateTime,
   updateEvent,
-} from "@/lib/event";
+} from "@/lib/api/event";
 import { useMutation } from "@tanstack/react-query";
 import { SchedulerTypes } from "devextreme-react/cjs/scheduler";
 import { calendar_v3 } from "googleapis";

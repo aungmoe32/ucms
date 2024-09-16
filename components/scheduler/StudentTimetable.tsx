@@ -1,6 +1,6 @@
 "use client";
-import { events as getEvents } from "@/lib/event";
-import { getSubjects } from "@/lib/subjects";
+import { getEvents } from "@/lib/api/event";
+import { getSubjects } from "@/lib/api/subject";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useCallback } from "react";
 import Timetable from "./Timetable";

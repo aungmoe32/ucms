@@ -1,6 +1,6 @@
 import { db } from "@/lib/drizzle/db";
-import { insertEvent } from "@/lib/events";
-import { sendPush } from "@/lib/server-noti";
+import { insertEvent } from "@/lib/resources/events";
+import { sendPush } from "@/lib/resources/server-noti";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

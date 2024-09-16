@@ -1,4 +1,10 @@
-import { Gender, Majors, Role, SemesterTerms, Years } from "@/lib/constants";
+import {
+  Gender,
+  Majors,
+  Role,
+  SemesterTerms,
+  Years,
+} from "@/lib/constant/constants";
 import { db } from "@/lib/drizzle/db";
 import { semesters, subjects } from "@/lib/drizzle/schema";
 import { inArray } from "drizzle-orm";

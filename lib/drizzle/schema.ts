@@ -21,7 +21,7 @@ import {
   Role,
   SemesterTerms,
   Years,
-} from "../constants";
+} from "../constant/constants";
 
 export const userRole = pgEnum("user_role", Role);
 export const mark = pgEnum("user_role", Marks);

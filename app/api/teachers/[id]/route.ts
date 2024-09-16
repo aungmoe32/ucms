@@ -1,9 +1,3 @@
-import {
-  createStudentFormSchema,
-  createTeacherFormSchema,
-  updateStudentFormSchema,
-  updateTeacherFormSchema,
-} from "@/app/validationSchemas";
 import { db } from "@/lib/drizzle/db";
 import {
   semesters,

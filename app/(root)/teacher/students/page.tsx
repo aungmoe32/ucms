@@ -1,5 +1,6 @@
+import StudentTable from "@/components/student/StudentTable";
 import React from "react";
 
 export default function Students() {
-  return <div>Students</div>;
+  return <StudentTable></StudentTable>;
 }

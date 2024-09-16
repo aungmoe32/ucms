@@ -1,9 +1,6 @@
-import {
-  createStudentFormSchema,
-  updateStudentFormSchema,
-} from "@/app/validationSchemas";
 import { db } from "@/lib/drizzle/db";
 import { semesters, students, users } from "@/lib/drizzle/schema";
+import { updateStudentFormSchema } from "@/lib/schemas/validationSchemas";
 import { genSaltSync, hashSync } from "bcrypt-ts";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";

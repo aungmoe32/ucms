@@ -10,12 +10,12 @@ import {
 } from "@/components/ui/table";
 import TeacherTableRow from "./TeacherTableRow";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { teacherList } from "@/lib/resources/teacher";
+import { teacherList } from "@/lib/api/teacher";
 import { Button } from "../ui/button";
 import { SearchContext } from "../context/SearchContext";
-import { getSubjects } from "@/lib/subject";
 import RefreshTableBtn from "./RefreshTableBtn";
 import CreateTeacherBtn from "./CreateTeacherBtn";
+import Skeleton from "../Skeleton";
 
 const TeacherTable = () => {
   const { search, major, year, term } = useContext(SearchContext);
@@ -33,7 +33,7 @@ const TeacherTable = () => {
     queryFn: (param) => teacherList(param, search, major, year, term),
   });
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <Skeleton height={"20rem"}></Skeleton>;
   if (error) return null;
   return (
     <div className="grid grid-cols-1">

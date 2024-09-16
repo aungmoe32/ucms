@@ -1,6 +1,6 @@
 import { subjectsListQuery } from "@/app/api/subjects/[semester_id]/route";
 import { db } from "@/lib/drizzle/db";
-import { eventList } from "@/lib/events";
+import { eventList } from "@/lib/resources/events";
 import {
   HydrationBoundary,
   QueryClient,

@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
-import ProfileImage from "../shared/ProfileImage";
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { FormContext } from "../context/FormContext";
-import { deleteTeacher } from "@/lib/resources/teacher";
+import { deleteTeacher } from "@/lib/api/teacher";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import {

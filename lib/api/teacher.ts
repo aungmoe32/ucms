@@ -1,5 +1,6 @@
 import axios from "axios";
 import { unstable_noStore as noStore } from "next/cache";
+import { PageSize } from "../constant/constants";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_URL;
 export type ResponseType = {
@@ -52,7 +53,7 @@ export const teacherList = async (
   year: string,
   term: string
 ) => {
-  const pageSize = 7;
+  const pageSize = PageSize;
   try {
     const res = await axios.get<ResponseType>(
       "/api/teachers?page=" +

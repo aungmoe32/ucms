@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { Majors, SemesterTerms, Years } from "@/lib/constants";
+import { Majors, SemesterTerms, Years } from "@/lib/constant/constants";
 import { semesters } from "../schema";
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";

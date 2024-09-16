@@ -6,7 +6,7 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { eventList } from "@/lib/events";
+import { eventList } from "@/lib/resources/events";
 import { subjectsListQuery } from "@/app/api/subjects/[semester_id]/route";
 
 const EventTTPrefetch = async () => {

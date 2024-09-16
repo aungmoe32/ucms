@@ -1,5 +1,5 @@
 "use client";
-import { subjectEvents } from "@/lib/event";
+import { subjectEvents } from "@/lib/api/event";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useCallback } from "react";
 import Timetable from "./scheduler/Timetable";
@@ -32,7 +32,7 @@ const TeacherTimeline = ({ subjects }: { subjects: [] }) => {
         timelineMode={true}
         // allowAdd={false}
         isAgenda={true}
-      // allowDelete={false}
+        // allowDelete={false}
       ></Timetable>
     </div>
     // <div></div>

@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import Timetable from "../Timetable/Timetable";
 import EventTypeSwitcher from "./EventTypeSwitcher";
 import { useQuery } from "@tanstack/react-query";
-import { getEvents } from "@/lib/event";
-import { getSubjects } from "@/lib/subjects";
+import { getEvents } from "@/lib/api/event";
+import { getSubjects } from "@/lib/api/subject";
 import SemesterSwitcher from "./SemesterSwitcher";
 
 const EventTT = ({ semesters, eventTypes }) => {

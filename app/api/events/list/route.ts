@@ -1,4 +1,4 @@
-import { eventList } from "@/lib/events";
+import { eventList } from "@/lib/resources/events";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

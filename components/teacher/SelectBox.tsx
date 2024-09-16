@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Majors } from "@/lib/constants";
+import { Majors } from "@/lib/constant/constants";
 import React, { useContext } from "react";
 
 const SelectBox = ({ value, setValue, label, items }) => {

@@ -1,7 +1,7 @@
-import { sendPush } from "@/lib/server-noti";
 import { NextRequest, NextResponse } from "next/server";
 import { getNotiSubs } from "../../insert/route";
-import { deleteEvent } from "@/lib/events";
+import { deleteEvent } from "@/lib/resources/events";
+import { sendPush } from "@/lib/utils/notification";
 
 export async function POST(
   request: NextRequest,

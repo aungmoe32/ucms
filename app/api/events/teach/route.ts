@@ -1,4 +1,8 @@
-import { getEvents, getSubjectEvents, insertEvent } from "@/lib/calendar";
+import {
+  getEvents,
+  getSubjectEvents,
+  insertEvent,
+} from "@/lib/resources/calendars";
 import { db } from "@/lib/drizzle/db";
 import { NextRequest, NextResponse } from "next/server";
 

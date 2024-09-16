@@ -2,8 +2,8 @@ import { calendar_v3, google } from "googleapis";
 const { v4: uuidv4 } = require("uuid");
 
 import { unstable_noStore as noStore } from "next/cache";
-import { db } from "./drizzle/db";
-import { events } from "./drizzle/schema";
+import { db } from "../drizzle/db";
+import { events } from "../drizzle/schema";
 const credential = JSON.parse(
   Buffer.from(process.env.GOOGLE_SERVICE_KEY, "base64").toString()
 );

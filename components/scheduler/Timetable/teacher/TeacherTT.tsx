@@ -8,7 +8,7 @@ import {
   events,
   getEvents,
   updateEvent,
-} from "@/lib/event";
+} from "@/lib/api/event";
 import {
   QueryClient,
   useMutation,
@@ -27,7 +27,7 @@ import {
 // import "../../css/dx.generic.custom-scheme.css";
 import { calendar_v3 } from "googleapis";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getSubjects } from "@/lib/subjects";
+import { getSubjects } from "@/lib/api/subject";
 import toast from "react-hot-toast";
 import TimetableSwitch from "../../TimetableSwitch";
 import Timetable from "../Timetable";

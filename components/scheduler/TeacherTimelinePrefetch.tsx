@@ -1,4 +1,4 @@
-import { getSubjectEvents } from "@/lib/calendar";
+import { getSubjectEvents } from "@/lib/resources/calendars";
 import { db } from "@/lib/drizzle/db";
 import {
   HydrationBoundary,
