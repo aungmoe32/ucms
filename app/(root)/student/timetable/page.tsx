@@ -2,9 +2,5 @@ import StudentTTPrefetch from "@/components/scheduler/Timetable/student/StudentT
 import React, { Suspense } from "react";
 
 export default function Timetable() {
-  return (
-    <Suspense fallback={<div>loading time table...</div>}>
-      <StudentTTPrefetch></StudentTTPrefetch>
-    </Suspense>
-  );
+  return <StudentTTPrefetch></StudentTTPrefetch>;
 }

@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/card";
 import TeacherTimelinePrefetch from "@/components/scheduler/Timetable/teacher/TeacherTimelinePrefetch";
 import { Suspense } from "react";
+import Skeleton from "@/components/Skeleton";
 
 export default function Dashboard() {
   return (
@@ -45,7 +46,7 @@ export default function Dashboard() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Suspense fallback={<div>loading...</div>}>
+          <Suspense fallback={<Skeleton height={"20rem"} />}>
             <TeacherTimelinePrefetch></TeacherTimelinePrefetch>
           </Suspense>
         </CardContent>
