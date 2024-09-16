@@ -2,6 +2,7 @@
 import React, { useContext } from "react";
 import { Button } from "../ui/button";
 import { FormContext } from "../context/FormContext";
+import { Plus } from "lucide-react";
 
 export default function CreateTeacherBtn() {
   const { open, setOpen, setEdit, setDefaultValues } = useContext(FormContext);
@@ -14,8 +15,10 @@ export default function CreateTeacherBtn() {
         });
         setOpen(true);
       }}
+      className=" rounded-full md:rounded-md"
     >
-      Create Teacher
+      <Plus />
+      <span className="pl-2 hidden md:block">Create Teacher</span>
     </Button>
   );
 }

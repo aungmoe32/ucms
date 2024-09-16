@@ -37,6 +37,7 @@ import color from "color-string";
 import SubjectColorPicker from "./SubjectColorPicker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createSubject } from "@/lib/subject";
+import { Plus } from "lucide-react";
 
 const FormSchema = z.object({
   year: z.enum(Years),
@@ -85,7 +86,10 @@ const CreateSubjectBtn = ({ refreshSubjects }) => {
     // <AlertDialog open={openDelDialog} onOpenChange={setOpenDelDialog}>
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>Create Subject</Button>
+        <Button className=" rounded-full md:rounded-md">
+          <Plus />
+          <span className="pl-2 hidden md:block">Create Subject</span>
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className=" ">
         <AlertDialogHeader>
