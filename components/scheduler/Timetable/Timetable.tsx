@@ -41,6 +41,7 @@ const TT = ({
   eventTypes,
   recurrEditMode = "dialog",
   timelineMode,
+  allowDelete = true,
 }) => {
   // console.log("render TT");
 
@@ -253,6 +254,7 @@ const TT = ({
         setOpenDialog={setOpenTooltip}
         props={clickedEvent}
         enableEdit={!disabled}
+        allowDelete={allowDelete}
       ></Tooltip>
     </div>
   );

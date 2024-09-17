@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getNotiSubs } from "../../insert/route";
 import { deleteEvent } from "@/lib/resources/events";
-import { sendPush } from "@/lib/utils/notification";
+import { sendPush } from "@/lib/resources/server-noti";
 
 export async function POST(
   request: NextRequest,
@@ -25,7 +25,7 @@ export async function POST(
 
     return NextResponse.json({});
   } catch (e) {
-    // console.error(e.message);
+    console.error(e);
     return NextResponse.json([], {
       status: 400,
     });

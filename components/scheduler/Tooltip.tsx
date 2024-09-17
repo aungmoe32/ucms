@@ -33,6 +33,7 @@ const Tooltip = ({
   setOpenDialog,
   props,
   enableEdit,
+  allowDelete,
 }: {
   props: AppointmentClickEvent;
 }) => {
@@ -58,44 +59,6 @@ const Tooltip = ({
 
   return (
     <>
-      {/* <div className=" flex  flex-col space-y-2 items-start">
-
-        <span className=" font-normal ">{props.appointmentData.title}</span>
-
-        <div className={" text-gray-500"}>
-          start date :{" "}
-          <span>
-            {moment(props.appointmentData.startDate).format("llll")}
-          </span>
-        </div>
-        <div className={" text-gray-500"}>
-          end date :{" "}
-          <span>
-            {moment(props.appointmentData.endDate).format("llll")}
-          </span>
-        </div>
-      </div> */}
-
-      {/* {props.isDeleteButtonExist ? (
-        <div className=" absolute right-0 top-0">
-          <Button
-            className={" hover:bg-gray-200"}
-            // icon="trash"
-            // stylingMode="text"
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={(e) => {
-              e.stopPropagation();
-              setOpenDelDialog(true);
-            }}
-          >
-            <MdDelete size={20} />
-          </Button>
-        </div>
-      ) : (
-        <></>
-      )} */}
       <AlertDialog open={openDelDialog} onOpenChange={setOpenDelDialog}>
         <AlertDialogContent className="z-[1600]">
           <AlertDialogHeader>
@@ -154,15 +117,17 @@ const Tooltip = ({
                     >
                       <MdEdit />
                     </Button>
-                    <Button
-                      variant="ghost"
-                      onClick={() => {
-                        setOpenDialog(false);
-                        setOpenDelDialog(true);
-                      }}
-                    >
-                      <MdDelete />
-                    </Button>
+                    {allowDelete && (
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          setOpenDialog(false);
+                          setOpenDelDialog(true);
+                        }}
+                      >
+                        <MdDelete />
+                      </Button>
+                    )}
                   </div>
                 )}
 
