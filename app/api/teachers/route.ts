@@ -165,3 +165,5 @@ export async function GET(request: NextRequest) {
   // return NextResponse.json({ total: tt[0].count, users: trl });
   // return NextResponse.json(reducedTrs);
 }
+
+export const dynamic = "force-dynamic";

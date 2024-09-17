@@ -7,7 +7,7 @@ import {
 } from "@/lib/constant/constants";
 import { db } from "@/lib/drizzle/db";
 import { semesters, subjects } from "@/lib/drizzle/schema";
-import { inArray } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 import color from "color-string";
 
@@ -21,10 +21,23 @@ export const createStudentFormSchema = z.object({
     .string()
     .min(1, { message: "Password is required" })
     .min(6, { message: "Password must be at least 6 characters" }),
-  year: z.enum(Years),
-  term: z.enum(SemesterTerms),
-  major: z.enum(Majors),
   gender: z.enum(Gender),
+  semester_id: z.string().refine(
+    async (id) => {
+      if (!id) return;
+      try {
+        const sem = await db.query.semesters.findFirst({
+          where: eq(semesters.id, id),
+        });
+        return sem;
+      } catch (e) {
+        return;
+      }
+    },
+    {
+      message: "Invalid Semester!",
+    }
+  ),
 });
 
 const subjectSchema = z.object({
