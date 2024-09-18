@@ -85,13 +85,11 @@ export const updateTeacherFormSchema = createTeacherFormSchema.extend({
     .min(6, { message: "Password must be at least 6 characters" })
     .optional(),
 });
-
-export const updateStudentFormSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  year: z.enum(Years),
-  term: z.enum(SemesterTerms),
-  major: z.enum(Majors),
-  gender: z.enum(Gender),
+export const updateStudentFormSchema = createStudentFormSchema.extend({
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" })
+    .optional(),
 });
 
 export const createSubjectFormSchema = z.object({

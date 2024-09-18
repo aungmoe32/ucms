@@ -68,7 +68,7 @@ export async function PATCH(
       if (datas.length > 0) await tx.insert(teacher_subject).values(datas);
     });
 
-    return NextResponse.json([], { status: 201 });
+    return NextResponse.json({ success: true }, { status: 201 });
   } catch (e) {
     console.log(e);
     return NextResponse.json(e, { status: 400 });
@@ -119,16 +119,18 @@ export async function DELETE(
     if (!teacher)
       return NextResponse.json({ error: "Invalid teacher" }, { status: 404 });
 
-    await db.delete(teacher_subject).where(
-      inArray(
-        teacher_subject.id,
-        teacher.teacher_subject.map((ts) => ts.id)
-      )
-    );
-    await db.delete(teachers).where(eq(teachers.id, params.id));
-    await db.delete(users).where(eq(users.id, teacher.userId));
+    await db.transaction(async (tx) => {
+      await tx.delete(teacher_subject).where(
+        inArray(
+          teacher_subject.id,
+          teacher.teacher_subject.map((ts) => ts.id)
+        )
+      );
+      await tx.delete(teachers).where(eq(teachers.id, params.id));
+      await tx.delete(users).where(eq(users.id, teacher.userId));
+    });
 
-    return NextResponse.json({});
+    return NextResponse.json({ success: true });
   } catch (e) {
     console.log(e);
     return NextResponse.json({ error: "server error" }, { status: 404 });

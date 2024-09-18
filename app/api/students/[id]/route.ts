@@ -11,50 +11,48 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const validation = updateStudentFormSchema.safeParse(body);
+    const validation = await updateStudentFormSchema.safeParseAsync(body);
     if (!validation.success)
       return NextResponse.json(validation.error.format(), { status: 400 });
+    // throw new Error();
 
     const student = await db.query.students.findFirst({
       where: (table, { and, eq }) => eq(table.id, params.id),
       with: {
-        semester: true,
         user: true,
       },
     });
 
-    if (!student)
-      return NextResponse.json({ error: "Invalid user" }, { status: 404 });
+    if (!student) throw new Error();
 
-    if (
-      body.major != student.semester.major ||
-      body.year != student.semester.year ||
-      body.term != student.semester.term
-    ) {
-      // console.log("run exist");
-      const semesterId = await createSemesterIfNotExist(body);
-      await db
+    await db.transaction(async (tx) => {
+      const sem = await tx.query.semesters.findFirst({
+        where: eq(semesters.id, body.semester_id),
+      });
+      const data = {
+        name: body.name,
+        email: body.email,
+        gender: body.gender,
+        major: sem.major,
+      };
+      if (body.password) {
+        const salt = genSaltSync(10);
+        const hash = hashSync(body.password, salt);
+        data.password = hash;
+      }
+      await tx.update(users).set(data).where(eq(users.id, student.user.id));
+
+      await tx
         .update(students)
         .set({
-          year: body.year,
-          semesterId: semesterId,
+          semesterId: sem?.id,
+          year: sem?.year,
         })
-        .where(eq(students.id, params.id));
-    }
-    const updated = await db
-      .update(users)
-      .set({
-        name: body.name,
-        major: body.major,
-        gender: body.gender,
-      })
-      .where(eq(users.id, student.user.id))
-      .returning({
-        id: users.id,
-      });
-
-    return NextResponse.json(updated, { status: 201 });
+        .where(eq(students.id, student.id));
+    });
+    return NextResponse.json({ success: true }, { status: 201 });
   } catch (e) {
+    console.log(e);
     return NextResponse.json(e, { status: 400 });
   }
 }
@@ -100,11 +98,14 @@ export async function DELETE(
     if (!student)
       return NextResponse.json({ error: "Invalid student" }, { status: 404 });
 
-    await db.delete(students).where(eq(students.id, params.id));
-    await db.delete(users).where(eq(users.id, student.userId));
+    await db.transaction(async (tx) => {
+      await db.delete(students).where(eq(students.id, params.id));
+      await db.delete(users).where(eq(users.id, student.userId));
+    });
 
-    return NextResponse.json({});
+    return NextResponse.json({ success: true });
   } catch (e) {
+    console.error(e);
     return NextResponse.json({ error: "server error" }, { status: 404 });
   }
 }
