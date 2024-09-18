@@ -14,8 +14,8 @@ import { teacherList } from "@/lib/api/teacher";
 import { Button } from "../ui/button";
 import { SearchContext } from "../context/SearchContext";
 import RefreshTableBtn from "./RefreshTableBtn";
-import CreateTeacherBtn from "./CreateTeacherBtn";
 import Skeleton from "../Skeleton";
+import CreateTeacherBtn from "./CreateTeacherBtn";
 
 const TeacherTable = () => {
   const { search, major, year, term } = useContext(SearchContext);
@@ -33,7 +33,6 @@ const TeacherTable = () => {
     queryFn: (param) => teacherList(param, search, major, year, term),
   });
 
-  if (isLoading) return <Skeleton height={"20rem"}></Skeleton>;
   if (error) return null;
   return (
     <div className="grid grid-cols-1">
@@ -42,8 +41,8 @@ const TeacherTable = () => {
           Total Found : {data?.pages[0].total}
         </p>
         <div className="flex items-center space-x-2">
-          <RefreshTableBtn></RefreshTableBtn>
-          <CreateTeacherBtn></CreateTeacherBtn>
+          <RefreshTableBtn resource="teachers"></RefreshTableBtn>
+          <CreateTeacherBtn />
         </div>
       </div>
       <div className="">

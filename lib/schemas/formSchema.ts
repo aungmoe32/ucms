@@ -17,10 +17,17 @@ export const createStudentFormSchema = z.object({
     .string()
     .min(1, { message: "Password is required" })
     .min(6, { message: "Password must be at least 6 characters" }),
-  year: z.enum(["1", "2", "3", "4", "5", "6"]),
-  term: z.enum(["First", "Second"]),
-  major: z.enum(["It", "Civil", "Archi", "Ep", "Ec", "Mc"]),
-  gender: z.enum(["Male", "Female"]),
+  year: z.enum(Years),
+  term: z.enum(SemesterTerms),
+  major: z.enum(Majors),
+  gender: z.enum(Gender),
+});
+
+export const updateStudentFormSchema = createStudentFormSchema.extend({
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" })
+    .optional(),
 });
 
 const subjectSchema = z.object({

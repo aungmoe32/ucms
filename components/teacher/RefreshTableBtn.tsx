@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { RotateCcw } from "lucide-react";
 import toast from "react-hot-toast";
 
-const RefreshTableBtn = () => {
+const RefreshTableBtn = ({ resource }) => {
   const queryClient = useQueryClient();
   return (
     <Button
@@ -13,7 +13,7 @@ const RefreshTableBtn = () => {
       variant="outline"
       onClick={async () => {
         const id = toast.loading("refreshing...");
-        await queryClient.invalidateQueries(["teachers"], { exact: true });
+        await queryClient.invalidateQueries([resource], { exact: true });
         toast.remove(id);
         toast.success("refreshed");
       }}

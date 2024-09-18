@@ -90,6 +90,7 @@ export async function GET(request: NextRequest) {
     .execute();
   const stds = await db
     .select({
+      studentId: students.id,
       name: users.name,
       email: users.email,
       gender: users.gender,
