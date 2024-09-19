@@ -6,10 +6,9 @@ import { SearchContext } from "../context/SearchContext";
 import { Input } from "../ui/input";
 import { Search } from "lucide-react";
 
-const SearchBox = () => {
+const SearchBox = ({ placeholder }) => {
   const { search, setSearch } = useContext(SearchContext);
   const handleSearch = useDebouncedCallback((term) => {
-    console.log(`Searching... ${term}`);
     setSearch(term);
   }, 1000);
   return (
@@ -17,7 +16,7 @@ const SearchBox = () => {
     // {/* <Search size={25} className="text-border" /> */}
     <Input
       type="text"
-      placeholder="Search Teacher"
+      placeholder={placeholder}
       // className="w-full  focus:outline-none"
       // value={search}
       onChange={(e) => {

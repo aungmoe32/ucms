@@ -4,7 +4,7 @@ import YearSelect from "./YearSelect";
 import TermSelect from "./TermSelect";
 import SearchBox from "./SearchBox";
 
-export default function TeacherTableBar() {
+export default function TableBar({ SBoxPlaceholder }) {
   return (
     <div className="flex items-center justify-between space-x-2">
       <div className=" flex items-center space-x-2">
@@ -14,7 +14,7 @@ export default function TeacherTableBar() {
       </div>
 
       <div>
-        <SearchBox></SearchBox>
+        <SearchBox placeholder={SBoxPlaceholder}></SearchBox>
       </div>
     </div>
   );

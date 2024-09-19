@@ -1,12 +1,13 @@
 import { subjectListQuery } from "@/app/api/subjects/route";
+import { studentList } from "@/lib/api/student";
 import { teacherList } from "@/lib/api/teacher";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import TeacherTable from "./TeacherTable";
-import TableBar from "./TableBar";
+import TableBar from "../teacher/TableBar";
+import StudentTable from "./StudentTable";
 
 const TeacherTablePrefetch = async () => {
   const queryClient = new QueryClient();
@@ -19,13 +20,9 @@ const TeacherTablePrefetch = async () => {
   };
 
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: ["subjects"],
-      queryFn: subjectListQuery,
-    }),
     queryClient.prefetchInfiniteQuery({
-      queryKey: ["teachers", search, major, year, term],
-      queryFn: (param) => teacherList(param, search, major, year, term),
+      queryKey: ["students", search, major, year, term],
+      queryFn: (param) => studentList(param, search, major, year, term),
       initialPageParam: 1,
     }),
   ]);
@@ -33,8 +30,8 @@ const TeacherTablePrefetch = async () => {
   return (
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <TableBar SBoxPlaceholder={"Search Teacher"}></TableBar>
-        <TeacherTable></TeacherTable>
+        <TableBar SBoxPlaceholder={"Search Student"}></TableBar>
+        <StudentTable></StudentTable>
       </HydrationBoundary>
     </>
   );
