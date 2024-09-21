@@ -53,7 +53,7 @@ export default function LoginForm() {
         email: values.email,
         password: values.password,
         redirect: false,
-        callbackUrl: callbackUrl || "/absproxy/3000",
+        callbackUrl: callbackUrl || "/",
       });
 
       console.log(res);
@@ -128,7 +128,7 @@ export default function LoginForm() {
         onClick={async () => {
           const data = await signOut({
             redirect: false,
-            callbackUrl: "/absproxy/3000/login",
+            callbackUrl: "/login",
           });
           router.push(data.url);
         }}

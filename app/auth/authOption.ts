@@ -33,7 +33,7 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/absproxy/3000/login",
+    signIn: "/login",
   },
   callbacks: {
     async jwt({ token, user }) {

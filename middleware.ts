@@ -13,7 +13,6 @@ export default withAuth({
       return Boolean(token);
     },
   },
-  
 });
 
 export const config = {
