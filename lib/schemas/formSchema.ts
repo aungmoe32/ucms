@@ -23,6 +23,16 @@ export const createStudentFormSchema = z.object({
   gender: z.enum(Gender),
 });
 
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "Email is required" })
+    .email({ message: "Email is invalid" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
+});
+
 export const updateStudentFormSchema = createStudentFormSchema.extend({
   password: z
     .string()

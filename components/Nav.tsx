@@ -119,6 +119,9 @@ export default function Nav({ children, links }) {
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="/api/auth/signin">Login</Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
