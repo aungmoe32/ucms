@@ -7,9 +7,12 @@ import {
 } from "@tanstack/react-query";
 import React from "react";
 import TeacherTimeline from "./TeacherTimeline";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/authOption";
 
 export default async function TeacherTimelinePrefetch() {
-  const userId = process.env.USER_ID;
+  const session = await getServerSession(authOptions);
+  const userId = session.user.user_id;
   const user = await db.query.users.findFirst({
     where: (table, { and, eq }) => eq(table.id, userId!),
     columns: {

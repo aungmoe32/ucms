@@ -10,11 +10,14 @@ import React from "react";
 import TeacherTimetable from "../../TeacherTimetable";
 import TeacherTT from "./TeacherTT";
 import { eventTypes } from "@/lib/drizzle/schema";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/authOption";
 
 const TeacherTTPrefetch = async () => {
   let teacher_subjects: any = [];
 
-  const userId = process.env.USER_ID;
+  const session = await getServerSession(authOptions);
+  const userId = session.user.user_id;
   const user = await db.query.users.findFirst({
     where: (table, { and, eq }) => eq(table.id, userId!),
     columns: {

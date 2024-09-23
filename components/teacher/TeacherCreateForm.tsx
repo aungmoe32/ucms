@@ -64,26 +64,16 @@ const TeacherCreateForm = () => {
     control,
   } = form;
 
-  // const router = useRouter();
-
-  // console.log(form.formState.errors);
-
   async function onSubmit(values: z.infer<typeof createTeacherFormSchema>) {
     // console.log("Values", values);
-    // return;
     try {
       if (edit) await updateTeacher(defaultValues.teacher.id, values);
       else await createTeacher(values);
-      // router.push("/teacher/teacher");
       queryClient.invalidateQueries(["teachers"], { exact: true });
       if (edit) toast.success("edited");
       else toast.success("created");
-      // router.refresh();
     } catch (error) {
-      setError("root", {
-        message: "Error creation",
-      });
-      // console.log(error);
+      toast.error("Error");
     }
   }
 
@@ -222,59 +212,6 @@ const TeacherCreateForm = () => {
           </div>
         </form>
       </Form>
-      {errors.root && (
-        <div className=" text-white w-full p-4 bg-red-500 mt-2">
-          {errors.root.message}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const ExperienceInput = ({
-  form,
-  control,
-}: {
-  form: UseFormReturn<z.infer<typeof createTeacherFormSchema>>;
-  control: Control<z.infer<typeof createTeacherFormSchema>>;
-}) => {
-  const { field } = useController({
-    control,
-    name: "experience",
-  });
-  const [value, setValue] = useState(String(field.value));
-  const {
-    formState: { errors },
-  } = form;
-
-  useEffect(() => {
-    setValue(String(field.value));
-  }, [field.value, setValue]);
-
-  return (
-    <div className="space-y-2">
-      <Label htmlFor="experienceInput">Experience (year)</Label>
-
-      <input
-        placeholder="Add your experience"
-        // defaultValue={0}
-        ref={field.ref}
-        value={value}
-        type="number"
-        id="experienceInput"
-        onChange={(e) => {
-          console.log(e.target.value);
-          field.onChange(parseInt(e.target.value, 10) || 0); // send data to hook form
-          // if (e.target.value === "") setValue("0");
-          // else
-          setValue(e.target.value);
-        }}
-        onBlur={field.onBlur}
-        className="w-full mt-0 placeholder-gray-500 p-3 border-[2px] border-gray-200 rounded-md   focus:outline-none"
-      />
-      <p className="text-sm font-medium text-destructive">
-        {errors.experience?.message}
-      </p>
     </div>
   );
 };

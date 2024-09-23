@@ -6,6 +6,7 @@ import {
   teachers,
   users,
 } from "@/lib/drizzle/schema";
+import { updateTeacherFormSchema } from "@/lib/schemas/validationSchemas";
 import { genSaltSync, hashSync } from "bcrypt-ts";
 import { eq, inArray } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
