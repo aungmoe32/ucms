@@ -10,10 +10,13 @@ import React from "react";
 import TeacherTimetable from "../../TeacherTimetable";
 import TeacherTT from "./TeacherTT";
 import StudentTT from "./StudentTT";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/authOption";
 
 const StudentTTPrefetch = async () => {
   const queryClient = new QueryClient();
-  const userId = process.env.USER_ID;
+  const session = await getServerSession(authOptions);
+  const userId = session.user.user_id;
   const user = await db.query.users.findFirst({
     where: (table, { and, eq }) => eq(table.id, userId!),
     columns: {

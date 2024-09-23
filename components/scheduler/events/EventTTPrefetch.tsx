@@ -10,28 +10,14 @@ import { eventList } from "@/lib/resources/events";
 import { subjectsListQuery } from "@/app/api/subjects/[semester_id]/route";
 
 const EventTTPrefetch = async () => {
-  const semesters = await db.query.semesters.findMany({
-    // where: (tb, funcs) => funcs.eq(tb.id, process.env.NEXT_PUBLIC_SEM_ID!),
-    // with: {
-    //     // eventType : true
-    //     events: {
-    //         with: {
-    //             eventType: true,
-    //             subject: true
-    //         }
-    //     }
-    // }
-  });
+  const semesters = await db.query.semesters.findMany({});
   const semester = semesters[0];
   const eventTypes = await db.query.eventTypes.findMany({});
-  // const subjects = await db.query.subjects.findMany({
-  //     where: (tb, funcs) => funcs.eq(tb.semesterId, sem?.id!)
-  // });
 
   const queryClient = new QueryClient();
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: ["events", semester.id, "0"],
+      queryKey: ["events", semester.id, "0"], // zero means eventType
       queryFn: async () => {
         const events = await eventList(semester.id, "0");
         return events;

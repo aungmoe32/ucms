@@ -5,6 +5,6 @@ import LoginForm from "./LoginForm";
 
 export default async function Login() {
   const session = await getServerSession();
-  if (session) redirect("/");
+  if (session) redirect("/dashboard");
   return <LoginForm></LoginForm>;
 }
