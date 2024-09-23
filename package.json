@@ -12,7 +12,7 @@
     "db:drop": "npx drizzle-kit drop",
     "db:migrate": "tsx lib/drizzle/migrate.ts",
     "db:seed-sems": "tsx lib/drizzle/seed/semesters.ts",
-    "db:seed-subjects": "tsx lib/drizzle/seed/defaultSubject.ts"
+    "db:seed-subjects": "tsx lib/drizzle/seed/subject-seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
