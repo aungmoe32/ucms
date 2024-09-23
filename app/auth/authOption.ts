@@ -18,16 +18,14 @@ const authOptions: NextAuthOptions = {
           password: string;
         };
 
-        // const user = await db.query.users.findFirst({
-        //   where: (table, funcs) => funcs.eq(table.email, email),
-        // });
-        // if (!user) return null;
+        const user = await db.query.users.findFirst({
+          where: (table, funcs) => funcs.eq(table.email, email),
+        });
+        if (!user) return null;
 
-        // let passwordsMatch = await compare(password, user.password!);
-        // if (passwordsMatch) return user;
+        let passwordsMatch = await compare(password, user.password!);
+        if (passwordsMatch) return user;
 
-        if (email == "pirew97440@ofionk.com")
-          return { email: "kopu@gmail", role: "student", name: "pu" };
         return null;
       },
     }),
@@ -37,13 +35,18 @@ const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = user.role;
-      //   console.log("first signin ", user);
+      if (user) {
+        token.role = user.role;
+        token.user_id = user.id;
+      }
+      // console.log("first signin ", user);
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) session.user.role = token.role;
-      // console.log(session);
+      if (session?.user) {
+        session.user.role = token.role;
+        session.user.user_id = token.user_id;
+      }
       return session;
     },
   },

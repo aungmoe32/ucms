@@ -1,16 +1,21 @@
+import authOptions from "@/app/auth/authOption";
 import { db } from "@/lib/drizzle/db";
 import { noti_semester, noti_subscriptions } from "@/lib/drizzle/schema";
 import { saveSubscriptionToDatabase } from "@/lib/resources/server-noti";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const subscription = await request.json();
+  const session = await getServerSession(authOptions);
 
-  //   if (!isValidSaveRequest(req, res)) {
-  //     return;
-  //   }
+  if (!session) {
+    return NextResponse.json([], {
+      status: 400,
+    });
+  }
 
-  const userId = process.env.USER_ID;
+  const userId = session.user.user_id;
   const user = await db.query.users.findFirst({
     where: (table, { and, eq }) => eq(table.id, userId!),
     columns: {
@@ -90,22 +95,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-// const isValidSaveRequest = (req, res : NextResponse) => {
-//     // Check the request body has at least an endpoint.
-//     if (!req.body || !req.body.endpoint) {
-//       // Not a valid subscription.
-//       res.status(400);
-//       res.setHeader("Content-Type", "application/json");
-//       res.send(
-//         JSON.stringify({
-//           error: {
-//             id: "no-endpoint",
-//             message: "Subscription must have an endpoint.",
-//           },
-//         }),
-//       );
-//       return false;
-//     }
-//     return true;
-//   };

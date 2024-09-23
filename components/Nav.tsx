@@ -35,12 +35,15 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Notification from "@/components/scheduler/Notification";
 import { ModeToggle } from "@/components/ModeToggle";
 import { useState } from "react";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export const description =
   "A products dashboard with a sidebar navigation and a main content area. The dashboard has a header with a search input and a user menu. The sidebar has a logo, navigation links, and a card with a call to action. The main content area shows an empty state with a call to action.";
 
 export default function Nav({ children, links }) {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const router = useRouter();
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -118,9 +121,19 @@ export default function Nav({ children, links }) {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href="/api/auth/signin">Login</Link>
+                <button
+                  className="w-full text-left"
+                  onClick={async () => {
+                    const data = await signOut({
+                      redirect: false,
+                      callbackUrl: "/login",
+                    });
+                    router.push(data.url);
+                  }}
+                >
+                  Logout
+                </button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
