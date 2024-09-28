@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "remove-license": "node remove-license.js",
-    "dev": "next dev --turbo",
+    "dev": "next dev -H 192.168.100.33",
     "build": "node remove-license.js && next build",
     "start": "next start",
     "lint": "next lint",

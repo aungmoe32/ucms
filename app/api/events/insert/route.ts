@@ -1,6 +1,7 @@
 import { db } from "@/lib/drizzle/db";
 import { insertEvent } from "@/lib/resources/events";
 import { sendPush } from "@/lib/resources/server-noti";
+import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -16,8 +17,8 @@ export async function POST(request: NextRequest) {
 
     await sendPush(
       {
-        title: "New Event Created",
-        body: event.title,
+        title: "Title : " + event[0].title,
+        body:  "A new event created at " + moment(event[0].startDate).format("llll"),
       },
       subs
     );

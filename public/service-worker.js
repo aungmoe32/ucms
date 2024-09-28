@@ -3,6 +3,9 @@ async function handlePushEvent(event) {
   registration.showNotification(data.title, {
     body: data.body,
     icon: data.icon,
+    // actions : [
+    //   { action: 'open_url', title: 'Open Website', icon: 'open-icon.png' },
+    // ]
   });
 }
 
@@ -10,19 +13,21 @@ self.addEventListener("push", function (event) {
   event.waitUntil(handlePushEvent(event));
 });
 
-const doSomething = () => {
+const doSomething = async () => {
   return Promise.resolve();
 };
 
-// This is here just to highlight the simple version of notification click.
-// Normally you would only have one notification click listener.
-/**** START simpleNotification ****/
 self.addEventListener("notificationclick", function (event) {
   const clickedNotification = event.notification;
   clickedNotification.close();
+  clients.openWindow("/timetable");
 
-  // Do something as the result of the notification click
-  const promiseChain = doSomething();
-  event.waitUntil(promiseChain);
+  // clients.matchAll({
+  //   type  : "window"
+  // }).then(clientList => {
+  //   const client = clientList[0]
+  //   if(client) client.navigate("http://192.168.100.33:3000/teacher/timetable")
+  // })
+  // const promiseChain = doSomething();
+  // event.waitUntil(promiseChain);
 });
-/**** END simpleNotification ****/

@@ -30,6 +30,7 @@ export const insertEvent = async (semester_id: string, requestBody) => {
     })
     .returning({
       title: events.title,
+      startDate : events.startDate
     });
   return data;
 };

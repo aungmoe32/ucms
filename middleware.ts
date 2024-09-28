@@ -27,9 +27,16 @@ export default withAuth((req) => {
       return NextResponse.redirect(new URL("/teacher/dashboard", req.url));
     }
   }
+  if (token && nextUrl.pathname == "/timetable") {
+    if (token.role === "student") {
+      return NextResponse.redirect(new URL("/student/timetable", req.url));
+    } else {
+      return NextResponse.redirect(new URL("/teacher/timetable", req.url));
+    }
+  }
   // return Boolean(token);
 });
 
 export const config = {
-  matcher: ["/teacher/:path*", "/student/:path*", "/dashboard"],
+  matcher: ["/teacher/:path*", "/student/:path*", "/dashboard", "/timetable"],
 };
