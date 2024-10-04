@@ -1,4 +1,5 @@
 import authOptions from "@/app/auth/authOption";
+import { isTeacher } from "@/lib/api/validate";
 import { db } from "@/lib/drizzle/db";
 import { noti_semester, noti_subscriptions } from "@/lib/drizzle/schema";
 import { saveSubscriptionToDatabase } from "@/lib/resources/server-noti";

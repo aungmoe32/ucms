@@ -3,11 +3,28 @@ import { sendPush } from "@/lib/resources/server-noti";
 import { NextRequest, NextResponse } from "next/server";
 import { getNotiSubs } from "../../insert/route";
 import { updateEvent } from "@/lib/resources/events";
+import authOptions from "@/app/auth/authOption";
+import { getServerSession } from "next-auth";
+import { isTeacher } from "@/lib/api/validate";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json([], {
+      status: 400,
+    });
+  }
+  if (!isTeacher(session))
+    return NextResponse.json(
+      { error: "Unautorized" },
+      {
+        status: 400,
+      }
+    );
   try {
     const data = await request.json();
     const event = await updateEvent(params.id, data);
@@ -17,7 +34,7 @@ export async function POST(
     await sendPush(
       {
         title: "Title : " + event.title,
-        body:  "An event is updated.",
+        body: "An event is updated.",
       },
       subs
     );
