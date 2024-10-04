@@ -10,11 +10,17 @@ import { updateTeacherFormSchema } from "@/lib/schemas/validationSchemas";
 import { genSaltSync, hashSync } from "bcrypt-ts";
 import { eq, inArray } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+import { isTeacher, unauthenticated, unauthorized } from "@/lib/api/validate";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/authOption";
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) return unauthenticated();
+  if (!isTeacher(session)) return unauthorized();
   try {
     const body = await request.json();
     const validation = await updateTeacherFormSchema.safeParseAsync(body);
@@ -109,6 +115,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) return unauthenticated();
+  if (!isTeacher(session)) return unauthorized();
   try {
     const teacher = await db.query.teachers.findFirst({
       where: (table, { and, eq }) => eq(table.id, params.id),

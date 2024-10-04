@@ -14,8 +14,15 @@ import { unstable_noStore } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { PageSize } from "@/lib/constant/constants";
 import { createTeacherFormSchema } from "@/lib/schemas/validationSchemas";
+import { isTeacher, unauthenticated, unauthorized } from "@/lib/api/validate";
+import authOptions from "@/app/auth/authOption";
+import { getServerSession } from "next-auth";
 
 export async function POST(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) return unauthenticated();
+  if (!isTeacher(session)) return unauthorized();
+
   try {
     const body = await request.json();
     const validation = await createTeacherFormSchema.safeParseAsync(body);
@@ -72,7 +79,10 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  unstable_noStore();
+  const session = await getServerSession(authOptions);
+  if (!session) return unauthenticated();
+  if (!isTeacher(session)) return unauthorized();
+
   const searchParams = request.nextUrl.searchParams;
   const year = searchParams.get("year");
   const term = searchParams.get("term");
