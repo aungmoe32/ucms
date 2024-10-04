@@ -8,6 +8,7 @@ import EventTypeSwitcher from "./EventTypeSwitcher";
 import SemesterSwitcher from "./SemesterSwitcher";
 import { TriangleAlert } from "lucide-react";
 import Link from "next/link";
+import EventEditingWarning from "./EventEditingWarning";
 
 const EventTT = ({ semesters, eventTypes }) => {
   const [eventType, setEventType] = useState({ name: "All", id: "0" });
@@ -53,16 +54,7 @@ const EventTT = ({ semesters, eventTypes }) => {
         eventTypes={eventTypes}
       ></Timetable>
 
-      <div className="flex justify-center text-yellow-400">
-        <TriangleAlert />
-        <div className="pl-2 text-sm ">
-          Editing events only support in{" "}
-          <Link href={"/teacher/timetable"} className=" underline">
-            Timetable
-          </Link>
-          <span> Page!</span>
-        </div>
-      </div>
+      <EventEditingWarning></EventEditingWarning>
     </div>
   );
 };
