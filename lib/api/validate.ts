@@ -16,3 +16,12 @@ export const unauthenticated = () => {
     }
   );
 };
+
+export const unauthorized = () => {
+  return NextResponse.json(
+    { error: "Unautorized" },
+    {
+      status: 400,
+    }
+  );
+};

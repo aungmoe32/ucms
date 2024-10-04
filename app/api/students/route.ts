@@ -13,8 +13,15 @@ import {
   Years,
 } from "@/lib/constant/constants";
 import { z } from "zod";
+import { isTeacher, unauthenticated, unauthorized } from "@/lib/api/validate";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/authOption";
 
 export async function POST(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) return unauthenticated();
+  if (!isTeacher(session)) return unauthorized();
+
   try {
     const body = await request.json();
     const validation = await createStudentFormSchema.safeParseAsync(body);
@@ -60,6 +67,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) return unauthenticated();
+
   const searchParams = request.nextUrl.searchParams;
   const pageSize = PageSize;
   const parsedPage = parseInt(searchParams.get("page")!, 10) || 0;
