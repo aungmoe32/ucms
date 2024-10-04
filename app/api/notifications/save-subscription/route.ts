@@ -1,5 +1,5 @@
 import authOptions from "@/app/auth/authOption";
-import { isTeacher } from "@/lib/api/validate";
+import { isTeacher, unauthenticated } from "@/lib/api/validate";
 import { db } from "@/lib/drizzle/db";
 import { noti_semester, noti_subscriptions } from "@/lib/drizzle/schema";
 import { saveSubscriptionToDatabase } from "@/lib/resources/server-noti";
@@ -9,12 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   const subscription = await request.json();
   const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json([], {
-      status: 400,
-    });
-  }
+  if (!session) return unauthenticated();
 
   const userId = session.user.user_id;
   const user = await db.query.users.findFirst({

@@ -1,5 +1,5 @@
 import authOptions from "@/app/auth/authOption";
-import { isTeacher } from "@/lib/api/validate";
+import { isTeacher, unauthenticated } from "@/lib/api/validate";
 import { db } from "@/lib/drizzle/db";
 import { insertEvent } from "@/lib/resources/events";
 import { sendPush } from "@/lib/resources/server-noti";
@@ -10,11 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return NextResponse.json([], {
-      status: 400,
-    });
-  }
+  if (!session) return unauthenticated();
   if (!isTeacher(session))
     return NextResponse.json(
       { error: "Unautorized" },

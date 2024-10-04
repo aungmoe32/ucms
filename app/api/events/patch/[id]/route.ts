@@ -5,19 +5,14 @@ import { getNotiSubs } from "../../insert/route";
 import { updateEvent } from "@/lib/resources/events";
 import authOptions from "@/app/auth/authOption";
 import { getServerSession } from "next-auth";
-import { isTeacher } from "@/lib/api/validate";
+import { isTeacher, unauthenticated } from "@/lib/api/validate";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json([], {
-      status: 400,
-    });
-  }
+  if (!session) return unauthenticated();
   if (!isTeacher(session))
     return NextResponse.json(
       { error: "Unautorized" },

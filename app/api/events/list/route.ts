@@ -1,15 +1,12 @@
 import authOptions from "@/app/auth/authOption";
+import { unauthenticated } from "@/lib/api/validate";
 import { eventList } from "@/lib/resources/events";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json([], {
-      status: 400,
-    });
-  }
+  if (!session) return unauthenticated();
   const semester_id = request.nextUrl.searchParams.get("semester_id");
   const eventType = request.nextUrl.searchParams.get("eventType");
   try {
