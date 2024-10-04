@@ -34,11 +34,11 @@ export const TeacherLinks = [
     path: "/teacher/events",
     icon: <CalendarDays className="h-4 w-4" />,
   },
-  {
-    text: "Results",
-    path: "/teacher/results",
-    icon: <BookCheck className="h-4 w-4" />,
-  },
+  // {
+  //   text: "Results",
+  //   path: "/teacher/results",
+  //   icon: <BookCheck className="h-4 w-4" />,
+  // },
 ];
 export const StudentLinks = [
   {

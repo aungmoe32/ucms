@@ -1,11 +1,13 @@
 "use client";
-import React, { useState } from "react";
-import Timetable from "../Timetable/Timetable";
-import EventTypeSwitcher from "./EventTypeSwitcher";
-import { useQuery } from "@tanstack/react-query";
 import { getEvents } from "@/lib/api/event";
 import { getSubjects } from "@/lib/api/subject";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import Timetable from "../Timetable/Timetable";
+import EventTypeSwitcher from "./EventTypeSwitcher";
 import SemesterSwitcher from "./SemesterSwitcher";
+import { TriangleAlert } from "lucide-react";
+import Link from "next/link";
 
 const EventTT = ({ semesters, eventTypes }) => {
   const [eventType, setEventType] = useState({ name: "All", id: "0" });
@@ -50,6 +52,17 @@ const EventTT = ({ semesters, eventTypes }) => {
         isAgenda={true}
         eventTypes={eventTypes}
       ></Timetable>
+
+      <div className="flex justify-center text-yellow-400">
+        <TriangleAlert />
+        <div className="pl-2 text-sm ">
+          Editing events only support in{" "}
+          <Link href={"/teacher/timetable"} className=" underline">
+            Timetable
+          </Link>
+          <span> Page!</span>
+        </div>
+      </div>
     </div>
   );
 };

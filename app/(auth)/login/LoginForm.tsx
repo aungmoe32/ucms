@@ -22,6 +22,7 @@ import { loginSchema } from "@/lib/schemas/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -35,6 +36,7 @@ export default function LoginForm() {
     formState: { errors },
     control,
   } = form;
+  const [disabledSubmit, setDisabledSubmit] = useState(false);
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
@@ -51,6 +53,7 @@ export default function LoginForm() {
 
       console.log(res);
       if (!res?.error) {
+        setDisabledSubmit(true);
         router.push(res.url);
       } else {
         toast.error("Invalid Credentials!");
@@ -109,7 +112,7 @@ export default function LoginForm() {
             <Button
               className="w-full"
               type="submit"
-              disabled={form.formState.isSubmitting}
+              disabled={form.formState.isSubmitting || disabledSubmit}
             >
               Sign in
             </Button>
