@@ -2,8 +2,13 @@ import { db } from "@/lib/drizzle/db";
 import { subjects } from "@/lib/drizzle/schema";
 import { createSubjectFormSchema } from "@/lib/schemas/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
+import { isTeacher, unauthenticated, unauthorized } from "@/lib/api/validate";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/authOption";
 
 export async function GET(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) return unauthenticated();
   try {
     return NextResponse.json(await subjectListQuery());
   } catch (e) {
@@ -13,6 +18,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) return unauthenticated();
+  if (!isTeacher(session)) return unauthorized();
   try {
     const body = await request.json();
     const validation = await createSubjectFormSchema.safeParseAsync(body);
