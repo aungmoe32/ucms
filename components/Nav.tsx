@@ -56,9 +56,10 @@ export default function Nav({ children, links }) {
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-3">
-              {links.map((tl) => (
+              {links.map((tl, index) => (
                 <Link
                   href={tl.path}
+                  key={index}
                   className="flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-white hover:bg-blue-400"
                 >
                   {tl.icon}
@@ -91,8 +92,9 @@ export default function Nav({ children, links }) {
                   {/* <Package2 className="h-6 w-6 text-background" /> */}
                   <span className="text-white">UCMS</span>
                 </Link>
-                {links.map((tl) => (
+                {links.map((tl, index) => (
                   <Link
+                    key={index}
                     onClick={() => setOpenDrawer(false)}
                     href={tl.path}
                     className="flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-white hover:bg-blue-400"
