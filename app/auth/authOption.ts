@@ -20,6 +20,13 @@ const authOptions: NextAuthOptions = {
 
         const user = await db.query.users.findFirst({
           where: (table, funcs) => funcs.eq(table.email, email),
+          with: {
+            student: {
+              with: {
+                semester: true,
+              },
+            },
+          },
         });
         if (!user) return null;
 
@@ -38,6 +45,8 @@ const authOptions: NextAuthOptions = {
       if (user) {
         token.role = user.role;
         token.user_id = user.id;
+        token.gender = user.gender;
+        if (user.role == "student") token.semester = user.student.semester;
       }
       // console.log("first signin ", user);
       return token;
@@ -46,6 +55,8 @@ const authOptions: NextAuthOptions = {
       if (session?.user) {
         session.user.role = token.role;
         session.user.user_id = token.user_id;
+        session.user.gender = token.gender;
+        session.user.semester = token.semester;
       }
       return session;
     },

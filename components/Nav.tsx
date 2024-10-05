@@ -37,6 +37,7 @@ import { ModeToggle } from "@/components/ModeToggle";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Profile from "./profile/Profile";
 
 export const description =
   "A products dashboard with a sidebar navigation and a main content area. The dashboard has a header with a search input and a user menu. The sidebar has a logo, navigation links, and a card with a call to action. The main content area shows an empty state with a call to action.";
@@ -110,35 +111,7 @@ export default function Nav({ children, links }) {
           <div className="w-full flex-1"></div>
           <Notification></Notification>
           <ModeToggle></ModeToggle>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <button
-                  className="w-full text-left"
-                  onClick={async () => {
-                    const data = await signOut({
-                      redirect: false,
-                      callbackUrl: "/login",
-                    });
-                    router.push(data.url);
-                  }}
-                >
-                  Logout
-                </button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Profile></Profile>
         </header>
         <main className="p-3">{children}</main>
       </div>
