@@ -23,3 +23,5 @@ export const subjectsListQuery = async (semester_id) => {
   });
   return subs;
 };
+
+export const dynamic = "force-dynamic";
