@@ -54,6 +54,10 @@ export default function Profile() {
             , {session?.user?.semester.term} Semester
           </div>
         </div>
+        <div className="flex flex-col justify-center ">
+          <span className="font-bold">Role</span>
+          <div className="text-gray-400 text-sm">{session?.user?.role}</div>
+        </div>
       </div>
     </div>
   );

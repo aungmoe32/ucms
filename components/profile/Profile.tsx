@@ -18,7 +18,7 @@ export default function Profile() {
   const router = useRouter();
   const { status, data: session } = useSession();
   if (status == "loading") return null;
-  console.log(session);
+  // console.log(session);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

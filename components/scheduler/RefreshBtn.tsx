@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
 import { IoIosRefresh } from "react-icons/io";
+import { RotateCcw } from "lucide-react";
 
 export default function RefreshBtn({ refreshEvents, refreshSubjects }) {
   const [btnDisabled, setBtnDisabled] = useState(false);
@@ -17,12 +18,12 @@ export default function RefreshBtn({ refreshEvents, refreshSubjects }) {
   };
   return (
     <Button
-      type="button"
-      variant="ghost"
+      variant="outline"
+      size={"icon"}
       disabled={btnDisabled}
       onClick={refresh}
     >
-      <IoIosRefresh />
+      <RotateCcw size={20} />
     </Button>
   );
 }

@@ -51,7 +51,7 @@ export default function LoginForm() {
         callbackUrl: callbackUrl || "/dashboard",
       });
 
-      console.log(res);
+      // console.log(res);
       if (!res?.error) {
         setDisabledSubmit(true);
         router.push(res.url);

@@ -119,7 +119,14 @@ const TT = ({
       {/* </div> */}
       <Scheduler
         id="scheduler"
-        dataSource={events}
+        // dataSource={events}
+        dataSource={{
+          store: {
+            type: "array",
+            data: events,
+            key: "id",
+          },
+        }}
         ref={schedulerRef}
         // startDateExpr="start.dateTime"
         // endDateExpr="end.dateTime"
