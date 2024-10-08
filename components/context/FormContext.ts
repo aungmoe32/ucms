@@ -2,9 +2,9 @@ import { createContext, Dispatch, SetStateAction } from "react";
 
 export const FormContext = createContext({
   open: false,
-  setOpen: () => {},
+  setOpen: (v) => {},
   defaultValues: {},
   setDefaultValues: () => {},
   edit: false,
-  setEdit: () => {},
+  setEdit: (v) => {},
 });

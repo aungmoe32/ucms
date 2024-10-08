@@ -1,14 +1,19 @@
 "use client";
 import Skeleton from "@/components/Skeleton";
+import { FormContext } from "@/components/context/FormContext";
+import FormProvider from "@/components/context/FormProvider";
+import StudentProfileDialog from "@/components/student/StudentProfileDialog";
+import StudentFormDialog from "@/components/teacher/StudentFormDialog";
 import { Button } from "@/components/ui/button";
 import { CircleUser, User } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useContext, useState } from "react";
 
 export default function Profile() {
   const router = useRouter();
   const { status, data: session } = useSession();
+  const [open, setOpen] = useState(false);
   if (status == "loading") return <Skeleton className="h-screen" />;
   return (
     <div className=" w-full flex flex-col justify-center items-center my-5 space-y-3">
@@ -19,7 +24,19 @@ export default function Profile() {
         {session?.user?.name}
       </div>
       <div>
-        <Button variant={"outline"}>Edit Profile</Button>
+        <StudentProfileDialog
+          open={open}
+          setOpen={setOpen}
+          defaultValues={session?.user}
+        ></StudentProfileDialog>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          Edit Profile
+        </Button>
       </div>
       <div className="flex flex-col space-y-5">
         <div className="flex flex-col justify-center ">

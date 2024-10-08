@@ -51,3 +51,8 @@ export const updateStudent = async (id, data) => {
   const res = await axios.patch("/api/students/" + id, data);
   return res.data;
 };
+
+export const updateProfile = async (data) => {
+  const res = await axios.patch("/api/profile/student", data);
+  return res.data;
+};

@@ -9,7 +9,10 @@ export default function Students() {
   return (
     <FormProvider>
       <SearchProvider>
-        <StudentFormDialog></StudentFormDialog>
+        <StudentFormDialog
+          title={"Student Form"}
+          description={"Create a student"}
+        ></StudentFormDialog>
         <div className="md:mx-5">
           <StudentTablePrefetch></StudentTablePrefetch>
         </div>

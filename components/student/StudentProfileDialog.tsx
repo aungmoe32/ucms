@@ -10,20 +10,22 @@ import {
 } from "@/components/ui/dialog";
 import { FormContext } from "../context/FormContext";
 import StudentCreateForm from "../student/StudentCreateForm";
+import StudentProfileForm from "./StudentProfileForm";
 
-const StudentFormDialog = ({ title, description }) => {
-  const { open, setOpen } = useContext(FormContext);
+const StudentProfileDialog = ({ open, setOpen, defaultValues }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className=" max-h-[700px] max-w-[700px] overflow-scroll">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-          <StudentCreateForm></StudentCreateForm>
+          <DialogTitle>Profile</DialogTitle>
+          <DialogDescription>Edit profile</DialogDescription>
+          <StudentProfileForm
+            defaultValues={defaultValues}
+          ></StudentProfileForm>
         </DialogHeader>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default StudentFormDialog;
+export default StudentProfileDialog;

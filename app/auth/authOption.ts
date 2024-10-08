@@ -1,5 +1,7 @@
 import { db } from "@/lib/drizzle/db";
+import { users } from "@/lib/drizzle/schema";
 import { compare } from "bcrypt-ts";
+import { eq } from "drizzle-orm";
 import { NextAuthOptions } from "next-auth";
 
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -41,20 +43,33 @@ const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
-        token.role = user.role;
+        // first signin
         token.user_id = user.id;
+        token.role = user.role;
+        token.name = user.name;
+        token.email = user.email;
         token.gender = user.gender;
         if (user.role == "student") token.semester = user.student.semester;
       }
-      // console.log("first signin ", user);
+      if (trigger == "update") {
+        const user = await db.query.users.findFirst({
+          where: () => eq(users.id, token.user_id),
+        });
+        token.name = user.name;
+        token.email = user.email;
+        token.gender = user.gender;
+        // console.log("udpated", user);
+      }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
-        session.user.role = token.role;
         session.user.user_id = token.user_id;
+        session.user.role = token.role;
+        session.user.name = token.name;
+        session.user.email = token.email;
         session.user.gender = token.gender;
         session.user.semester = token.semester;
       }
