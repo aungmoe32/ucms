@@ -11,7 +11,7 @@ export default function Teachers() {
       <SearchProvider>
         <TeacherDialog></TeacherDialog>
         <div className="md:mx-5">
-          <Suspense fallback={<Skeleton height={"20rem"} />}>
+          <Suspense fallback={<Skeleton className="h-screen" />}>
             <TeacherTablePrefetch></TeacherTablePrefetch>
           </Suspense>
         </div>

@@ -46,7 +46,7 @@ export default function Dashboard() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Suspense fallback={<Skeleton height={"20rem"} />}>
+          <Suspense fallback={<Skeleton className="h-screen" />}>
             <TeacherTimelinePrefetch></TeacherTimelinePrefetch>
           </Suspense>
         </CardContent>

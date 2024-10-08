@@ -4,7 +4,7 @@ import React, { Suspense } from "react";
 
 export default function Events() {
   return (
-    <Suspense fallback={<Skeleton height={"20rem"} />}>
+    <Suspense fallback={<Skeleton className="h-screen" />}>
       <EventTTPrefetch></EventTTPrefetch>
     </Suspense>
   );
