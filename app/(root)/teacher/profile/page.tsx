@@ -78,6 +78,12 @@ export default function Profile() {
           <span className="font-bold">Role</span>
           <div className="text-gray-500 text-sm">{session?.user?.role}</div>
         </div>
+        <div className="flex flex-col justify-center ">
+          <span className="font-bold">Teach Subjects</span>
+          <div className="text-gray-500 text-sm">
+            {session?.user?.teacher.subjects.map((sub) => sub.name).toString()}
+          </div>
+        </div>
       </div>
     </div>
   );

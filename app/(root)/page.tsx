@@ -6,6 +6,7 @@ import HeroSvg from "../../public/svgs/undraw_freelancer_re_irh4.svg";
 import undraw_software_engineer from "../../public/svgs/undraw_software_engineer_re_tnjc.svg";
 import { Facebook, Twitter, Youtube } from "lucide-react";
 import Profile from "@/components/profile/Profile";
+import { ModeToggle } from "@/components/ModeToggle";
 export default function Home() {
   return (
     <div className="w-full relative ">
@@ -33,7 +34,10 @@ export default function Home() {
             ABOUT US
           </Link>
         </div> */}
-        <Profile></Profile>
+        <div className="flex justify-center items-center space-x-4">
+          <ModeToggle></ModeToggle>
+          <Profile></Profile>
+        </div>
       </div>
       <div className="h-screen w-full bg-background flex flex-col md:flex-row justify-center items-center px-10">
         <div className="flex md:flex-1 flex-col space-y-5 justify-center items-start">
