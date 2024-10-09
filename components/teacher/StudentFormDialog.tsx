@@ -17,8 +17,10 @@ const StudentFormDialog = ({ title, description }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className=" max-h-[700px] max-w-[700px] overflow-scroll">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogTitle className="text-center">{title}</DialogTitle>
+          <DialogDescription className="text-center">
+            {description}
+          </DialogDescription>
           <StudentCreateForm></StudentCreateForm>
         </DialogHeader>
       </DialogContent>

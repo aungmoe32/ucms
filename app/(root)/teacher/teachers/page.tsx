@@ -9,7 +9,10 @@ export default function Teachers() {
   return (
     <FormProvider>
       <SearchProvider>
-        <TeacherDialog></TeacherDialog>
+        <TeacherDialog
+          title={"Teacher Form"}
+          description={"Create a teacher"}
+        ></TeacherDialog>
         <div className="md:mx-5">
           <Suspense fallback={<Skeleton className="h-screen" />}>
             <TeacherTablePrefetch></TeacherTablePrefetch>

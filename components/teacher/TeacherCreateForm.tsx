@@ -46,9 +46,11 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import toast, { Toaster } from "react-hot-toast";
 import { FormContext } from "../context/FormContext";
+import { useSession } from "next-auth/react";
 
 const TeacherCreateForm = () => {
-  const { edit, defaultValues } = useContext(FormContext);
+  const { edit, defaultValues, isProfile, setIsProfile, setOpen } =
+    useContext(FormContext);
   const form = useForm<z.infer<typeof createTeacherFormSchema>>({
     resolver: zodResolver(
       edit ? updateTeacherFormSchema : createTeacherFormSchema
@@ -56,6 +58,7 @@ const TeacherCreateForm = () => {
     defaultValues,
   });
 
+  const { update } = useSession();
   const queryClient = useQueryClient();
 
   const {
@@ -70,8 +73,13 @@ const TeacherCreateForm = () => {
       if (edit) await updateTeacher(defaultValues.teacher.id, values);
       else await createTeacher(values);
       queryClient.invalidateQueries(["teachers"], { exact: true });
+      if (isProfile) {
+        update();
+        setIsProfile(false);
+      }
       if (edit) toast.success("edited");
       else toast.success("created");
+      setOpen(false);
     } catch (error) {
       toast.error("Error");
     }

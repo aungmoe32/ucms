@@ -17,8 +17,10 @@ const StudentProfileDialog = ({ open, setOpen, defaultValues }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className=" max-h-[700px] max-w-[700px] overflow-scroll">
         <DialogHeader>
-          <DialogTitle>Profile</DialogTitle>
-          <DialogDescription>Edit profile</DialogDescription>
+          <DialogTitle className="text-center">Profile</DialogTitle>
+          <DialogDescription className="text-center">
+            Edit profile
+          </DialogDescription>
           <StudentProfileForm
             defaultValues={defaultValues}
           ></StudentProfileForm>

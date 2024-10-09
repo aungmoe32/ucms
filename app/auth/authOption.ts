@@ -28,6 +28,19 @@ const authOptions: NextAuthOptions = {
                 semester: true,
               },
             },
+            teacher: {
+              with: {
+                teacher_subject: {
+                  with: {
+                    subject: {
+                      with: {
+                        semester: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
         });
         if (!user) return null;
@@ -51,16 +64,58 @@ const authOptions: NextAuthOptions = {
         token.name = user.name;
         token.email = user.email;
         token.gender = user.gender;
-        if (user.role == "student") token.semester = user.student.semester;
+        token.major = user.major;
+        if (user.role == "student") {
+          token.student = {
+            semester: user.student.semester,
+          };
+        } else {
+          token.teacher = {
+            id: user.teacher.id,
+            experience: user.teacher.experience,
+            subjects: user.teacher.teacher_subject.map((ts) => ts.subject),
+          };
+        }
       }
       if (trigger == "update") {
         const user = await db.query.users.findFirst({
           where: () => eq(users.id, token.user_id),
+          with: {
+            student: {
+              with: {
+                semester: true,
+              },
+            },
+            teacher: {
+              with: {
+                teacher_subject: {
+                  with: {
+                    subject: {
+                      with: {
+                        semester: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         });
         token.name = user.name;
         token.email = user.email;
         token.gender = user.gender;
-        // console.log("udpated", user);
+        token.major = user.major;
+        if (user.role == "student") {
+          token.student = {
+            semester: user.student.semester,
+          };
+        } else {
+          token.teacher = {
+            id: user.teacher.id,
+            experience: user.teacher.experience,
+            subjects: user.teacher.teacher_subject.map((ts) => ts.subject),
+          };
+        }
       }
       return token;
     },
@@ -71,7 +126,10 @@ const authOptions: NextAuthOptions = {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.gender = token.gender;
+        session.user.major = token.major;
         session.user.semester = token.semester;
+        session.user.teacher = token.teacher;
+        session.user.student = token.student;
       }
       return session;
     },

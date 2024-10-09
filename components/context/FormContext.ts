@@ -4,7 +4,9 @@ export const FormContext = createContext({
   open: false,
   setOpen: (v) => {},
   defaultValues: {},
-  setDefaultValues: () => {},
+  setDefaultValues: (v) => {},
   edit: false,
   setEdit: (v) => {},
+  isProfile: false,
+  setIsProfile: (v) => {},
 });

@@ -11,15 +11,17 @@ import {
 import { FormContext } from "../context/FormContext";
 import TeacherCreateForm from "./TeacherCreateForm";
 
-const TeacherDialog = () => {
+const TeacherDialog = ({ title, description }) => {
   const { open, setOpen } = useContext(FormContext);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {/* <DialogTrigger>Open</DialogTrigger> */}
       <DialogContent className=" max-h-[700px] max-w-[700px] overflow-scroll">
         <DialogHeader>
-          <DialogTitle>Teacher Form</DialogTitle>
-          <DialogDescription>Create a teacher</DialogDescription>
+          <DialogTitle className="text-center">{title}</DialogTitle>
+          <DialogDescription className="text-center">
+            {description}
+          </DialogDescription>
           <TeacherCreateForm></TeacherCreateForm>
         </DialogHeader>
       </DialogContent>
