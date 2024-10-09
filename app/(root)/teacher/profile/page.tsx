@@ -31,7 +31,7 @@ export default function Profile() {
             variant={"outline"}
             onClick={() => {
               const data = JSON.parse(JSON.stringify(session?.user));
-              console.log(data);
+              // console.log(data);
               data.experience = session?.user?.teacher.experience;
               data.subjects = session?.user?.teacher.subjects.map((s) => ({
                 subject_id: s.id,

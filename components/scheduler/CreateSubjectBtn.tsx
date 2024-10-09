@@ -93,8 +93,10 @@ const CreateSubjectBtn = ({ refreshSubjects }) => {
       </AlertDialogTrigger>
       <AlertDialogContent className=" ">
         <AlertDialogHeader>
-          <AlertDialogTitle>Create subject</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogTitle className="text-center">
+            Create subject
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-center">
             Create a subject for a semester
           </AlertDialogDescription>
         </AlertDialogHeader>
