@@ -31,7 +31,8 @@ export async function POST(request: NextRequest) {
       {
         title: "Title : " + event[0].title,
         body:
-          "A new event created at " + moment(event[0].startDate).format("llll"),
+          "A new event is created at " +
+          moment(event[0].startDate).format("llll"),
       },
       subs
     );

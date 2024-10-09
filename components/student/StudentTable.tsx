@@ -32,7 +32,7 @@ export default function StudentTable() {
     queryFn: (param) => studentList(param, search, major, year, term),
   });
   if (error) return null;
-  console.log(data);
+  // console.log(data);
   return (
     <div className="grid grid-cols-1">
       <div className="flex items-center justify-between">

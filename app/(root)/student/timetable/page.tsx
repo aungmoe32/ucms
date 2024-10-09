@@ -4,3 +4,5 @@ import React, { Suspense } from "react";
 export default function Timetable() {
   return <StudentTTPrefetch></StudentTTPrefetch>;
 }
+
+export const dynamic = "force-dynamic";

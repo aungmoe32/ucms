@@ -9,3 +9,5 @@ export default function Events() {
     </Suspense>
   );
 }
+
+export const dynamic = "force-dynamic";

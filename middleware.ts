@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export default withAuth((req) => {
   const nextUrl = req.nextUrl;
   const token = req.nextauth.token;
-  console.log("authorized", nextUrl.pathname);
+  // console.log("authorized", nextUrl.pathname);
   if (
     token &&
     nextUrl.pathname.startsWith("/student") &&

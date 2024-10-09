@@ -13,7 +13,7 @@ import React, { useContext, useState } from "react";
 
 export default function Profile() {
   const { status, data: session } = useSession();
-  console.log(session);
+  // console.log(session);
   const { edit, setEdit, setOpen, setDefaultValues, setIsProfile } =
     useContext(FormContext);
   if (status == "loading") return <Skeleton className="h-screen" />;

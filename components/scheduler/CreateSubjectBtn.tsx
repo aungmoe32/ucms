@@ -79,7 +79,7 @@ const CreateSubjectBtn = ({ refreshSubjects }) => {
   // const [openDelDialog, setOpenDelDialog] = useState(false);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+    // console.log(data);
     await createSubjectMutation.mutateAsync(data);
   }
   return (

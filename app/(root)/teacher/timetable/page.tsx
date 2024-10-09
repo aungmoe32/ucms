@@ -5,3 +5,5 @@ import React, { Suspense } from "react";
 export default function Timetable() {
   return <TeacherTTPrefetch></TeacherTTPrefetch>;
 }
+
+export const dynamic = "force-dynamic";

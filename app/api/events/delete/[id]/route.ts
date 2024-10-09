@@ -5,6 +5,7 @@ import { sendPush } from "@/lib/resources/server-noti";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOption";
 import { isTeacher, unauthenticated } from "@/lib/api/validate";
+import moment from "moment";
 
 export async function POST(
   request: NextRequest,
@@ -25,8 +26,11 @@ export async function POST(
     const subs = await getNotiSubs(event.semesterId);
     await sendPush(
       {
-        title: "Event is deleted",
-        body: event.title,
+        title: "Title : " + event.title,
+        body:
+          "A event created at " +
+          moment(event.startDate).format("llll") +
+          " is deleted!",
       },
       subs
     );

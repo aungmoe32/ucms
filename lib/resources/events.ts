@@ -30,7 +30,7 @@ export const insertEvent = async (semester_id: string, requestBody) => {
     })
     .returning({
       title: events.title,
-      startDate : events.startDate
+      startDate: events.startDate,
     });
   return data;
 };
@@ -42,6 +42,7 @@ export const deleteEvent = async (eventId: string) => {
     .returning({
       semesterId: events.semesterId,
       title: events.title,
+      startDate: events.startDate,
     });
   return event[0];
 };
