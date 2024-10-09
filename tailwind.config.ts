@@ -21,6 +21,10 @@ const config = {
       boxShadow: {
         custom: "1px 1px 17px 14px rgba(203, 211, 220, 0.82)",
       },
+
+      fontFamily: {
+        "source-sans": ["var(--font-source-sans)"],
+      },
       colors: {
         primary: {
           DEFAULT: "hsl(var(--primary))",

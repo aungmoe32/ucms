@@ -18,6 +18,12 @@ export default function Profile() {
   const router = useRouter();
   const { status, data: session } = useSession();
   if (status == "loading") return null;
+  if (status == "unauthenticated")
+    return (
+      <Link href="/api/auth/signin">
+        <Button variant={"outline"}>Login</Button>
+      </Link>
+    );
   // console.log(session);
   return (
     <DropdownMenu>
@@ -31,10 +37,16 @@ export default function Profile() {
         <DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
+          <Link className="w-full" href={`/dashboard`}>
+            Dashboard
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <Link className="w-full" href={`/${session?.user?.role}/profile`}>
             Account
           </Link>
         </DropdownMenuItem>
+
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <button
