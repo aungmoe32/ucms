@@ -20,7 +20,7 @@ export default function Profile() {
   if (status == "loading") return null;
   if (status == "unauthenticated")
     return (
-      <Link href="/api/auth/signin">
+      <Link href="/login">
         <Button variant={"outline"}>Login</Button>
       </Link>
     );
@@ -52,6 +52,8 @@ export default function Profile() {
           <button
             className="w-full text-left"
             onClick={async () => {
+              const notiBtn = document.getElementById("noti_btn");
+              notiBtn?.click();
               const data = await signOut({
                 redirect: false,
                 callbackUrl: "/login",

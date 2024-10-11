@@ -11,7 +11,7 @@ dotenv.config({
   path: [".env.local", ".env"],
 });
 
-const isMini = true;
+const isMini = false;
 const miniMajors = ["IT", "MC"];
 const miniYears = ["2"];
 const miniTerms = ["Second"];

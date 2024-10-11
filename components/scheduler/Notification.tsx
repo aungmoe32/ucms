@@ -35,7 +35,13 @@ const Notification = () => {
 
   return (
     <div className="flex justify-center items-center my-2">
-      <Button variant="ghost" size="icon" onClick={onClick} disabled={disabled}>
+      <Button
+        id="noti_btn"
+        variant="ghost"
+        size="icon"
+        onClick={onClick}
+        disabled={disabled}
+      >
         {isChecked ? (
           <Bell size={25} className="text-primary" />
         ) : (

@@ -14,42 +14,42 @@ dotenv.config({
 
 const isNeon = false;
 let db: any = null;
-const targetSemId = "6e781f99-c72a-4fdc-bdc5-0b99a40630b3";
+const targetSemId = "53768a0b-5094-4bd3-ba3b-c3952c711a4e";
 const subjectList = [
   {
     name: "Eng",
-    code: "2334",
-    color: "#25f768",
+    code: "E-22011",
+    color: "#ffd0a1",
   },
   {
     name: "Math",
-    code: "2334",
-    color: "#2C80FF",
+    code: "EM-22008",
+    color: "#9efc9d",
   },
   {
     name: "C++",
-    code: "2334",
-    color: "#5900ff",
+    code: "IT-22015",
+    color: "#ccfcb3",
   },
   {
     name: "Web",
-    code: "2334",
-    color: "#eb28a3",
+    code: "IT-22025",
+    color: "#fa9491",
   },
   {
     name: "BEE",
-    code: "2334",
-    color: "#30fff8",
+    code: "IT-22011",
+    color: "#ffd0a1",
   },
   {
     name: "DLD",
-    code: "2334",
-    color: "#ffdd30",
+    code: "IT-22021",
+    color: "#faaade",
   },
   {
     name: "DCOM",
-    code: "2334",
-    color: "#ff6130",
+    code: "IT-22012",
+    color: "#73ffd3",
   },
 ];
 

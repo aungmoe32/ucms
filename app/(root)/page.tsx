@@ -111,7 +111,10 @@ export default function Home() {
             </div>
           </div>
           <div className="flex-1 text-sm">
-            Copyright @2024 From Teachers and Students
+            <div className="flex justify-center items-center flex-col space-y-5">
+              <span>Copyright @2024</span>
+              <a href="mailto:aungmoemyintthu@gmail.com">Contact Developer</a>
+            </div>
           </div>
         </div>
       </div>
