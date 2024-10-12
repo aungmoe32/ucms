@@ -48,13 +48,15 @@ export default function LoginForm() {
         email: values.email,
         password: values.password,
         redirect: false,
-        callbackUrl: callbackUrl || "/dashboard",
+        // callbackUrl: callbackUrl || "/dashboard",
+        // callbackUrl: "/dashboard",
       });
 
       // console.log(res);
       if (!res?.error) {
         setDisabledSubmit(true);
-        router.push(res.url);
+        // router.push(res.url);
+        router.replace("/");
       } else {
         toast.error("Invalid Credentials!");
       }

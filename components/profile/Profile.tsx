@@ -20,9 +20,11 @@ export default function Profile() {
   if (status == "loading") return null;
   if (status == "unauthenticated")
     return (
-      <Link href="/login">
-        <Button variant={"outline"}>Login</Button>
-      </Link>
+      // <Link href="/login">
+      <Button variant={"outline"} onClick={() => router.push("/login")}>
+        Login
+      </Button>
+      // </Link>
     );
   // console.log(session);
   return (
@@ -37,7 +39,7 @@ export default function Profile() {
         <DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link className="w-full" href={`/dashboard`}>
+          <Link className="w-full" href={`/${session?.user?.role}/dashboard`}>
             Dashboard
           </Link>
         </DropdownMenuItem>
