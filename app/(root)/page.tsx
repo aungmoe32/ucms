@@ -8,10 +8,11 @@ import { Facebook, Twitter, Youtube } from "lucide-react";
 import Profile from "@/components/profile/Profile";
 import { ModeToggle } from "@/components/ModeToggle";
 import Skeleton from "@/components/Skeleton";
+import ContactUs from "@/components/home/ContactUs";
+import Map from "@/components/home/Map";
 export default function Home() {
   return (
     <div className="w-full relative ">
-      <Skeleton></Skeleton>
       <div className=" absolute top-0 left-0 w-full px-10 flex justify-between space-x-3 mt-5 items-center">
         <div className="flex justify-center items-center space-x-2">
           <Image
@@ -41,19 +42,19 @@ export default function Home() {
           <Profile></Profile>
         </div>
       </div>
-      <div className="h-screen w-full bg-background flex flex-col md:flex-row justify-center items-center px-10">
-        <div className="flex md:flex-1 flex-col space-y-5 justify-center items-start">
-          <h1 className="font-bold text-4xl">
+      <div className="h-screen w-full bg-background flex flex-col md:flex-row md:space-x-4 justify-center items-center px-10">
+        <div className="flex md:flex-1 flex-col space-y-10 justify-center items-start">
+          <h1 className="font-bold text-4xl font-oswald uppercase">
             Welcome To Our University Campus Management System
           </h1>
-          <div className="text-neutral-500 dark:text-neutral-400">
+          <div className="text-neutral-500 dark:text-neutral-400 text-justify">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo, unde
             eum veniam alias suscipit, ipsam distinctio placeat magni quam
             mollitia facere, quis aspernatur optio soluta rerum nobis eaque
             officiis assumenda.
           </div>
           <Link href={"/dashboard"}>
-            <Button>Start</Button>
+            <Button className="font-bold">GET STARTED</Button>
           </Link>
         </div>
         <div className="md:flex-1 pt-3 md:pt-0">
@@ -66,15 +67,15 @@ export default function Home() {
           ></Image>
         </div>
       </div>
-      <div className="flex space flex-col-reverse md:flex-row justify-center items-center space-x-10 px-10 h-screen">
+      <div className="flex space flex-col-reverse md:flex-row md:space-x-5 justify-center items-center  px-10 h-screen">
         <div className="md:flex-1">
           <Image src={undraw_software_engineer} alt={""} className=" "></Image>
         </div>
-        <div className=" md:flex-1 flex flex-col justify-start items-center space-y-4">
-          <span className="font-bold text-4xl">
+        <div className=" md:flex-1 flex flex-col  items-center space-y-10">
+          <span className="font-bold text-4xl font-oswald uppercase">
             Streamline Your School Operations with Ease
           </span>
-          <div className="text-neutral-500 dark:text-neutral-400">
+          <div className="text-neutral-500 dark:text-neutral-400 text-justify">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo, unde
             eum veniam alias suscipit, ipsam distinctio placeat magni quam
             mollitia facere, quis aspernatur optio soluta rerum nobis eaque
@@ -82,6 +83,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <ContactUs></ContactUs>
       <div className="w-full bg-primary text-white px-10 py-20 flex flex-col space-y-20 justify-center items-center ">
         <div className="flex justify-around w-full ">
           <div className="flex flex-col space-y-3 justify-center items-center">
