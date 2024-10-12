@@ -7,9 +7,11 @@ import undraw_software_engineer from "../../public/svgs/undraw_software_engineer
 import { Facebook, Twitter, Youtube } from "lucide-react";
 import Profile from "@/components/profile/Profile";
 import { ModeToggle } from "@/components/ModeToggle";
+import Skeleton from "@/components/Skeleton";
 export default function Home() {
   return (
     <div className="w-full relative ">
+      <Skeleton></Skeleton>
       <div className=" absolute top-0 left-0 w-full px-10 flex justify-between space-x-3 mt-5 items-center">
         <div className="flex justify-center items-center space-x-2">
           <Image

@@ -5,6 +5,9 @@ import { Inter, Source_Sans_3 } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import AuthProvider from "./auth/Provider";
+import { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import SkeletonProvider from "@/components/providers/SkeletonProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,13 +29,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${sourceSans.variable} font-source-sans`}
+        className={`${inter.className} ${sourceSans.variable} !font-source-sans`}
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <AuthProvider>
-            <QueryProvider>{children}</QueryProvider>
-          </AuthProvider>
-          <Toaster></Toaster>
+          <SkeletonProvider>
+            <AuthProvider>
+              <QueryProvider>{children}</QueryProvider>
+            </AuthProvider>
+            <Toaster></Toaster>
+          </SkeletonProvider>
         </ThemeProvider>
       </body>
     </html>
