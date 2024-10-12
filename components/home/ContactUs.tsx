@@ -1,15 +1,21 @@
+import dynamic from "next/dynamic";
 import React from "react";
-import Map from "../home/Map";
+import Skeleton from "../Skeleton";
+
+const Map = dynamic(() => import("@/components/home/Map"), {
+  ssr: false,
+  loading: () => <Skeleton className="h-40" />,
+});
 const ContactUs = () => {
   const contactInfos = [
     {
-      country: "MYANMAR",
+      country: "YANGON",
       location: "Hmawbi",
       phone: "+1 201 545 1133",
       email: "example@gmail.com",
     },
     {
-      country: "MYANMAR",
+      country: "YANGON",
       location: "Hmawbi",
       phone: "+1 201 545 1133",
       email: "example@gmail.com",
@@ -27,22 +33,16 @@ const ContactUs = () => {
               return (
                 <div className="flex flex-col space-y-4">
                   <div>
-                    <div className=" text-2xl">{info.country}</div>
-                    <div className=" font-poppins  text-sm text-gray-400">
-                      {info.location}
-                    </div>
+                    <div className="font-bold text-2xl">{info.country}</div>
+                    <div className="text-sm text-gray-400">{info.location}</div>
                   </div>
                   <div>
-                    <div className=" text-2xl">RING US</div>
-                    <div className=" font-poppins  text-sm text-gray-400">
-                      {info.phone}
-                    </div>
+                    <div className="font-bold text-2xl">RING US</div>
+                    <div className="   text-sm text-gray-400">{info.phone}</div>
                   </div>
                   <div>
-                    <div className=" text-2xl">EMAIL US</div>
-                    <div className=" font-poppins  text-sm text-gray-400">
-                      {info.email}
-                    </div>
+                    <div className=" font-bold text-2xl">EMAIL US</div>
+                    <div className="   text-sm text-gray-400">{info.email}</div>
                   </div>
                 </div>
               );

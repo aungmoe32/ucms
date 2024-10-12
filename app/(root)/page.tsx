@@ -9,21 +9,23 @@ import Profile from "@/components/profile/Profile";
 import { ModeToggle } from "@/components/ModeToggle";
 import Skeleton from "@/components/Skeleton";
 import ContactUs from "@/components/home/ContactUs";
-import Map from "@/components/home/Map";
+import dynamic from "next/dynamic";
+
 export default function Home() {
   return (
     <div className="w-full relative ">
-      <div className=" absolute top-0 left-0 w-full px-10 flex justify-between space-x-3 mt-5 items-center">
-        <div className="flex justify-center items-center space-x-2">
-          <Image
-            src={"/images/Hmawbi-logo.png"}
-            alt={""}
-            width={35}
-            height={35}
-          ></Image>
-          <h1 className="text-primary font-bold text-2xl">UCMS</h1>
-        </div>
-        {/* <div className="flex justify-center items-center space-x-4">
+      <div className="h-screen w-full bg-background flex flex-col items-center px-10">
+        <div className=" w-full mt-5 flex justify-between space-x-3 items-center">
+          <div className="flex justify-center items-center space-x-2">
+            <Image
+              src={"/images/Hmawbi-logo.png"}
+              alt={""}
+              width={35}
+              height={35}
+            ></Image>
+            <h1 className="text-primary font-bold text-2xl">UCMS</h1>
+          </div>
+          {/* <div className="flex justify-center items-center space-x-4">
           <Link
             href={"#"}
             className="text-sm hover:text-primary transition-all"
@@ -37,38 +39,39 @@ export default function Home() {
             ABOUT US
           </Link>
         </div> */}
-        <div className="flex justify-center items-center space-x-4">
-          <ModeToggle></ModeToggle>
-          <Profile></Profile>
-        </div>
-      </div>
-      <div className="h-screen w-full bg-background flex flex-col md:flex-row md:space-x-4 justify-center items-center px-10">
-        <div className="flex md:flex-1 flex-col space-y-10 justify-center items-start">
-          <h1 className="font-bold text-4xl font-oswald uppercase">
-            Welcome To Our University Campus Management System
-          </h1>
-          <div className="text-neutral-500 dark:text-neutral-400 text-justify">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo, unde
-            eum veniam alias suscipit, ipsam distinctio placeat magni quam
-            mollitia facere, quis aspernatur optio soluta rerum nobis eaque
-            officiis assumenda.
+          <div className="flex justify-center items-center space-x-4">
+            <ModeToggle></ModeToggle>
+            <Profile></Profile>
           </div>
-          <Link href={"/dashboard"}>
-            <Button className="font-bold">GET STARTED</Button>
-          </Link>
         </div>
-        <div className="md:flex-1 pt-3 md:pt-0">
-          <Image
-            src={HeroSvg}
-            alt={""}
-            // width={60}
-            // height={60}
-            className=" "
-          ></Image>
+        <div className="flex-1 flex md:space-x-4 md:flex-row flex-col justify-center items-center">
+          <div className="flex md:flex-1 flex-col space-y-8 justify-center items-start">
+            <h1 className="font-bold text-4xl font-oswald uppercase">
+              Welcome To Our University Campus Management System
+            </h1>
+            <div className="text-neutral-500 dark:text-neutral-400 text-justify">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo,
+              unde eum veniam alias suscipit, ipsam distinctio placeat magni
+              quam mollitia facere, quis aspernatur optio soluta rerum nobis
+              eaque officiis assumenda.
+            </div>
+            <Link href={"/dashboard"}>
+              <Button className="font-bold">GET STARTED</Button>
+            </Link>
+          </div>
+          <div className="md:flex-1 pt-3 md:pt-0">
+            <Image
+              src={HeroSvg}
+              alt={""}
+              // width={60}
+              // height={60}
+              className=" "
+            ></Image>
+          </div>
         </div>
       </div>
       <div className="flex space flex-col-reverse md:flex-row md:space-x-5 justify-center items-center  px-10 h-screen">
-        <div className="md:flex-1">
+        <div className="md:flex-1 md:mt-0 mt-4">
           <Image src={undraw_software_engineer} alt={""} className=" "></Image>
         </div>
         <div className=" md:flex-1 flex flex-col  items-center space-y-10">

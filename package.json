@@ -6,7 +6,7 @@
     "remove-license": "node remove-license.js",
     "dev": "next dev -H 192.168.100.33",
     "build": "node remove-license.js && next build",
-    "start": "next start",
+    "start": "next start -H 192.168.100.33",
     "lint": "next lint",
     "db:gen": "npx drizzle-kit generate",
     "db:drop": "npx drizzle-kit drop",
