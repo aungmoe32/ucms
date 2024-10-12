@@ -16,7 +16,7 @@ A web-based application designed for universities and schools to manage student 
 
 - **Frontend:** Tailwindcss, React, Shadcn, Nextjs, React Query
 - **Backend:** Nextjs
-- **Database:** Postgres
+- **Database:** Postgres, Drizzle ORM
 - **Authentication:** JWT
 
 ## Installation

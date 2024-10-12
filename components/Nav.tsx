@@ -38,6 +38,7 @@ import { useState } from "react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Profile from "./profile/Profile";
+import SLink from "./SLink";
 
 export const description =
   "A products dashboard with a sidebar navigation and a main content area. The dashboard has a header with a search input and a user menu. The sidebar has a logo, navigation links, and a card with a call to action. The main content area shows an empty state with a call to action.";
@@ -58,14 +59,7 @@ export default function Nav({ children, links }) {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-3">
               {links.map((tl, index) => (
-                <Link
-                  href={tl.path}
-                  key={index}
-                  className="flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-white hover:bg-blue-400"
-                >
-                  {tl.icon}
-                  {tl.text}
-                </Link>
+                <SLink tl={tl} index={index}></SLink>
               ))}
             </nav>
           </div>
@@ -94,15 +88,7 @@ export default function Nav({ children, links }) {
                   <span className="text-white">UCMS</span>
                 </Link>
                 {links.map((tl, index) => (
-                  <Link
-                    key={index}
-                    onClick={() => setOpenDrawer(false)}
-                    href={tl.path}
-                    className="flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-white hover:bg-blue-400"
-                  >
-                    {tl.icon}
-                    {tl.text}
-                  </Link>
+                  <SLink tl={tl} index={index}></SLink>
                 ))}
               </nav>
               <div className="mt-auto"></div>

@@ -55,6 +55,11 @@ const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
+  // events: {
+  // signOut: (token, session) => {
+  // console.log(token, session);
+  // },
+  // },
   callbacks: {
     async jwt({ token, user, trigger, session }) {
       if (user) {

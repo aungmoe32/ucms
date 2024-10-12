@@ -24,6 +24,7 @@ const config = {
 
       fontFamily: {
         "source-sans": ["var(--font-source-sans)"],
+        oswald: ["var(--font-oswald)"],
       },
       colors: {
         primary: {
