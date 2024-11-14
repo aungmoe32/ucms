@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "remove-license": "node remove-license.js",
-    "dev": "next dev -H 192.168.100.33",
+    "dev": "next dev -H 0.0.0.0",
     "build": "node remove-license.js && next build",
-    "start": "next start -H 192.168.100.33",
+    "start": "next start -H 0.0.0.0",
     "lint": "next lint",
     "db:gen": "npx drizzle-kit generate",
     "db:drop": "npx drizzle-kit drop",
@@ -83,5 +83,6 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@9.13.0+sha512.beb9e2a803db336c10c9af682b58ad7181ca0fbd0d4119f2b33d5f2582e96d6c0d93c85b23869295b765170fbdaa92890c0da6ada457415039769edf3c959efe"
 }
