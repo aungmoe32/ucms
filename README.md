@@ -6,7 +6,7 @@ The **University Campus Management System (UCMS)** is a web-based application de
 
 **App url** : https://ucms-orpin.vercel.app
 
-**Video** : https://youtu.be/AUF3MB7q9Xo?si=4Vue81lRmyFvyvyJ
+**Video** : https://youtu.be/hMfTZC_9hsQ?si=m6pDT8P4goit4Vib
 
 ## Problem Statement
 
